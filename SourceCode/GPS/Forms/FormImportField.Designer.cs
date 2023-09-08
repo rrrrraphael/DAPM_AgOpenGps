@@ -1,6 +1,6 @@
 ﻿namespace AgOpenGPS
 {
-    partial class FormFieldKML
+    partial class FormImportField
     {
         /// <summary>
         /// Required designer variable.
@@ -31,12 +31,14 @@
             this.tboxFieldName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnLoadKML = new System.Windows.Forms.Button();
+            this.btnLoadField = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnSerialCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAddDate = new System.Windows.Forms.Button();
             this.btnAddTime = new System.Windows.Forms.Button();
+            this.cbChooseFiletype = new System.Windows.Forms.ComboBox();
+            this.lbChooseFIletype = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tboxFieldName
@@ -57,7 +59,7 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label3.Location = new System.Drawing.Point(172, 153);
+            this.label3.Location = new System.Drawing.Point(171, 175);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(24, 23);
@@ -70,29 +72,29 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label2.Location = new System.Drawing.Point(22, 152);
+            this.label2.Location = new System.Drawing.Point(21, 174);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 23);
             this.label2.TabIndex = 149;
             this.label2.Text = "+";
             // 
-            // btnLoadKML
+            // btnLoadField
             // 
-            this.btnLoadKML.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoadKML.BackColor = System.Drawing.Color.Transparent;
-            this.btnLoadKML.Enabled = false;
-            this.btnLoadKML.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.btnLoadKML.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLoadKML.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnLoadKML.Image = global::AgOpenGPS.Properties.Resources.BoundaryLoadFromGE;
-            this.btnLoadKML.Location = new System.Drawing.Point(53, 238);
-            this.btnLoadKML.Name = "btnLoadKML";
-            this.btnLoadKML.Size = new System.Drawing.Size(83, 79);
-            this.btnLoadKML.TabIndex = 3;
-            this.btnLoadKML.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnLoadKML.UseVisualStyleBackColor = false;
-            this.btnLoadKML.Click += new System.EventHandler(this.btnLoadKML_Click);
+            this.btnLoadField.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLoadField.BackColor = System.Drawing.Color.Transparent;
+            this.btnLoadField.Enabled = false;
+            this.btnLoadField.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnLoadField.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoadField.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnLoadField.Image = global::AgOpenGPS.Properties.Resources.GoogleEarth;
+            this.btnLoadField.Location = new System.Drawing.Point(53, 238);
+            this.btnLoadField.Name = "btnLoadField";
+            this.btnLoadField.Size = new System.Drawing.Size(83, 79);
+            this.btnLoadField.TabIndex = 3;
+            this.btnLoadField.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnLoadField.UseVisualStyleBackColor = false;
+            this.btnLoadField.Click += new System.EventHandler(this.btnLoadKML_Click);
             // 
             // btnSave
             // 
@@ -151,7 +153,7 @@
             this.btnAddDate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddDate.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnAddDate.Image = global::AgOpenGPS.Properties.Resources.JobNameCalendar;
-            this.btnAddDate.Location = new System.Drawing.Point(46, 125);
+            this.btnAddDate.Location = new System.Drawing.Point(45, 147);
             this.btnAddDate.Name = "btnAddDate";
             this.btnAddDate.Size = new System.Drawing.Size(83, 79);
             this.btnAddDate.TabIndex = 154;
@@ -167,7 +169,7 @@
             this.btnAddTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddTime.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnAddTime.Image = global::AgOpenGPS.Properties.Resources.JobNameTime;
-            this.btnAddTime.Location = new System.Drawing.Point(203, 126);
+            this.btnAddTime.Location = new System.Drawing.Point(202, 148);
             this.btnAddTime.Name = "btnAddTime";
             this.btnAddTime.Size = new System.Drawing.Size(83, 79);
             this.btnAddTime.TabIndex = 153;
@@ -175,26 +177,47 @@
             this.btnAddTime.UseVisualStyleBackColor = false;
             this.btnAddTime.Click += new System.EventHandler(this.btnAddTime_Click);
             // 
-            // FormFieldKML
+            // cbChooseFiletype
+            // 
+            this.cbChooseFiletype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbChooseFiletype.FormattingEnabled = true;
+            this.cbChooseFiletype.Location = new System.Drawing.Point(15, 110);
+            this.cbChooseFiletype.Name = "cbChooseFiletype";
+            this.cbChooseFiletype.Size = new System.Drawing.Size(121, 31);
+            this.cbChooseFiletype.TabIndex = 155;
+            // 
+            // lbChooseFIletype
+            // 
+            this.lbChooseFIletype.AutoSize = true;
+            this.lbChooseFIletype.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbChooseFIletype.Location = new System.Drawing.Point(18, 84);
+            this.lbChooseFIletype.Name = "lbChooseFIletype";
+            this.lbChooseFIletype.Size = new System.Drawing.Size(162, 23);
+            this.lbChooseFIletype.TabIndex = 156;
+            this.lbChooseFIletype.Text = "Choose Filetype";
+            // 
+            // FormImportField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(608, 332);
             this.ControlBox = false;
+            this.Controls.Add(this.lbChooseFIletype);
+            this.Controls.Add(this.cbChooseFiletype);
             this.Controls.Add(this.btnAddDate);
             this.Controls.Add(this.btnAddTime);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tboxFieldName);
-            this.Controls.Add(this.btnLoadKML);
+            this.Controls.Add(this.btnLoadField);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnSerialCancel);
             this.Font = new System.Drawing.Font("Tahoma", 14.25F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "FormFieldKML";
+            this.Name = "FormImportField";
             this.Padding = new System.Windows.Forms.Padding(2);
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -212,8 +235,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnLoadKML;
+        private System.Windows.Forms.Button btnLoadField;
         private System.Windows.Forms.Button btnAddDate;
         private System.Windows.Forms.Button btnAddTime;
+        private System.Windows.Forms.ComboBox cbChooseFiletype;
+        private System.Windows.Forms.Label lbChooseFIletype;
     }
 }

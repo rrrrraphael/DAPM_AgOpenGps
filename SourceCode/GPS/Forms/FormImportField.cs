@@ -6,13 +6,13 @@ using System.Windows.Forms;
 
 namespace AgOpenGPS
 {
-    public partial class FormFieldKML : Form
+    public partial class FormImportField : Form
     {
         //class variables
         private readonly FormGPS mf = null;
         private double easting, northing, latK, lonK;
 
-        public FormFieldKML(Form _callingForm)
+        public FormImportField(Form _callingForm)
         {
             //get copy of the calling main form
             mf = _callingForm as FormGPS;
@@ -37,11 +37,11 @@ namespace AgOpenGPS
 
             if (String.IsNullOrEmpty(tboxFieldName.Text.Trim()))
             {
-                btnLoadKML.Enabled = false;
+                btnLoadField.Enabled = false;
             }
             else
             {
-                btnLoadKML.Enabled = true;
+                btnLoadField.Enabled = true;
             }
         }
 
@@ -209,12 +209,12 @@ namespace AgOpenGPS
                     mf.CalculateMinMax();
 
                     btnSave.Enabled = true;
-                    btnLoadKML.Enabled = false;
+                    btnLoadField.Enabled = false;
                 }
                 catch (Exception)
                 {
                     btnSave.Enabled = false;
-                    btnLoadKML.Enabled = false;
+                    btnLoadField.Enabled = false;
                     return;
                 }
             }

@@ -1750,7 +1750,7 @@ namespace AgOpenGPS
                     else if (result == DialogResult.No)
                     {
                         //ask for a directory name
-                        using (var form2 = new FormFieldKML(this))
+                        using (var form2 = new FormImportField(this))
                         { form2.ShowDialog(this); }
                     }
                 }

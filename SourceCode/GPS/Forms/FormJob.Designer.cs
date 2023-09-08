@@ -35,17 +35,17 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnInField = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnFromKML = new System.Windows.Forms.Button();
-            this.lblLatitude = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.lblLongitude = new System.Windows.Forms.Label();
+            this.lblSatsTracked = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblAltitude = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblFixQuality = new System.Windows.Forms.Label();
-            this.lblSatsTracked = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblLatitude = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblLongitude = new System.Windows.Forms.Label();
+            this.btnImportFile = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -175,7 +175,7 @@
             this.panel1.Controls.Add(this.btnInField);
             this.panel1.Controls.Add(this.btnJobResume);
             this.panel1.Controls.Add(this.btnJobOpen);
-            this.panel1.Controls.Add(this.btnFromKML);
+            this.panel1.Controls.Add(this.btnImportFile);
             this.panel1.Controls.Add(this.btnDeleteAB);
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -184,73 +184,31 @@
             this.panel1.Size = new System.Drawing.Size(759, 450);
             this.panel1.TabIndex = 90;
             // 
-            // btnFromKML
+            // lblSatsTracked
             // 
-            this.btnFromKML.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnFromKML.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnFromKML.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFromKML.Font = new System.Drawing.Font("Tahoma", 20.25F);
-            this.btnFromKML.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnFromKML.Image = global::AgOpenGPS.Properties.Resources.BoundaryLoadFromGE;
-            this.btnFromKML.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnFromKML.Location = new System.Drawing.Point(34, 211);
-            this.btnFromKML.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.btnFromKML.Name = "btnFromKML";
-            this.btnFromKML.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnFromKML.Size = new System.Drawing.Size(268, 82);
-            this.btnFromKML.TabIndex = 91;
-            this.btnFromKML.Text = "From KML";
-            this.btnFromKML.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFromKML.UseVisualStyleBackColor = false;
-            this.btnFromKML.Click += new System.EventHandler(this.btnFromKML_Click);
+            this.lblSatsTracked.AutoSize = true;
+            this.lblSatsTracked.BackColor = System.Drawing.Color.Transparent;
+            this.lblSatsTracked.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSatsTracked.ForeColor = System.Drawing.Color.White;
+            this.lblSatsTracked.Location = new System.Drawing.Point(393, 44);
+            this.lblSatsTracked.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblSatsTracked.Name = "lblSatsTracked";
+            this.lblSatsTracked.Size = new System.Drawing.Size(41, 18);
+            this.lblSatsTracked.TabIndex = 101;
+            this.lblSatsTracked.Text = "Sats";
+            this.lblSatsTracked.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblLatitude
+            // label3
             // 
-            this.lblLatitude.AutoSize = true;
-            this.lblLatitude.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLatitude.ForeColor = System.Drawing.Color.White;
-            this.lblLatitude.Location = new System.Drawing.Point(67, 44);
-            this.lblLatitude.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblLatitude.Name = "lblLatitude";
-            this.lblLatitude.Size = new System.Drawing.Size(70, 18);
-            this.lblLatitude.TabIndex = 93;
-            this.lblLatitude.Text = "Latitude";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(38, 44);
-            this.label6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(28, 18);
-            this.label6.TabIndex = 92;
-            this.label6.Text = "Lat";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(35, 20);
-            this.label7.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(31, 18);
-            this.label7.TabIndex = 95;
-            this.label7.Text = "Lon";
-            // 
-            // lblLongitude
-            // 
-            this.lblLongitude.AutoSize = true;
-            this.lblLongitude.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLongitude.ForeColor = System.Drawing.Color.White;
-            this.lblLongitude.Location = new System.Drawing.Point(67, 20);
-            this.lblLongitude.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblLongitude.Name = "lblLongitude";
-            this.lblLongitude.Size = new System.Drawing.Size(82, 18);
-            this.lblLongitude.TabIndex = 94;
-            this.lblLongitude.Text = "Longitude";
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(341, 44);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(52, 18);
+            this.label3.TabIndex = 103;
+            this.label3.Text = "# Sats";
             // 
             // label8
             // 
@@ -305,31 +263,73 @@
             this.lblFixQuality.Text = "FixQual";
             this.lblFixQuality.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblSatsTracked
+            // lblLatitude
             // 
-            this.lblSatsTracked.AutoSize = true;
-            this.lblSatsTracked.BackColor = System.Drawing.Color.Transparent;
-            this.lblSatsTracked.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSatsTracked.ForeColor = System.Drawing.Color.White;
-            this.lblSatsTracked.Location = new System.Drawing.Point(393, 44);
-            this.lblSatsTracked.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblSatsTracked.Name = "lblSatsTracked";
-            this.lblSatsTracked.Size = new System.Drawing.Size(41, 18);
-            this.lblSatsTracked.TabIndex = 101;
-            this.lblSatsTracked.Text = "Sats";
-            this.lblSatsTracked.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblLatitude.AutoSize = true;
+            this.lblLatitude.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLatitude.ForeColor = System.Drawing.Color.White;
+            this.lblLatitude.Location = new System.Drawing.Point(67, 44);
+            this.lblLatitude.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblLatitude.Name = "lblLatitude";
+            this.lblLatitude.Size = new System.Drawing.Size(70, 18);
+            this.lblLatitude.TabIndex = 93;
+            this.lblLatitude.Text = "Latitude";
             // 
-            // label3
+            // label6
             // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(341, 44);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 18);
-            this.label3.TabIndex = 103;
-            this.label3.Text = "# Sats";
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(38, 44);
+            this.label6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(28, 18);
+            this.label6.TabIndex = 92;
+            this.label6.Text = "Lat";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(35, 20);
+            this.label7.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(31, 18);
+            this.label7.TabIndex = 95;
+            this.label7.Text = "Lon";
+            // 
+            // lblLongitude
+            // 
+            this.lblLongitude.AutoSize = true;
+            this.lblLongitude.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLongitude.ForeColor = System.Drawing.Color.White;
+            this.lblLongitude.Location = new System.Drawing.Point(67, 20);
+            this.lblLongitude.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblLongitude.Name = "lblLongitude";
+            this.lblLongitude.Size = new System.Drawing.Size(82, 18);
+            this.lblLongitude.TabIndex = 94;
+            this.lblLongitude.Text = "Longitude";
+            // 
+            // btnImportFile
+            // 
+            this.btnImportFile.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnImportFile.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnImportFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImportFile.Font = new System.Drawing.Font("Tahoma", 20.25F);
+            this.btnImportFile.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnImportFile.Image = global::AgOpenGPS.Properties.Resources.BoundaryLoadFromGE;
+            this.btnImportFile.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnImportFile.Location = new System.Drawing.Point(34, 211);
+            this.btnImportFile.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.btnImportFile.Name = "btnImportFile";
+            this.btnImportFile.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnImportFile.Size = new System.Drawing.Size(268, 82);
+            this.btnImportFile.TabIndex = 91;
+            this.btnImportFile.Text = "Import File";
+            this.btnImportFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnImportFile.UseVisualStyleBackColor = false;
+            this.btnImportFile.Click += new System.EventHandler(this.btnFromKML_Click);
             // 
             // FormJob
             // 
@@ -365,7 +365,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btnInField;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnFromKML;
+        private System.Windows.Forms.Button btnImportFile;
         private System.Windows.Forms.Label lblLatitude;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;

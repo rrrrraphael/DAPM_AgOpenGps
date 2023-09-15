@@ -1,8 +1,13 @@
-﻿using System;
+﻿using NetTopologySuite.Geometries;
+using NetTopologySuite.IO.Esri;
+using NetTopologySuite.IO;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace AgOpenGPS
 {
@@ -93,7 +98,7 @@ namespace AgOpenGPS
             OpenFileDialog ofd = new OpenFileDialog
             {
                 //set the filter to text KML only
-                Filter = "KML files (*.KML)|*.KML",
+                //Filter = "KML files (*.KML)|*.KML",
 
                 //the initial directory, fields, for the open dialog
                 InitialDirectory = mf.fieldsDirectory
@@ -104,7 +109,14 @@ namespace AgOpenGPS
 
             // read coordinates
             string[] coordinates = { };
-            ReadCoordinatesFromKML(ofd.FileName, ref coordinates);
+            //ReadCoordinatesFromKML(ofd.FileName, ref coordinates);
+            ReadCoordinatesFromShapefile(ofd.FileName, ref coordinates);
+
+            //at least 3 points
+            if (coordinates.Length < 3)
+            {
+                mf.TimedMessageBox(2000, gStr.gsErrorreadingKML, gStr.gsChooseBuildDifferentone);
+            }
 
             //get lat and lon from boundary in kml
             FindLatLon(coordinates);
@@ -114,6 +126,27 @@ namespace AgOpenGPS
 
             //Load the outer boundary
             LoadKMLBoundary(coordinates);
+        }
+
+        private void ReadCoordinatesFromShapefile(string filename, ref string[] coordinates)
+        {
+            string[] numbersets = { };
+
+            List<string> numberslist = new List<string>();
+
+            foreach (var feature in Shapefile.ReadAllFeatures(filename))
+            {
+
+                byte[] rawData = feature.Geometry.ToBinary();
+
+                WKBReader reader = new WKBReader();
+
+                Geometry geo = reader.Read(rawData);
+
+                geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
+
+                coordinates = numberslist.ToArray();
+            }
         }
 
         private void ReadCoordinatesFromKML(string filename, ref string[] coordinates)
@@ -155,17 +188,7 @@ namespace AgOpenGPS
                             }
 
                             char[] delimiterChars = { ' ', '\t', '\r', '\n' };
-                            string[] numberSets = lineOfCoordinates.Split(delimiterChars);
-
-                            //at least 3 points
-                            if (numberSets.Length > 2)
-                            {
-                                coordinates = numberSets;
-                            }
-                            else
-                            {
-                                mf.TimedMessageBox(2000, gStr.gsErrorreadingKML, gStr.gsChooseBuildDifferentone);
-                            }
+                            coordinates = lineOfCoordinates.Split(delimiterChars);
                         }
                     }
 

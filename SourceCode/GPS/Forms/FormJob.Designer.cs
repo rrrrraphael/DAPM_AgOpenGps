@@ -318,7 +318,7 @@
             this.btnImportFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnImportFile.Font = new System.Drawing.Font("Tahoma", 20.25F);
             this.btnImportFile.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnImportFile.Image = global::AgOpenGPS.Properties.Resources.BoundaryLoadFromGE;
+            this.btnImportFile.Image = global::AgOpenGPS.Properties.Resources.FileImportField1;
             this.btnImportFile.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnImportFile.Location = new System.Drawing.Point(34, 211);
             this.btnImportFile.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);

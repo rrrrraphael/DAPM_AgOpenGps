@@ -182,8 +182,8 @@
             this.cbChooseFiletype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbChooseFiletype.FormattingEnabled = true;
             this.cbChooseFiletype.Items.AddRange(new object[] {
-            "Geopackage",
             "Shapefile",
+            "Geopackage",
             "KML",
             "GeoJSON"});
             this.cbChooseFiletype.Location = new System.Drawing.Point(15, 110);

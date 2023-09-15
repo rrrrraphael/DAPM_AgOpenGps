@@ -92,22 +92,26 @@ namespace AgOpenGPS
 
         private void btnLoadField_Click(object sender, EventArgs e)
         {
-            
-            OpenFileDialog ofd = new OpenFileDialog { };
+            // default readCoordinates is set for Shapefile
+            ReadCoordinates readCoordinates = ReadCoordinatesFromShapefile;
+
+            OpenFileDialog ofd = new OpenFileDialog {
+                // default the filter is set for Shapefile
+                Filter = "Shapefiles (*.SHP)|*.SHP",
+                //the initial directory, fields, for the open dialog
+                InitialDirectory = mf.fieldsDirectory
+            };
             if (cbChooseFiletype.SelectedItem == "Geopackage")
             {
                 //set the filter to Geopackage only
                 ofd.Filter = "Geopackage files (*.GPKG)|*.GPKG";
             }
-            else if (cbChooseFiletype.SelectedItem == "Shapefile")
-            {
-                //set the filter to Shapefile only
-                ofd.Filter = "Shapefiles (*.SHP)|*.SHP";
-            }
             else if (cbChooseFiletype.SelectedItem == "KML")
             {
                 //set the filter to KML only
                 ofd.Filter = "KML files (*.KML)|*.KML";
+
+                readCoordinates = ReadCoordinatesFromKML;
             }
             else if (cbChooseFiletype.SelectedItem == "GeoJSON")
             {
@@ -118,23 +122,12 @@ namespace AgOpenGPS
             btnAddDate.Enabled = false;
             btnAddTime.Enabled = false;
 
-            ////create the dialog instance
-            //OpenFileDialog ofd = new OpenFileDialog
-            //{
-            //    //set the filter to text KML only
-            //    Filter = "KML files (*.KML)|*.KML",
-
-            //    //the initial directory, fields, for the open dialog
-            //    InitialDirectory = mf.fieldsDirectory
-            //};
-
             //was a file selected
             if (ofd.ShowDialog() == DialogResult.Cancel) return;
 
             // read coordinates
             string[] coordinates = { };
-            //ReadCoordinatesFromKML(ofd.FileName, ref coordinates);
-            ReadCoordinatesFromShapefile(ofd.FileName, ref coordinates);
+            readCoordinates(ofd.FileName, ref coordinates);
 
             //at least 3 points
             if (coordinates.Length < 3)
@@ -151,6 +144,8 @@ namespace AgOpenGPS
             //Load the outer boundary
             LoadKMLBoundary(coordinates);
         }
+
+        private delegate void ReadCoordinates(string filename, ref string[] coordinates);
 
         private void ReadCoordinatesFromShapefile(string filename, ref string[] coordinates)
         {

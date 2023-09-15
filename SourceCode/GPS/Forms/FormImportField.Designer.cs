@@ -87,14 +87,14 @@
             this.btnLoadField.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.btnLoadField.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoadField.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnLoadField.Image = global::AgOpenGPS.Properties.Resources.GoogleEarth;
+            this.btnLoadField.Image = global::AgOpenGPS.Properties.Resources.FileImportField;
             this.btnLoadField.Location = new System.Drawing.Point(53, 238);
             this.btnLoadField.Name = "btnLoadField";
             this.btnLoadField.Size = new System.Drawing.Size(83, 79);
             this.btnLoadField.TabIndex = 3;
             this.btnLoadField.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnLoadField.UseVisualStyleBackColor = false;
-            this.btnLoadField.Click += new System.EventHandler(this.btnLoadKML_Click);
+            this.btnLoadField.Click += new System.EventHandler(this.btnLoadField_Click);
             // 
             // btnSave
             // 
@@ -181,10 +181,16 @@
             // 
             this.cbChooseFiletype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbChooseFiletype.FormattingEnabled = true;
+            this.cbChooseFiletype.Items.AddRange(new object[] {
+            "Geopackage",
+            "Shapefile",
+            "KML",
+            "GeoJSON"});
             this.cbChooseFiletype.Location = new System.Drawing.Point(15, 110);
             this.cbChooseFiletype.Name = "cbChooseFiletype";
-            this.cbChooseFiletype.Size = new System.Drawing.Size(121, 31);
+            this.cbChooseFiletype.Size = new System.Drawing.Size(165, 31);
             this.cbChooseFiletype.TabIndex = 155;
+            this.cbChooseFiletype.SelectedValueChanged += new System.EventHandler(this.cbChooseFiletype_SelectedValueChanged);
             // 
             // lbChooseFIletype
             // 

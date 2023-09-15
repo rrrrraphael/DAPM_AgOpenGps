@@ -187,11 +187,11 @@
       <DependentUpon>CBoundaryList.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\CTool.cs" />
-    <Compile Include="Forms\FormFieldKML.cs">
+    <Compile Include="Forms\FormImportField.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormFieldKML.Designer.cs">
-      <DependentUpon>FormFieldKML.cs</DependentUpon>
+    <Compile Include="Forms\FormImportField.Designer.cs">
+      <DependentUpon>FormImportField.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormMap.cs">
       <SubType>Form</SubType>
@@ -482,6 +482,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="gStr.hu.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>gStr.hu.resx</DependentUpon>
+    </Compile>
     <Compile Include="gStr.tr.Designer.cs">
       <DependentUpon>gStr.tr.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -588,8 +593,8 @@
       <DependentUpon>FormGPS.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\vec3.cs" />
-    <EmbeddedResource Include="Forms\FormFieldKML.resx">
-      <DependentUpon>FormFieldKML.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FormImportField.resx">
+      <DependentUpon>FormImportField.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMap.resx">
       <DependentUpon>FormMap.cs</DependentUpon>
@@ -736,7 +741,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>gStr.da.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="gStr.hu.resx" />
+    <EmbeddedResource Include="gStr.hu.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>gStr.hu.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="gStr.tr.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>gStr.tr.Designer.cs</LastGenOutput>
@@ -867,6 +875,7 @@
     <None Include="btnImages\Config\ConT_Symmetric.png" />
     <None Include="btnImages\Config\WindowRestore.png" />
     <None Include="btnImages\SectionOffBoundary.png" />
+    <None Include="btnImages\FileImportField.png" />
     <Content Include="Nav.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

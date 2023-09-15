@@ -5,19 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Linq;
 
 namespace AgOpenGPS
 {
-    public partial class FormFieldKML : Form
+    public partial class FormImportField : Form
     {
         //class variables
         private readonly FormGPS mf = null;
         private double easting, northing, latK, lonK;
 
-        public FormFieldKML(Form _callingForm)
+        public FormImportField(Form _callingForm)
         {
             //get copy of the calling main form
             mf = _callingForm as FormGPS;
@@ -26,6 +27,7 @@ namespace AgOpenGPS
 
             label1.Text = gStr.gsEnterFieldName;
             this.Text = gStr.gsCreateNewField;
+            cbChooseFiletype.SelectedIndex = 0;
         }
 
         private void FormFieldDir_Load(object sender, EventArgs e)
@@ -40,13 +42,13 @@ namespace AgOpenGPS
             textboxSender.Text = Regex.Replace(textboxSender.Text, glm.fileRegex, "");
             textboxSender.SelectionStart = cursorPosition;
 
-            if (String.IsNullOrEmpty(tboxFieldName.Text.Trim()))
+            if (String.IsNullOrEmpty(tboxFieldName.Text.Trim()) && cbChooseFiletype.SelectedItem == null)
             {
-                btnLoadKML.Enabled = false;
+                btnLoadField.Enabled = false;
             }
             else
             {
-                btnLoadKML.Enabled = true;
+                btnLoadField.Enabled = true;
             }
         }
 
@@ -88,21 +90,43 @@ namespace AgOpenGPS
             }
         }
 
-        private void btnLoadKML_Click(object sender, EventArgs e)
+        private void btnLoadField_Click(object sender, EventArgs e)
         {
+            
+            OpenFileDialog ofd = new OpenFileDialog { };
+            if (cbChooseFiletype.SelectedItem == "Geopackage")
+            {
+                //set the filter to Geopackage only
+                ofd.Filter = "Geopackage files (*.GPKG)|*.GPKG";
+            }
+            else if (cbChooseFiletype.SelectedItem == "Shapefile")
+            {
+                //set the filter to Shapefile only
+                ofd.Filter = "Shapefiles (*.SHP)|*.SHP";
+            }
+            else if (cbChooseFiletype.SelectedItem == "KML")
+            {
+                //set the filter to KML only
+                ofd.Filter = "KML files (*.KML)|*.KML";
+            }
+            else if (cbChooseFiletype.SelectedItem == "GeoJSON")
+            {
+                //set the filter to GeoJSON only
+                ofd.Filter = "GeoJSON files (*.GEOJSON)|*.GEOJSON";
+            }
             tboxFieldName.Enabled = false;
             btnAddDate.Enabled = false;
             btnAddTime.Enabled = false;
 
-            //create the dialog instance
-            OpenFileDialog ofd = new OpenFileDialog
-            {
-                //set the filter to text KML only
-                //Filter = "KML files (*.KML)|*.KML",
+            ////create the dialog instance
+            //OpenFileDialog ofd = new OpenFileDialog
+            //{
+            //    //set the filter to text KML only
+            //    Filter = "KML files (*.KML)|*.KML",
 
-                //the initial directory, fields, for the open dialog
-                InitialDirectory = mf.fieldsDirectory
-            };
+            //    //the initial directory, fields, for the open dialog
+            //    InitialDirectory = mf.fieldsDirectory
+            //};
 
             //was a file selected
             if (ofd.ShowDialog() == DialogResult.Cancel) return;
@@ -215,6 +239,18 @@ namespace AgOpenGPS
 
         }
 
+        private void cbChooseFiletype_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(tboxFieldName.Text.Trim()))
+            {
+                btnLoadField.Enabled = false;
+            }
+            else
+            {
+                btnLoadField.Enabled = true;
+            }
+        }
+
         private void LoadKMLBoundary(string[] coordinates)
         {
             CBoundaryList New = new CBoundaryList();
@@ -247,7 +283,7 @@ namespace AgOpenGPS
             mf.CalculateMinMax();
 
             btnSave.Enabled = true;
-            btnLoadKML.Enabled = false;
+            btnLoadField.Enabled = false;
         }
 
         private void FindLatLon(string[] coordinates)

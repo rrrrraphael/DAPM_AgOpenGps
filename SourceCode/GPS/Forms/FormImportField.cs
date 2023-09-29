@@ -9,6 +9,15 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Linq;
+using Newtonsoft.Json;
+using GeoJSON.Net.Feature;
+using System.Collections.ObjectModel;
+using GeoJSON.Net.Geometry;
+using GeoJSON.Net;
+using Point = GeoJSON.Net.Geometry.Point;
+using Polygon = GeoJSON.Net.Geometry.Polygon;
+using LineString = GeoJSON.Net.Geometry.LineString;
+using MultiPolygon = GeoJSON.Net.Geometry.MultiPolygon;
 
 namespace AgOpenGPS
 {
@@ -93,11 +102,11 @@ namespace AgOpenGPS
         private void btnLoadField_Click(object sender, EventArgs e)
         {
             // default readCoordinates is set for Shapefile
-            ReadCoordinates readCoordinates = ReadCoordinatesFromShapefile;
+            ReadCoordinates readCoordinates = ReadCoordinatesFromKML;
 
             OpenFileDialog ofd = new OpenFileDialog {
-                // default the filter is set for Shapefile
-                Filter = "Shapefiles (*.SHP)|*.SHP",
+                // default the filter is set for KML
+                Filter = "KML files (*.KML)|*.KML",
                 //the initial directory, fields, for the open dialog
                 InitialDirectory = mf.fieldsDirectory
             };
@@ -106,17 +115,19 @@ namespace AgOpenGPS
                 //set the filter to Geopackage only
                 ofd.Filter = "Geopackage files (*.GPKG)|*.GPKG";
             }
-            else if (cbChooseFiletype.SelectedItem == "KML")
+            else if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
                 //set the filter to KML only
-                ofd.Filter = "KML files (*.KML)|*.KML";
+                ofd.Filter = "Shapefiles (*.SHP)|*.SHP";
 
-                readCoordinates = ReadCoordinatesFromKML;
+                readCoordinates = ReadCoordinatesFromShapefile; 
             }
             else if (cbChooseFiletype.SelectedItem == "GeoJSON")
             {
                 //set the filter to GeoJSON only
                 ofd.Filter = "GeoJSON files (*.GEOJSON)|*.GEOJSON";
+
+                readCoordinates = ReadCoordinatesFromGeoJSON;
             }
             tboxFieldName.Enabled = false;
             btnAddDate.Enabled = false;
@@ -132,13 +143,13 @@ namespace AgOpenGPS
             //at least 3 points
             if (coordinates.Length < 3)
             {
-                mf.TimedMessageBox(2000, gStr.gsErrorreadingKML, gStr.gsChooseBuildDifferentone);
+                mf.TimedMessageBox(2000, gStr.gsErrorReadingFile, gStr.gsChooseBuildDifferentone);
             }
 
-            //get lat and lon from boundary in kml
+            //get lat and lon from boundary
             FindLatLon(coordinates);
 
-            //reset sim and world to kml position
+            //reset sim and world to field position
             CreateNewField();
 
             //Load the outer boundary
@@ -147,13 +158,13 @@ namespace AgOpenGPS
 
         private delegate void ReadCoordinates(string filename, ref string[] coordinates);
 
-        private void ReadCoordinatesFromShapefile(string filename, ref string[] coordinates)
+        private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates)
         {
             string[] numbersets = { };
 
             List<string> numberslist = new List<string>();
 
-            foreach (var feature in Shapefile.ReadAllFeatures(filename))
+            foreach (var feature in Shapefile.ReadAllFeatures(filePath))
             {
 
                 byte[] rawData = feature.Geometry.ToBinary();
@@ -168,9 +179,44 @@ namespace AgOpenGPS
             }
         }
 
-        private void ReadCoordinatesFromKML(string filename, ref string[] coordinates)
+        private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates2)
         {
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(filename))
+            string[] numbersets = { };
+
+            List<string> numberslist = new List<string>();
+
+            string text = File.ReadAllText(filePath);
+
+            FeatureCollection collection = JsonConvert.DeserializeObject<FeatureCollection>(text);
+            var feature = collection.Features;
+
+            var editedFeatures = new List<Feature>();
+            IGeometryObject editedObject = null;
+
+            // Ignore every GeoJSONObjectType but Polygon
+            if (featureItem.Geometry.Type.Equals(GeoJSONObjectType.Polygon))
+            {
+                var polygon = feature[0].Geometry as Polygon;
+
+                foreach (var Item in polygon.Coordinates)
+                {
+                    var editedcoordinates = new List<Position>(); // ++++++++++++++++++ #################### --------------------
+                    foreach (var coordinates in Item.Coordinates)
+                    {
+                        editedcoordinates.Add(new Position(coordinates.Latitude, coordinates.Longitude, 0));
+                    }
+                    editedLines.Add(new LineString(editedcoordinates));
+                }
+
+                editedObject = new Polygon(editedLines);
+            }
+
+            coordinates2 = numberslist.ToArray();
+        }
+
+        private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates)
+        {
+            using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
             {
                 try
                 {

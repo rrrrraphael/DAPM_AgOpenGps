@@ -249,8 +249,8 @@
   <data name="gsError" xml:space="preserve">
     <value>Fout</value>
   </data>
-  <data name="gsErrorreadingKML" xml:space="preserve">
-    <value>Fout bij lezen KML</value>
+  <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Fout bij lezen bestand</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>Perceel bestand is corrupt</value>

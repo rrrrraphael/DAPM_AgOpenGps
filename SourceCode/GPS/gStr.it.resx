@@ -255,8 +255,8 @@
   <data name="gsError" xml:space="preserve">
     <value>Errore  </value>
   </data>
-  <data name="gsErrorreadingKML" xml:space="preserve">
-    <value>Errore Lettura File KML</value>
+  <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Errore durante la lettura del file</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>Il File Del Campo E' Corrotto</value>

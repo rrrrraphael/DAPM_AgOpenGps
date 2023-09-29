@@ -1746,7 +1746,7 @@ namespace AgOpenGPS
                         { form2.ShowDialog(this); }
                     }
 
-                    //load from  KML
+                    //load from  file
                     else if (result == DialogResult.No)
                     {
                         //ask for a directory name

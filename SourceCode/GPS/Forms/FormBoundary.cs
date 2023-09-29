@@ -412,7 +412,7 @@ namespace AgOpenGPS
                                 }
                                 else
                                 {
-                                    mf.TimedMessageBox(2000, gStr.gsErrorreadingKML, gStr.gsChooseBuildDifferentone);
+                                    mf.TimedMessageBox(2000, gStr.gsErrorReadingFile, gStr.gsChooseBuildDifferentone);
                                 }
                                 if (button.Name == "btnLoadBoundaryFromGE")
                                 {

@@ -475,11 +475,11 @@ namespace AgOpenGPS {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error reading KML.
+        ///   Looks up a localized string similar to Error reading File.
         /// </summary>
-        public static string gsErrorreadingKML {
+        public static string gsErrorReadingFile {
             get {
-                return ResourceManager.GetString("gsErrorreadingKML", resourceCulture);
+                return ResourceManager.GetString("gsErrorReadingFile", resourceCulture);
             }
         }
         

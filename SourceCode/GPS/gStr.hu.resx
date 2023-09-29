@@ -256,8 +256,8 @@
   <data name="gsError" xml:space="preserve">
     <value>Hiba</value>
   </data>
-  <data name="gsErrorreadingKML" xml:space="preserve">
-    <value>KML olvasás hiba</value>
+  <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Hiba a fájl olvasása közben</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>A terület fájl sérült</value>

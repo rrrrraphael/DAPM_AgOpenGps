@@ -194,7 +194,7 @@ namespace AgOpenGPS
             IGeometryObject editedObject = null;
 
             // Ignore every GeoJSONObjectType but Polygon
-            if (featureItem.Geometry.Type.Equals(GeoJSONObjectType.Polygon))
+            if (feature[0].Geometry.Type.Equals(GeoJSONObjectType.Polygon))
             {
                 var polygon = feature[0].Geometry as Polygon;
 

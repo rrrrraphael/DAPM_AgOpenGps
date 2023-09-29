@@ -255,8 +255,8 @@
   <data name="gsError" xml:space="preserve">
     <value>Hata!!!</value>
   </data>
-  <data name="gsErrorreadingKML" xml:space="preserve">
-    <value>KML okunurken hata oluştu</value>
+  <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Dosyayı okumada hata</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>Alan Dosyası Bozuk</value>

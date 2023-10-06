@@ -144,6 +144,7 @@ namespace AgOpenGPS
             if (coordinates.Length < 3)
             {
                 mf.TimedMessageBox(2000, gStr.gsErrorReadingFile, gStr.gsChooseBuildDifferentone);
+                return;
             }
 
             //get lat and lon from boundary
@@ -179,39 +180,31 @@ namespace AgOpenGPS
             }
         }
 
-        private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates2)
+        private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates)
         {
-            string[] numbersets = { };
-
             List<string> numberslist = new List<string>();
 
             string text = File.ReadAllText(filePath);
-
-            FeatureCollection collection = JsonConvert.DeserializeObject<FeatureCollection>(text);
-            var feature = collection.Features;
-
-            var editedFeatures = new List<Feature>();
-            IGeometryObject editedObject = null;
-
-            // Ignore every GeoJSONObjectType but Polygon
-            if (feature[0].Geometry.Type.Equals(GeoJSONObjectType.Polygon))
+            try
             {
-                var polygon = feature[0].Geometry as Polygon;
-
-                foreach (var Item in polygon.Coordinates)
+                FeatureCollection collection = JsonConvert.DeserializeObject<FeatureCollection>(text);
+                // Ignore every GeoJSONObjectType but Polygon
+                if (collection.Features[0].Geometry.Type.Equals(GeoJSONObjectType.Polygon))
                 {
-                    var editedcoordinates = new List<Position>(); // ++++++++++++++++++ #################### --------------------
-                    foreach (var coordinates in Item.Coordinates)
+                    Polygon field = collection.Features[0].Geometry as Polygon;
+                    if (field.Coordinates.Count > 0)
                     {
-                        editedcoordinates.Add(new Position(coordinates.Latitude, coordinates.Longitude, 0));
+                        LineString border = field.Coordinates[0];
+                        foreach (var borderCoordinates in border.Coordinates)
+                        {
+                            numberslist.Add(String.Format("{0},{1}", borderCoordinates.Longitude, borderCoordinates.Latitude));
+                        }
                     }
-                    editedLines.Add(new LineString(editedcoordinates));
                 }
 
-                editedObject = new Polygon(editedLines);
+                coordinates = numberslist.ToArray();
             }
-
-            coordinates2 = numberslist.ToArray();
+            catch (Exception) { }
         }
 
         private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates)

@@ -1568,4 +1568,10 @@ Esto es importante ya que las paralelas se hacen en el lado derecho de la línea
 
 Introduzca el número de pases de paralela o use las flechas hacia arriba y hacia abajo para cambiar el número</value>
   </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Se utiliza el primer campo</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>varios campos en el archivo</value>
+  </data>
 </root>

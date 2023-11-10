@@ -480,4 +480,10 @@
   <data name="gsWest" xml:space="preserve">
     <value>Zachód</value>
   </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Używane jest pierwsze pole</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>Wiele pól w pliku</value>
+  </data>
 </root>

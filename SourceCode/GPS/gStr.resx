@@ -1603,4 +1603,10 @@ Enter the number of tram passes or use the up down arrows to change the number</
   <data name="v_SteerSettingsForm" xml:space="preserve">
     <value>https://www.youtube.com/watch?v=3SdvYgx8HHc</value>
   </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1st field is used</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>Several fields in file</value>
+  </data>
 </root>

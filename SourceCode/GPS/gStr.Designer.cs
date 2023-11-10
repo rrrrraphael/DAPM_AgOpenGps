@@ -520,6 +520,15 @@ namespace AgOpenGPS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1st field is used.
+        /// </summary>
+        public static string gsFirstOneIsUsed {
+            get {
+                return ResourceManager.GetString("gsFirstOneIsUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Flag File Corrupt.
         /// </summary>
         public static string gsFlagFileIsCorrupt {
@@ -1101,6 +1110,15 @@ namespace AgOpenGPS {
         public static string gsToFile {
             get {
                 return ResourceManager.GetString("gsToFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Several fields in file.
+        /// </summary>
+        public static string gsTooManyFields {
+            get {
+                return ResourceManager.GetString("gsTooManyFields", resourceCulture);
             }
         }
         

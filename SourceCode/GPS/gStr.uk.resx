@@ -357,4 +357,10 @@
   <data name="gsWest" xml:space="preserve">
     <value>Захід</value>
   </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Використовується 1-е поле</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>декілька полів у файлі</value>
+  </data>
 </root>

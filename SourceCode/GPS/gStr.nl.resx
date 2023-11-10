@@ -468,4 +468,10 @@
   <data name="gsUseSelected" xml:space="preserve">
     <value>gebruik geselecteerde</value>
   </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1e veld wordt gebruikt</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>Meerdere velden in bestand</value>
+  </data>
 </root>

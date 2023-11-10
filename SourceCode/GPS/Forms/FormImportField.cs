@@ -164,19 +164,32 @@ namespace AgOpenGPS
             string[] numbersets = { };
 
             List<string> numberslist = new List<string>();
-
-            foreach (var feature in Shapefile.ReadAllFeatures(filePath))
+            try
             {
+                foreach (var feature in Shapefile.ReadAllFeatures(filePath))
+                {
 
-                byte[] rawData = feature.Geometry.ToBinary();
+                    byte[] rawData = feature.Geometry.ToBinary();
+                    
+                    WKBReader reader = new WKBReader();
 
-                WKBReader reader = new WKBReader();
+                    Geometry geo = reader.Read(rawData);
 
-                Geometry geo = reader.Read(rawData);
+                    if (geo.NumGeometries != 1)
+                    {
 
-                geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
+                        geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
 
-                coordinates = numberslist.ToArray();
+                        coordinates = numberslist.ToArray();
+                    }
+                    else
+                    {
+                        mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
+                    }
+                }
+            }catch(Exception) 
+            {
+                mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
             }
         }
 

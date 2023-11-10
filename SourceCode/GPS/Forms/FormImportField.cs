@@ -18,6 +18,10 @@ using Point = GeoJSON.Net.Geometry.Point;
 using Polygon = GeoJSON.Net.Geometry.Polygon;
 using LineString = GeoJSON.Net.Geometry.LineString;
 using MultiPolygon = GeoJSON.Net.Geometry.MultiPolygon;
+using System.Data.SQLite;
+using System.Drawing;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace AgOpenGPS
 {
@@ -114,6 +118,8 @@ namespace AgOpenGPS
             {
                 //set the filter to Geopackage only
                 ofd.Filter = "Geopackage files (*.GPKG)|*.GPKG";
+
+                readCoordinates = ReadCoordinatesFromGeoPackage;
             }
             else if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
@@ -190,6 +196,93 @@ namespace AgOpenGPS
             }catch(Exception) 
             {
                 mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
+            }
+                coordinates = numberslist.ToArray();
+
+            }
+        }
+
+        private void ReadCoordinatesFromGeoPackage(string filepath, ref string[] coordinates)
+        {
+
+            byte[] rawData = null;
+
+            byte[] gpkgData = null;
+
+            List<string> numberslist = new List<string>();
+
+            string[] tableNames = {"gpkg_spatial_ref_sys", "gpkg_contents", "gpkg_ogr_contents", "gpkg_geometry_columns", "gpkg_tile_matrix_set", "gpkg_tile_matrix", "sqlite_sequence", "gpkg_extensions", "rtree_felder_geometry", "rtree_felder_geometry_rowid", "rtree_felder_geometry_node", "rtree_felder_geometry_parent"};
+
+            string table = "";
+            //SQlite connection
+            try
+            {
+                using (var conn = new SQLiteConnection("Data Source = " + filepath + "; Version = 3;"))
+                {
+                    conn.Open();
+                    var command = conn.CreateCommand();
+
+
+                    // get table name
+                    DataTable dt = conn.GetSchema("Tables");
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        string tablename = (string)row[2];
+                        if (!tableNames.Contains(tablename))
+                        {
+                            table = tablename;
+                            break;
+                        }
+                    }
+
+                    // check field number
+
+                    int fieldNumber = 0;
+                    command.CommandText = @"SELECT count(*) FROM " + table + ";";
+                    using (var SQLreader = command.ExecuteReader())
+                    {
+                        while (SQLreader.Read())
+                        {
+                            fieldNumber = Convert.ToInt32(SQLreader[0]);
+
+                        }
+                        if (fieldNumber > 1)
+                        {
+                            mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
+                        }
+                    }
+
+
+
+                    //get data
+
+                    command.CommandText = @"SELECT geometry from " + table + ";";
+
+                    using (var SQLreader = command.ExecuteReader())
+                    {
+                        while (SQLreader.Read())
+                        {
+                            rawData = (byte[])SQLreader["geometry"];
+                            gpkgData = rawData.Skip(40).ToArray();      //SKIP gpkg Header
+                        }
+
+                    }
+
+                    conn.Close();
+                }
+
+                WKBReader reader = new WKBReader();
+
+
+                Geometry geo = reader.Read(gpkgData);
+
+                geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
+
+                coordinates = numberslist.ToArray();
+            }
+            catch (Exception ex)
+            {
+                mf.TimedMessageBox(2000, gStr.gsError, gStr.gsError);
             }
         }
 

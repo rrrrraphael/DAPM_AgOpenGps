@@ -1420,4 +1420,10 @@ Permet d'inverser le sens des lignes, par exemple à l'activation des lignes de 
   <data name="v_SteerSettingsForm" xml:space="preserve">
     <value>https://www.youtube.com/watch?v=3SdvYgx8HHc</value>
   </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Le 1er champ est utilisé</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>plusieurs champs dans le fichier</value>
+  </data>
 </root>

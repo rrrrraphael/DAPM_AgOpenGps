@@ -157,8 +157,8 @@
     <value>Sınır Çizgileri Dosyası Bozuk</value>
   </data>
   <data name="gsButFieldIsLoaded" xml:space="preserve">
-    
-  <value>Ama Alan Yüklendi</value></data>
+    <value>Ama Alan Yüklendi</value>
+  </data>
   <data name="gsCentimeters" xml:space="preserve">
     <value>Santimetre</value>
   </data>
@@ -493,10 +493,10 @@
     <value>3D Görünüm Düğmesi.</value>
   </data>
   <data name="h_btnABDraw" xml:space="preserve">
-    
-  <value>AB Çizim Düğmesi
+    <value>AB Çizim Düğmesi
 
-ABDraw yalnızca oluşturulan bir sınırla kullanılabilir. Çizgiler, Eğriler ve tam çevre kılavuz çizgisi oluşturmak için çevreyi tıklamak için yeni bir form getirir. Tüm satırlar adlandırılabilir, silinebilir ve taşınabilir. Oluşturulan tüm kılavuz çizgileri görmek için kullanışlıdır.</value></data>
+ABDraw yalnızca oluşturulan bir sınırla kullanılabilir. Çizgiler, Eğriler ve tam çevre kılavuz çizgisi oluşturmak için çevreyi tıklamak için yeni bir form getirir. Tüm satırlar adlandırılabilir, silinebilir ve taşınabilir. Oluşturulan tüm kılavuz çizgileri görmek için kullanışlıdır.</value>
+  </data>
   <data name="h_btnABLine" xml:space="preserve">
     <value>ABHat Düğmesi
 
@@ -885,10 +885,10 @@ Listede seçilen satırı kullanır ve çıkar.</value>
 Enlem ve Boylam kullanılarak A ve B noktalarının manuel girişi. Başka bir form getirir.</value>
   </data>
   <data name="ha_btnNewABLine" xml:space="preserve">
-    
-  <value>Yeni hat
+    <value>Yeni hat
 
-AB veya A artı başlığına veya Manuel Enlem ve Boylam'a göre yeni bir satır oluşturmak için formu getirir.</value></data>
+AB veya A artı başlığına veya Manuel Enlem ve Boylam'a göre yeni bir satır oluşturmak için formu getirir.</value>
+  </data>
   <data name="ha_nudHeading" xml:space="preserve">
     <value>Başlık Girişi
 
@@ -1600,5 +1600,11 @@ Tramvay geçiş sayısını girin veya sayıyı değiştirmek için yukarı aşa
   </data>
   <data name="v_SteerSettingsForm" xml:space="preserve">
     <value>https://www.youtube.com/watch?v=3SdvYgx8HHc</value>
+  </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1. alan kullanıldı</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>dosyadaki birkaç alan</value>
   </data>
 </root>

@@ -483,4 +483,10 @@
   <data name="h_btn2D" xml:space="preserve">
     <value>2Dgee</value>
   </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>Mehrer Felder in Datei</value>
+  </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1. Feld wird verwendet</value>
+  </data>
 </root>

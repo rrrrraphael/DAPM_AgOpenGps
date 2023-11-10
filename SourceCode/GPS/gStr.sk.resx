@@ -483,4 +483,10 @@
   <data name="gsWest" xml:space="preserve">
     <value>Západ</value>
   </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Používa sa 1. pole</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>niekoľko polí v súbore</value>
+  </data>
 </root>

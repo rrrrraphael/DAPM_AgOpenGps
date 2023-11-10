@@ -267,7 +267,7 @@ namespace AgOpenGPS
             }
             catch (Exception ex)
             {
-
+                mf.TimedMessageBox(2000, gStr.gsError, gStr.gsError);
             }
         }
 

@@ -108,7 +108,8 @@ namespace AgOpenGPS
             // default readCoordinates is set for Shapefile
             ReadCoordinates readCoordinates = ReadCoordinatesFromKML;
 
-            OpenFileDialog ofd = new OpenFileDialog {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
                 // default the filter is set for KML
                 Filter = "KML files (*.KML)|*.KML",
                 //the initial directory, fields, for the open dialog
@@ -126,7 +127,7 @@ namespace AgOpenGPS
                 //set the filter to KML only
                 ofd.Filter = "Shapefiles (*.SHP)|*.SHP";
 
-                readCoordinates = ReadCoordinatesFromShapefile; 
+                readCoordinates = ReadCoordinatesFromShapefile;
             }
             else if (cbChooseFiletype.SelectedItem == "GeoJSON")
             {
@@ -176,12 +177,12 @@ namespace AgOpenGPS
                 {
 
                     byte[] rawData = feature.Geometry.ToBinary();
-                    
+
                     WKBReader reader = new WKBReader();
 
                     Geometry geo = reader.Read(rawData);
 
-                    if (geo.NumGeometries != 1)
+                    if (geo.NumGeometries == 1)
                     {
 
                         geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
@@ -193,14 +194,15 @@ namespace AgOpenGPS
                         mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
                     }
                 }
-            }catch(Exception) 
+            }
+            catch (Exception)
             {
                 mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
             }
-                coordinates = numberslist.ToArray();
+            coordinates = numberslist.ToArray();
 
-            }
         }
+
 
         private void ReadCoordinatesFromGeoPackage(string filepath, ref string[] coordinates)
         {
@@ -211,7 +213,7 @@ namespace AgOpenGPS
 
             List<string> numberslist = new List<string>();
 
-            string[] tableNames = {"gpkg_spatial_ref_sys", "gpkg_contents", "gpkg_ogr_contents", "gpkg_geometry_columns", "gpkg_tile_matrix_set", "gpkg_tile_matrix", "sqlite_sequence", "gpkg_extensions", "rtree_felder_geometry", "rtree_felder_geometry_rowid", "rtree_felder_geometry_node", "rtree_felder_geometry_parent"};
+            string[] tableNames = { "gpkg_spatial_ref_sys", "gpkg_contents", "gpkg_ogr_contents", "gpkg_geometry_columns", "gpkg_tile_matrix_set", "gpkg_tile_matrix", "sqlite_sequence", "gpkg_extensions", "rtree_felder_geometry", "rtree_felder_geometry_rowid", "rtree_felder_geometry_node", "rtree_felder_geometry_parent" };
 
             string table = "";
             //SQlite connection

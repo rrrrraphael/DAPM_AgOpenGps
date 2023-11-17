@@ -22,6 +22,8 @@ using System.Data.SQLite;
 using System.Drawing;
 using System.Data;
 using System.Data.SqlClient;
+using NetTopologySuite.Geometries.Utilities;
+using DotSpatial.Projections;
 
 namespace AgOpenGPS
 {
@@ -106,7 +108,7 @@ namespace AgOpenGPS
         private void btnLoadField_Click(object sender, EventArgs e)
         {
             // default readCoordinates is set for Shapefile
-            ReadCoordinates readCoordinates = ReadCoordinatesFromKML;
+            ReadCoordinates ReadCoordinates = ReadCoordinatesFromKML;
 
             OpenFileDialog ofd = new OpenFileDialog
             {
@@ -120,21 +122,21 @@ namespace AgOpenGPS
                 //set the filter to Geopackage only
                 ofd.Filter = "Geopackage files (*.GPKG)|*.GPKG";
 
-                readCoordinates = ReadCoordinatesFromGeoPackage;
+                ReadCoordinates = ReadCoordinatesFromGeoPackage;
             }
             else if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
                 //set the filter to KML only
                 ofd.Filter = "Shapefiles (*.SHP)|*.SHP";
 
-                readCoordinates = ReadCoordinatesFromShapefile;
+                ReadCoordinates = ReadCoordinatesFromShapefile;
             }
             else if (cbChooseFiletype.SelectedItem == "GeoJSON")
             {
                 //set the filter to GeoJSON only
                 ofd.Filter = "GeoJSON files (*.GEOJSON)|*.GEOJSON";
 
-                readCoordinates = ReadCoordinatesFromGeoJSON;
+                ReadCoordinates = ReadCoordinatesFromGeoJSON;
             }
             tboxFieldName.Enabled = false;
             btnAddDate.Enabled = false;
@@ -145,7 +147,20 @@ namespace AgOpenGPS
 
             // read coordinates
             string[] coordinates = { };
-            readCoordinates(ofd.FileName, ref coordinates);
+            int currentEPSG = -1;
+            ReadCoordinates(ofd.FileName, ref coordinates, ref currentEPSG);
+
+            if(currentEPSG == -1)
+            {
+                //ToDo Fehler Meldung EPSG Code nicht erkannt/erfasst
+               throw new NotImplementedException();
+            }
+
+            if(currentEPSG != 4326)
+            {
+                TransformCoordinates(ref coordinates, currentEPSG, 4326);
+
+            }
 
             //at least 3 points
             if (coordinates.Length < 3)
@@ -164,36 +179,56 @@ namespace AgOpenGPS
             LoadKMLBoundary(coordinates);
         }
 
-        private delegate void ReadCoordinates(string filename, ref string[] coordinates);
+        private delegate void ReadCoordinates(string filename, ref string[] coordinates, ref int currentEPSG);
 
-        private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates)
+        private void TransformCoordinates(ref string[] coordinates, int currentEPSG, int targetEPSG)
         {
+            List<double[]> xys = new List<double[]>();
+            foreach (string coordinate in coordinates)
+            {
+                string[] coordinateParts = coordinate.Split(',');
+                xys.Add(new double[] { double.Parse(coordinateParts[0].Replace('.', ',')), double.Parse(coordinateParts[1].Replace('.', ',')) });
+            }
+            for (int i = 0; i < xys.Count; i++)
+            {
+                Reproject.ReprojectPoints(
+                    xys[i],
+                    new double[] { 450.0 },
+                    ProjectionInfo.FromEpsgCode(currentEPSG),
+                    ProjectionInfo.FromEpsgCode(targetEPSG),
+                    0,
+                    1);
+            }
+            for (int i = 0; i < xys.Count; i++)
+            {
+                coordinates[i] = String.Format("{0},{1}", xys[i][0].ToString().Replace(',', '.'), xys[i][1].ToString().Replace(',', '.'));
+            }
+        }
+
+        private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates, ref int currentEPSG)
+        {
+            // ToDo implement currentEPSG
+            throw new NotImplementedException();
+
             string[] numbersets = { };
 
             List<string> numberslist = new List<string>();
             try
             {
-                foreach (var feature in Shapefile.ReadAllFeatures(filePath))
+                NetTopologySuite.Features.Feature[] feature = Shapefile.ReadAllFeatures(filePath);
+                if (feature.Length > 1)
                 {
-
-                    byte[] rawData = feature.Geometry.ToBinary();
-
-                    WKBReader reader = new WKBReader();
-
-                    Geometry geo = reader.Read(rawData);
-
-                    if (geo.NumGeometries == 1)
-                    {
-
-                        geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
-
-                        coordinates = numberslist.ToArray();
-                    }
-                    else
-                    {
-                        mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
-                    }
+                    mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
                 }
+                byte[] rawData = feature[0].Geometry.ToBinary();
+
+                WKBReader reader = new WKBReader();
+
+                Geometry geo = reader.Read(rawData);
+
+                geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
+
+                coordinates = numberslist.ToArray();
             }
             catch (Exception)
             {
@@ -204,8 +239,13 @@ namespace AgOpenGPS
         }
 
 
-        private void ReadCoordinatesFromGeoPackage(string filepath, ref string[] coordinates)
+        private void ReadCoordinatesFromGeoPackage(string filepath, ref string[] coordinates, ref int currentEPSG)
         {
+            // ToDo implement currentEPSG
+           // throw new NotImplementedException();
+
+           
+
 
             byte[] rawData = null;
 
@@ -223,8 +263,21 @@ namespace AgOpenGPS
                 {
                     conn.Open();
                     var command = conn.CreateCommand();
+                    // get epsg
+                    command.CommandText = @"SELECT srs_id FROM gpkg_geometry_columns;";
+
+                    using (var SQLreader = command.ExecuteReader())
+                    {
+                        while (SQLreader.Read())
+                        {
+                            currentEPSG = Convert.ToInt32(SQLreader[0]);
+
+                        }
+ 
+                    }
 
 
+                    //get geometry
                     // get table name
                     DataTable dt = conn.GetSchema("Tables");
                     foreach (DataRow row in dt.Rows)
@@ -288,8 +341,11 @@ namespace AgOpenGPS
             }
         }
 
-        private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates)
+        private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
+            // ToDo implement currentEPSG
+            throw new NotImplementedException();
+
             List<string> numberslist = new List<string>();
 
             string text = File.ReadAllText(filePath);
@@ -315,10 +371,14 @@ namespace AgOpenGPS
             catch (Exception) { }
         }
 
-        private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates)
+        private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
+            // ToDo implement currentEPSG
+            throw new NotImplementedException();
+
             using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
             {
+                bool alreadyOneField = false;
                 try
                 {
                     string lineOfCoordinates = null;
@@ -332,6 +392,12 @@ namespace AgOpenGPS
 
                         if (startIndex != -1)
                         {
+                            if (alreadyOneField)
+                            {
+                                mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
+                                break;
+                            }
+                            alreadyOneField = true;
                             while (true)
                             {
                                 int endIndex = line.IndexOf("</coordinates>");
@@ -355,6 +421,7 @@ namespace AgOpenGPS
 
                             char[] delimiterChars = { ' ', '\t', '\r', '\n' };
                             coordinates = lineOfCoordinates.Split(delimiterChars);
+                            
                         }
                     }
 

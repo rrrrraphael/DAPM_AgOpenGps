@@ -21,9 +21,6 @@ using MultiPolygon = GeoJSON.Net.Geometry.MultiPolygon;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Data;
-using System.Data.SqlClient;
-using NetTopologySuite.Geometries.Utilities;
-using DotSpatial.Projections;
 
 namespace AgOpenGPS
 {
@@ -180,30 +177,6 @@ namespace AgOpenGPS
         }
 
         private delegate void ReadCoordinates(string filename, ref string[] coordinates, ref int currentEPSG);
-
-        private void TransformCoordinates(ref string[] coordinates, int currentEPSG, int targetEPSG)
-        {
-            List<double[]> xys = new List<double[]>();
-            foreach (string coordinate in coordinates)
-            {
-                string[] coordinateParts = coordinate.Split(',');
-                xys.Add(new double[] { double.Parse(coordinateParts[0].Replace('.', ',')), double.Parse(coordinateParts[1].Replace('.', ',')) });
-            }
-            for (int i = 0; i < xys.Count; i++)
-            {
-                Reproject.ReprojectPoints(
-                    xys[i],
-                    new double[] { 450.0 },
-                    ProjectionInfo.FromEpsgCode(currentEPSG),
-                    ProjectionInfo.FromEpsgCode(targetEPSG),
-                    0,
-                    1);
-            }
-            for (int i = 0; i < xys.Count; i++)
-            {
-                coordinates[i] = String.Format("{0},{1}", xys[i][0].ToString().Replace(',', '.'), xys[i][1].ToString().Replace(',', '.'));
-            }
-        }
 
         private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates, ref int currentEPSG)
         {

@@ -144,20 +144,10 @@ namespace AgOpenGPS
 
             // read coordinates
             string[] coordinates = { };
-            int currentEPSG = -1;
-            ReadCoordinates(ofd.FileName, ref coordinates, ref currentEPSG);
+            ReadCoordinates(ofd.FileName, ref coordinates);
 
-            if(currentEPSG == -1)
-            {
-                //ToDo Fehler Meldung EPSG Code nicht erkannt/erfasst
-               throw new NotImplementedException();
-            }
+  
 
-            if(currentEPSG != 4326)
-            {
-                TransformCoordinates(ref coordinates, currentEPSG, 4326);
-
-            }
 
             //at least 3 points
             if (coordinates.Length < 3)
@@ -176,12 +166,10 @@ namespace AgOpenGPS
             LoadKMLBoundary(coordinates);
         }
 
-        private delegate void ReadCoordinates(string filename, ref string[] coordinates, ref int currentEPSG);
+        private delegate void ReadCoordinates(string filename, ref string[] coordinates);
 
-        private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates, ref int currentEPSG)
+        private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates)
         {
-            // ToDo implement currentEPSG
-            throw new NotImplementedException();
 
             string[] numbersets = { };
 
@@ -212,14 +200,9 @@ namespace AgOpenGPS
         }
 
 
-        private void ReadCoordinatesFromGeoPackage(string filepath, ref string[] coordinates, ref int currentEPSG)
+        private void ReadCoordinatesFromGeoPackage(string filepath, ref string[] coordinates)
         {
-            // ToDo implement currentEPSG
-           // throw new NotImplementedException();
-
            
-
-
             byte[] rawData = null;
 
             byte[] gpkgData = null;
@@ -236,19 +219,6 @@ namespace AgOpenGPS
                 {
                     conn.Open();
                     var command = conn.CreateCommand();
-                    // get epsg
-                    command.CommandText = @"SELECT srs_id FROM gpkg_geometry_columns;";
-
-                    using (var SQLreader = command.ExecuteReader())
-                    {
-                        while (SQLreader.Read())
-                        {
-                            currentEPSG = Convert.ToInt32(SQLreader[0]);
-
-                        }
- 
-                    }
-
 
                     //get geometry
                     // get table name
@@ -314,11 +284,9 @@ namespace AgOpenGPS
             }
         }
 
-        private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates, ref int currentEPSG)
+        private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates)
         {
-            // ToDo implement currentEPSG
-            throw new NotImplementedException();
-
+            
             List<string> numberslist = new List<string>();
 
             string text = File.ReadAllText(filePath);
@@ -344,10 +312,8 @@ namespace AgOpenGPS
             catch (Exception) { }
         }
 
-        private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates, ref int currentEPSG)
+        private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates)
         {
-            // ToDo implement currentEPSG
-            throw new NotImplementedException();
 
             using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
             {

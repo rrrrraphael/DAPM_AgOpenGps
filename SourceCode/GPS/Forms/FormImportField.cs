@@ -146,11 +146,20 @@ namespace AgOpenGPS
 
             // read coordinates
             string[] coordinates = { };
-            ReadCoordinates(ofd.FileName, ref coordinates);
+            int currentEPSG = -1;
+            ReadCoordinates(ofd.FileName, ref coordinates, ref currentEPSG);
 
-  
+            if (currentEPSG == -1)
+            {
+                //ToDo Fehler Meldung EPSG Code nicht erkannt/erfasst
+                throw new NotImplementedException();
+            }
 
+            if (currentEPSG != 4326)
+            {
+                TransformCoordinates(ref coordinates, currentEPSG, 4326);
 
+            }
             //at least 3 points
             if (coordinates.Length < 3)
             {

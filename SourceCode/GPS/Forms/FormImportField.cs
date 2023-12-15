@@ -21,6 +21,8 @@ using MultiPolygon = GeoJSON.Net.Geometry.MultiPolygon;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Data;
+using System.Diagnostics;
+using DotSpatial.Projections;
 
 namespace AgOpenGPS
 {
@@ -166,7 +168,35 @@ namespace AgOpenGPS
             LoadKMLBoundary(coordinates);
         }
 
-        private delegate void ReadCoordinates(string filename, ref string[] coordinates);
+        private static void TransformCoordinates(ref string[] coordinates, int currentEPSG, int targetEPSG)
+        {
+            List<double[]> xys = new List<double[]>();
+            foreach (string coordinate in coordinates)
+            {
+                string[] coordinateParts = coordinate.Split(',');
+                xys.Add(new double[] { double.Parse(coordinateParts[0], CultureInfo.GetCultureInfo("en")), double.Parse(coordinateParts[1], CultureInfo.GetCultureInfo("en")) });
+            }
+            ProjectionInfo currentCRS = ProjectionInfo.FromEpsgCode(currentEPSG);
+            ProjectionInfo targetCRS = ProjectionInfo.FromEpsgCode(targetEPSG);
+            for (int i = 0; i < xys.Count; i++)
+            {
+                Debug.WriteLine(xys[i][0]);
+                Debug.WriteLine(xys[i][1]);
+                Reproject.ReprojectPoints(
+                    xys[i],
+                    new double[] { 450.0 }, // altitude
+                    currentCRS,
+                    targetCRS,
+                    0,
+                    1);
+            }
+            for (int i = 0; i < xys.Count; i++)
+            {
+                coordinates[i] = String.Format("{0},{1}", xys[i][0].ToString().Replace(',', '.'), xys[i][1].ToString().Replace(',', '.'));
+            }
+        }
+
+        private delegate void ReadCoordinates(string filename, ref string[] coordinates, ref int currentEPSG);
 
         private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates)
         {

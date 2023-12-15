@@ -207,14 +207,21 @@ namespace AgOpenGPS
 
         private delegate void ReadCoordinates(string filename, ref string[] coordinates, ref int currentEPSG);
 
-        private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates)
+        private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
+            //https://stackoverflow.com/questions/37159130/how-to-determine-the-coordinatesystem-of-a-shapefile-set-with-shapefiledatareade
 
             string[] numbersets = { };
+
+            string projectPath = filePath.Replace("shp", "prj");
 
             List<string> numberslist = new List<string>();
             try
             {
+
+                var projectionInfo = ProjectionInfo.Open(projectPath);
+                //currentEPSG = Convert.ToInt32(projectionInfo.Authority);
+                var temp = ProjectionInfo.FromProj4String(projectionInfo.GeographicInfo.Datum.Proj4DatumName);
                 NetTopologySuite.Features.Feature[] feature = Shapefile.ReadAllFeatures(filePath);
                 if (feature.Length > 1)
                 {
@@ -225,6 +232,8 @@ namespace AgOpenGPS
                 WKBReader reader = new WKBReader();
 
                 Geometry geo = reader.Read(rawData);
+                
+                
 
                 geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
 
@@ -239,9 +248,9 @@ namespace AgOpenGPS
         }
 
 
-        private void ReadCoordinatesFromGeoPackage(string filepath, ref string[] coordinates)
+        private void ReadCoordinatesFromGeoPackage(string filepath, ref string[] coordinates, ref int currentEPSG)
         {
-           
+    
             byte[] rawData = null;
 
             byte[] gpkgData = null;
@@ -258,6 +267,19 @@ namespace AgOpenGPS
                 {
                     conn.Open();
                     var command = conn.CreateCommand();
+                    // get epsg
+                    command.CommandText = @"SELECT srs_id FROM gpkg_geometry_columns;";
+
+                    using (var SQLreader = command.ExecuteReader())
+                    {
+                        while (SQLreader.Read())
+                        {
+                            currentEPSG = Convert.ToInt32(SQLreader[0]);
+
+                        }
+
+                    }
+
 
                     //get geometry
                     // get table name
@@ -323,9 +345,11 @@ namespace AgOpenGPS
             }
         }
 
-        private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates)
+        private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
-            
+            // ToDo implement currentEPSG
+            throw new NotImplementedException();
+
             List<string> numberslist = new List<string>();
 
             string text = File.ReadAllText(filePath);
@@ -351,8 +375,10 @@ namespace AgOpenGPS
             catch (Exception) { }
         }
 
-        private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates)
+        private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
+            // ToDo implement currentEPSG
+            throw new NotImplementedException();
 
             using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
             {
@@ -399,7 +425,7 @@ namespace AgOpenGPS
 
                             char[] delimiterChars = { ' ', '\t', '\r', '\n' };
                             coordinates = lineOfCoordinates.Split(delimiterChars);
-                            
+
                         }
                     }
 
@@ -413,8 +439,8 @@ namespace AgOpenGPS
 
             mf.bnd.isOkToAddPoints = false;
         }
-
-        private void btnAddDate_Click(object sender, EventArgs e)
+    
+    private void btnAddDate_Click(object sender, EventArgs e)
         {
             tboxFieldName.Text += " " + DateTime.Now.ToString("MMM.dd", CultureInfo.InvariantCulture);
 

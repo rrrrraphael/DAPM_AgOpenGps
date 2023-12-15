@@ -151,8 +151,14 @@ namespace AgOpenGPS
 
             if (currentEPSG == -1)
             {
-                //ToDo Fehler Meldung EPSG Code nicht erkannt/erfasst
-                throw new NotImplementedException();
+                if (!String.IsNullOrEmpty(this.txtEPSG.Text))
+                {
+                    currentEPSG = int.Parse(this.txtEPSG.Text);
+                }
+                else
+                {
+                    currentEPSG = 4326; //WGS84
+                }
             }
 
             if (currentEPSG != 4326)
@@ -219,13 +225,14 @@ namespace AgOpenGPS
             try
             {
 
-                var projectionInfo = ProjectionInfo.Open(projectPath);
-                //currentEPSG = Convert.ToInt32(projectionInfo.Authority);
-                var temp = ProjectionInfo.FromProj4String(projectionInfo.GeographicInfo.Datum.Proj4DatumName);
+                    var projectionInfo = ProjectionInfo.Open(projectPath);
+                    //currentEPSG = Convert.ToInt32(projectionInfo.Authority);
+                    var temp = projectionInfo.GeographicInfo.Datum.Proj4DatumName;
+                    var VarepsgCode = ProjectionInfo.FromProj4String("urn:ogc:def:crs:OGC:1.3:CRS84");
                 NetTopologySuite.Features.Feature[] feature = Shapefile.ReadAllFeatures(filePath);
                 if (feature.Length > 1)
                 {
-                    mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
+                    mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
                 }
                 byte[] rawData = feature[0].Geometry.ToBinary();
 
@@ -347,8 +354,7 @@ namespace AgOpenGPS
 
         private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
-            // ToDo implement currentEPSG
-            throw new NotImplementedException();
+
 
             List<string> numberslist = new List<string>();
 
@@ -377,8 +383,7 @@ namespace AgOpenGPS
 
         private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
-            // ToDo implement currentEPSG
-            throw new NotImplementedException();
+
 
             using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
             {
@@ -461,6 +466,20 @@ namespace AgOpenGPS
             else
             {
                 btnLoadField.Enabled = true;
+            }
+        }
+
+        private void cbChooseFiletype_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbChooseFiletype.SelectedItem == "Geopackage")
+            {
+                this.txtEPSG.Visible = false;
+                this.lbEPSG.Visible = false;
+            }
+            else
+            {
+                this.txtEPSG.Visible = true;
+                this.lbEPSG.Visible = true;
             }
         }
 

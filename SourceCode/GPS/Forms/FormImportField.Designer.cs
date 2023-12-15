@@ -39,6 +39,8 @@
             this.btnAddTime = new System.Windows.Forms.Button();
             this.cbChooseFiletype = new System.Windows.Forms.ComboBox();
             this.lbChooseFIletype = new System.Windows.Forms.Label();
+            this.txtEPSG = new System.Windows.Forms.TextBox();
+            this.lbEPSG = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tboxFieldName
@@ -190,6 +192,7 @@
             this.cbChooseFiletype.Name = "cbChooseFiletype";
             this.cbChooseFiletype.Size = new System.Drawing.Size(165, 31);
             this.cbChooseFiletype.TabIndex = 155;
+            this.cbChooseFiletype.SelectedIndexChanged += new System.EventHandler(this.cbChooseFiletype_SelectedIndexChanged);
             this.cbChooseFiletype.SelectedValueChanged += new System.EventHandler(this.cbChooseFiletype_SelectedValueChanged);
             // 
             // lbChooseFIletype
@@ -202,6 +205,24 @@
             this.lbChooseFIletype.TabIndex = 156;
             this.lbChooseFIletype.Text = "Choose Filetype";
             // 
+            // txtEPSG
+            // 
+            this.txtEPSG.Location = new System.Drawing.Point(415, 110);
+            this.txtEPSG.Name = "txtEPSG";
+            this.txtEPSG.Size = new System.Drawing.Size(165, 30);
+            this.txtEPSG.TabIndex = 157;
+            this.txtEPSG.Visible = false;
+            // 
+            // lbEPSG
+            // 
+            this.lbEPSG.AutoSize = true;
+            this.lbEPSG.Location = new System.Drawing.Point(247, 113);
+            this.lbEPSG.Name = "lbEPSG";
+            this.lbEPSG.Size = new System.Drawing.Size(111, 23);
+            this.lbEPSG.TabIndex = 158;
+            this.lbEPSG.Text = "EPSG-Code:";
+            this.lbEPSG.Visible = false;
+            // 
             // FormImportField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -209,6 +230,8 @@
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(608, 332);
             this.ControlBox = false;
+            this.Controls.Add(this.lbEPSG);
+            this.Controls.Add(this.txtEPSG);
             this.Controls.Add(this.lbChooseFIletype);
             this.Controls.Add(this.cbChooseFiletype);
             this.Controls.Add(this.btnAddDate);
@@ -246,5 +269,7 @@
         private System.Windows.Forms.Button btnAddTime;
         private System.Windows.Forms.ComboBox cbChooseFiletype;
         private System.Windows.Forms.Label lbChooseFIletype;
+        private System.Windows.Forms.TextBox txtEPSG;
+        private System.Windows.Forms.Label lbEPSG;
     }
 }

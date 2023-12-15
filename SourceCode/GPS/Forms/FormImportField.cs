@@ -24,7 +24,6 @@ using System.Data;
 using System.Diagnostics;
 using DotSpatial.Projections;
 
-
 namespace AgOpenGPS
 {
     public partial class FormImportField : Form
@@ -185,15 +184,17 @@ namespace AgOpenGPS
             foreach (string coordinate in coordinates)
             {
                 string[] coordinateParts = coordinate.Split(',');
-                xys.Add(new double[] { double.Parse(coordinateParts[0].Replace('.', ',')), double.Parse(coordinateParts[1].Replace('.', ',')) });
+                xys.Add(new double[] { double.Parse(coordinateParts[0], CultureInfo.GetCultureInfo("en")), double.Parse(coordinateParts[1], CultureInfo.GetCultureInfo("en")) });
             }
             ProjectionInfo currentCRS = ProjectionInfo.FromEpsgCode(currentEPSG);
             ProjectionInfo targetCRS = ProjectionInfo.FromEpsgCode(targetEPSG);
             for (int i = 0; i < xys.Count; i++)
             {
+                Debug.WriteLine(xys[i][0]);
+                Debug.WriteLine(xys[i][1]);
                 Reproject.ReprojectPoints(
                     xys[i],
-                    new double[] { 450.0 },
+                    new double[] { 450.0 }, // altitude
                     currentCRS,
                     targetCRS,
                     0,
@@ -202,7 +203,6 @@ namespace AgOpenGPS
             for (int i = 0; i < xys.Count; i++)
             {
                 coordinates[i] = String.Format("{0},{1}", xys[i][0].ToString().Replace(',', '.'), xys[i][1].ToString().Replace(',', '.'));
-                Debug.WriteLine(coordinates[i]);
             }
         }
 

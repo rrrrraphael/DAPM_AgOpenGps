@@ -20,6 +20,7 @@ namespace AgOpenGPS
             btnJobOpen.Text = gStr.gsOpen;
             btnJobNew.Text = gStr.gsNew;
             btnJobResume.Text = gStr.gsResume;
+            btnJobExport.Text = gStr.gsExport;
 
             this.Text = gStr.gsStartNewField;
         }
@@ -235,6 +236,24 @@ namespace AgOpenGPS
             //back to FormGPS
             DialogResult = DialogResult.No;
             Close();
+        }
+
+        private void btnJobExport_Click(object sender, EventArgs e)
+        {
+            mf.filePickerFileAndDirectory = "";
+
+            using (FormFilePickerForExport form = new FormFilePickerForExport(mf))
+            {
+                //returns full field.txt file dir name
+                if (form.ShowDialog(this) == DialogResult.Yes)
+                {                  
+                    Close();
+                }
+                else
+                {
+                    return;
+                }
+            }
         }
     }
 }

@@ -489,4 +489,7 @@
   <data name="gsFirstOneIsUsed" xml:space="preserve">
     <value>1. Feld wird verwendet</value>
   </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
 </root>

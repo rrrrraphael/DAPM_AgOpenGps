@@ -474,4 +474,7 @@
   <data name="gsTooManyFields" xml:space="preserve">
     <value>Meerdere velden in bestand</value>
   </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Exporteren</value>
+  </data>
 </root>

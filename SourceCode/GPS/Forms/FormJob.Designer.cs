@@ -47,6 +47,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.lblLongitude = new System.Windows.Forms.Label();
             this.btnImportFile = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -201,7 +202,7 @@
             this.btnJobExport.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.btnJobExport.Size = new System.Drawing.Size(268, 82);
             this.btnJobExport.TabIndex = 104;
-            this.btnJobExport.Text = "EXPORT!!!";
+            this.btnJobExport.Text = "Export";
             this.btnJobExport.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnJobExport.UseVisualStyleBackColor = false;
             this.btnJobExport.Click += new System.EventHandler(this.btnJobExport_Click);
@@ -353,6 +354,10 @@
             this.btnImportFile.UseVisualStyleBackColor = false;
             this.btnImportFile.Click += new System.EventHandler(this.btnFromKML_Click);
             // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
+            // 
             // FormJob
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -399,5 +404,6 @@
         private System.Windows.Forms.Label lblSatsTracked;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnJobExport;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }

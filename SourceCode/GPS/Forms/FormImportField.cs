@@ -23,6 +23,9 @@ using System.Drawing;
 using System.Data;
 using System.Diagnostics;
 using DotSpatial.Projections;
+using System.Windows.Forms.DataVisualization.Charting;
+using GeoJSON.Net.Converters;
+using GeoJSON.Net.CoordinateReferenceSystem;
 
 namespace AgOpenGPS
 {
@@ -125,8 +128,11 @@ namespace AgOpenGPS
             }
             else if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
+
                 //set the filter to KML only
                 ofd.Filter = "Shapefiles (*.SHP)|*.SHP";
+
+
 
                 ReadCoordinates = ReadCoordinatesFromShapefile;
             }
@@ -149,13 +155,13 @@ namespace AgOpenGPS
             int currentEPSG = -1;
             ReadCoordinates(ofd.FileName, ref coordinates, ref currentEPSG);
 
-            if(currentEPSG == -1)
+            if (currentEPSG == -1)
             {
                 //ToDo Fehler Meldung EPSG Code nicht erkannt/erfasst
-               throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
 
-            if(currentEPSG != 4326)
+            if (currentEPSG != 4326)
             {
                 TransformCoordinates(ref coordinates, currentEPSG, 4326);
 
@@ -210,18 +216,18 @@ namespace AgOpenGPS
 
         private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
-            // ToDo implement currentEPSG
-            throw new NotImplementedException();
-
             string[] numbersets = { };
 
+            string projectPath = filePath.Replace(".shp", ".prj");
             List<string> numberslist = new List<string>();
             try
             {
+
+
                 NetTopologySuite.Features.Feature[] feature = Shapefile.ReadAllFeatures(filePath);
                 if (feature.Length > 1)
                 {
-                    mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
+                    mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
                 }
                 byte[] rawData = feature[0].Geometry.ToBinary();
 
@@ -229,27 +235,27 @@ namespace AgOpenGPS
 
                 Geometry geo = reader.Read(rawData);
 
+
+
                 geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
 
                 coordinates = numberslist.ToArray();
+
+                currentEPSG = int.Parse(this.txtEpsgCode.Text);
+
+                
             }
             catch (Exception)
             {
                 mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
             }
-            coordinates = numberslist.ToArray();
 
         }
 
 
         private void ReadCoordinatesFromGeoPackage(string filepath, ref string[] coordinates, ref int currentEPSG)
         {
-            // ToDo implement currentEPSG
-           // throw new NotImplementedException();
-
-           
-
-
+        
             byte[] rawData = null;
 
             byte[] gpkgData = null;
@@ -346,14 +352,13 @@ namespace AgOpenGPS
 
         private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
-            // ToDo implement currentEPSG
-            throw new NotImplementedException();
 
             List<string> numberslist = new List<string>();
 
-            string text = File.ReadAllText(filePath);
             try
             {
+                string text = File.ReadAllText(filePath);
+
                 FeatureCollection collection = JsonConvert.DeserializeObject<FeatureCollection>(text);
                 // Ignore every GeoJSONObjectType but Polygon
                 if (collection.Features[0].Geometry.Type.Equals(GeoJSONObjectType.Polygon))
@@ -368,8 +373,37 @@ namespace AgOpenGPS
                         }
                     }
                 }
+                else if (collection.Features[0].Geometry.Type.Equals(GeoJSONObjectType.MultiPolygon))
+                {
+                    MultiPolygon fields = collection.Features[0].Geometry as MultiPolygon;
+                    if (fields.Coordinates.Count > 0)
+                    {
+                        LineString border = fields.Coordinates[0].Coordinates[0];
+                        foreach (var borderCoordinates in border.Coordinates)
+                        {
+                            numberslist.Add(String.Format("{0},{1}", borderCoordinates.Longitude, borderCoordinates.Latitude));
+                        }
+                    }
+                }
 
-                coordinates = numberslist.ToArray();
+            coordinates = numberslist.ToArray();
+
+
+                string[] lines = text.Split(new[] { "\n" }, StringSplitOptions.None);
+                string epsgString = lines[3];
+
+                int indexEPSG = epsgString.IndexOf("EPSG::");
+            if(indexEPSG != -1)
+            {
+                string newEPSG = epsgString.Substring(indexEPSG, 11);
+                currentEPSG = int.Parse(newEPSG.Replace("EPSG::", "").Replace(@"\", "").Replace("\"", ""));
+            }
+            else
+            {
+                currentEPSG = 4326;
+            }
+
+
             }
             catch (Exception) { }
         }
@@ -461,6 +495,21 @@ namespace AgOpenGPS
             {
                 btnLoadField.Enabled = true;
             }
+        }
+
+        private void cbChooseFiletype_TextChanged(object sender, EventArgs e)
+        {
+            if(cbChooseFiletype.SelectedItem == "Shapefile")
+            {
+                this.txtEpsgCode.Visible = true;
+                this.lbEpsgCode.Visible = true;
+            }
+            else
+            {
+                this.txtEpsgCode.Visible = false;
+                this.lbEpsgCode.Visible = false;
+            }
+
         }
 
         private void LoadKMLBoundary(string[] coordinates)

@@ -39,6 +39,8 @@
             this.btnAddTime = new System.Windows.Forms.Button();
             this.cbChooseFiletype = new System.Windows.Forms.ComboBox();
             this.lbChooseFIletype = new System.Windows.Forms.Label();
+            this.txtEpsgCode = new System.Windows.Forms.TextBox();
+            this.lbEpsgCode = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tboxFieldName
@@ -124,7 +126,7 @@
             this.btnSerialCancel.Font = new System.Drawing.Font("Tahoma", 12F);
             this.btnSerialCancel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnSerialCancel.Image = global::AgOpenGPS.Properties.Resources.Cancel64;
-            this.btnSerialCancel.Location = new System.Drawing.Point(376, 247);
+            this.btnSerialCancel.Location = new System.Drawing.Point(382, 248);
             this.btnSerialCancel.Name = "btnSerialCancel";
             this.btnSerialCancel.Size = new System.Drawing.Size(77, 79);
             this.btnSerialCancel.TabIndex = 4;
@@ -191,6 +193,7 @@
             this.cbChooseFiletype.Size = new System.Drawing.Size(165, 31);
             this.cbChooseFiletype.TabIndex = 155;
             this.cbChooseFiletype.SelectedValueChanged += new System.EventHandler(this.cbChooseFiletype_SelectedValueChanged);
+            this.cbChooseFiletype.TextChanged += new System.EventHandler(this.cbChooseFiletype_TextChanged);
             // 
             // lbChooseFIletype
             // 
@@ -202,6 +205,25 @@
             this.lbChooseFIletype.TabIndex = 156;
             this.lbChooseFIletype.Text = "Choose Filetype";
             // 
+            // txtEpsgCode
+            // 
+            this.txtEpsgCode.Location = new System.Drawing.Point(402, 111);
+            this.txtEpsgCode.Name = "txtEpsgCode";
+            this.txtEpsgCode.Size = new System.Drawing.Size(178, 30);
+            this.txtEpsgCode.TabIndex = 157;
+            this.txtEpsgCode.Text = "4326";
+            this.txtEpsgCode.Visible = false;
+            // 
+            // lbEpsgCode
+            // 
+            this.lbEpsgCode.AutoSize = true;
+            this.lbEpsgCode.Location = new System.Drawing.Point(285, 114);
+            this.lbEpsgCode.Name = "lbEpsgCode";
+            this.lbEpsgCode.Size = new System.Drawing.Size(111, 23);
+            this.lbEpsgCode.TabIndex = 158;
+            this.lbEpsgCode.Text = "EPSG-Code:";
+            this.lbEpsgCode.Visible = false;
+            // 
             // FormImportField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -209,6 +231,8 @@
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(608, 332);
             this.ControlBox = false;
+            this.Controls.Add(this.lbEpsgCode);
+            this.Controls.Add(this.txtEpsgCode);
             this.Controls.Add(this.lbChooseFIletype);
             this.Controls.Add(this.cbChooseFiletype);
             this.Controls.Add(this.btnAddDate);
@@ -246,5 +270,7 @@
         private System.Windows.Forms.Button btnAddTime;
         private System.Windows.Forms.ComboBox cbChooseFiletype;
         private System.Windows.Forms.Label lbChooseFIletype;
+        private System.Windows.Forms.TextBox txtEpsgCode;
+        private System.Windows.Forms.Label lbEpsgCode;
     }
 }

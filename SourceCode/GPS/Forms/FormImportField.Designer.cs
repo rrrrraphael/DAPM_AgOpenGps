@@ -59,7 +59,7 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label3.Location = new System.Drawing.Point(171, 175);
+            this.label3.Location = new System.Drawing.Point(171, 104);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(24, 23);
@@ -72,7 +72,7 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label2.Location = new System.Drawing.Point(21, 174);
+            this.label2.Location = new System.Drawing.Point(21, 103);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 23);
@@ -153,7 +153,7 @@
             this.btnAddDate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddDate.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnAddDate.Image = global::AgOpenGPS.Properties.Resources.JobNameCalendar;
-            this.btnAddDate.Location = new System.Drawing.Point(45, 147);
+            this.btnAddDate.Location = new System.Drawing.Point(45, 76);
             this.btnAddDate.Name = "btnAddDate";
             this.btnAddDate.Size = new System.Drawing.Size(83, 79);
             this.btnAddDate.TabIndex = 154;
@@ -169,7 +169,7 @@
             this.btnAddTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddTime.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnAddTime.Image = global::AgOpenGPS.Properties.Resources.JobNameTime;
-            this.btnAddTime.Location = new System.Drawing.Point(202, 148);
+            this.btnAddTime.Location = new System.Drawing.Point(202, 77);
             this.btnAddTime.Name = "btnAddTime";
             this.btnAddTime.Size = new System.Drawing.Size(83, 79);
             this.btnAddTime.TabIndex = 153;
@@ -180,15 +180,16 @@
             // cbChooseFiletype
             // 
             this.cbChooseFiletype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbChooseFiletype.Font = new System.Drawing.Font("Tahoma", 18F);
             this.cbChooseFiletype.FormattingEnabled = true;
             this.cbChooseFiletype.Items.AddRange(new object[] {
             "Shapefile",
             "Geopackage",
             "KML",
             "GeoJSON"});
-            this.cbChooseFiletype.Location = new System.Drawing.Point(15, 110);
+            this.cbChooseFiletype.Location = new System.Drawing.Point(15, 183);
             this.cbChooseFiletype.Name = "cbChooseFiletype";
-            this.cbChooseFiletype.Size = new System.Drawing.Size(165, 31);
+            this.cbChooseFiletype.Size = new System.Drawing.Size(165, 37);
             this.cbChooseFiletype.TabIndex = 155;
             this.cbChooseFiletype.SelectedValueChanged += new System.EventHandler(this.cbChooseFiletype_SelectedValueChanged);
             // 
@@ -196,7 +197,7 @@
             // 
             this.lbChooseFIletype.AutoSize = true;
             this.lbChooseFIletype.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbChooseFIletype.Location = new System.Drawing.Point(18, 84);
+            this.lbChooseFIletype.Location = new System.Drawing.Point(18, 157);
             this.lbChooseFIletype.Name = "lbChooseFIletype";
             this.lbChooseFIletype.Size = new System.Drawing.Size(162, 23);
             this.lbChooseFIletype.TabIndex = 156;

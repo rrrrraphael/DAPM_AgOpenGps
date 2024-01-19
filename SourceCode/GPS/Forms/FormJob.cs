@@ -248,7 +248,7 @@ namespace AgOpenGPS
                 if (form.ShowDialog(this) == DialogResult.Yes)
                 {                  
                     Close();
-                }
+                } 
                 else
                 {
                     return;

@@ -255,8 +255,8 @@
   <data name="gsError" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="gsErrorreadingKML" xml:space="preserve">
-    <value>Error reading KML</value>
+  <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Error reading File</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>Field File is Corrupt</value>
@@ -1602,5 +1602,11 @@ Enter the number of tram passes or use the up down arrows to change the number</
   </data>
   <data name="v_SteerSettingsForm" xml:space="preserve">
     <value>https://www.youtube.com/watch?v=3SdvYgx8HHc</value>
+  </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1st field is used</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>Several fields in file</value>
   </data>
 </root>

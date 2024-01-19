@@ -9,6 +9,20 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Linq;
+using Newtonsoft.Json;
+using GeoJSON.Net.Feature;
+using System.Collections.ObjectModel;
+using GeoJSON.Net.Geometry;
+using GeoJSON.Net;
+using Point = GeoJSON.Net.Geometry.Point;
+using Polygon = GeoJSON.Net.Geometry.Polygon;
+using LineString = GeoJSON.Net.Geometry.LineString;
+using MultiPolygon = GeoJSON.Net.Geometry.MultiPolygon;
+using System.Data.SQLite;
+using System.Drawing;
+using System.Data;
+using System.Diagnostics;
+using DotSpatial.Projections;
 
 namespace AgOpenGPS
 {
@@ -93,11 +107,12 @@ namespace AgOpenGPS
         private void btnLoadField_Click(object sender, EventArgs e)
         {
             // default readCoordinates is set for Shapefile
-            ReadCoordinates readCoordinates = ReadCoordinatesFromShapefile;
+            ReadCoordinates ReadCoordinates = ReadCoordinatesFromKML;
 
-            OpenFileDialog ofd = new OpenFileDialog {
-                // default the filter is set for Shapefile
-                Filter = "Shapefiles (*.SHP)|*.SHP",
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                // default the filter is set for KML
+                Filter = "KML files (*.KML)|*.KML",
                 //the initial directory, fields, for the open dialog
                 InitialDirectory = mf.fieldsDirectory
             };
@@ -105,18 +120,22 @@ namespace AgOpenGPS
             {
                 //set the filter to Geopackage only
                 ofd.Filter = "Geopackage files (*.GPKG)|*.GPKG";
+
+                ReadCoordinates = ReadCoordinatesFromGeoPackage;
             }
-            else if (cbChooseFiletype.SelectedItem == "KML")
+            else if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
                 //set the filter to KML only
-                ofd.Filter = "KML files (*.KML)|*.KML";
+                ofd.Filter = "Shapefiles (*.SHP)|*.SHP";
 
-                readCoordinates = ReadCoordinatesFromKML;
+                ReadCoordinates = ReadCoordinatesFromShapefile;
             }
             else if (cbChooseFiletype.SelectedItem == "GeoJSON")
             {
                 //set the filter to GeoJSON only
                 ofd.Filter = "GeoJSON files (*.GEOJSON)|*.GEOJSON";
+
+                ReadCoordinates = ReadCoordinatesFromGeoJSON;
             }
             tboxFieldName.Enabled = false;
             btnAddDate.Enabled = false;
@@ -127,51 +146,248 @@ namespace AgOpenGPS
 
             // read coordinates
             string[] coordinates = { };
-            readCoordinates(ofd.FileName, ref coordinates);
+            int currentEPSG = -1;
+            ReadCoordinates(ofd.FileName, ref coordinates, ref currentEPSG);
 
+            if (currentEPSG == -1)
+            {
+                if (!String.IsNullOrEmpty(this.txtEPSG.Text))
+                {
+                    currentEPSG = int.Parse(this.txtEPSG.Text);
+                }
+                else
+                {
+                    currentEPSG = 4326; //WGS84
+                }
+            }
+
+            if (currentEPSG != 4326)
+            {
+                TransformCoordinates(ref coordinates, currentEPSG, 4326);
+
+            }
             //at least 3 points
             if (coordinates.Length < 3)
             {
-                mf.TimedMessageBox(2000, gStr.gsErrorreadingKML, gStr.gsChooseBuildDifferentone);
+                mf.TimedMessageBox(2000, gStr.gsErrorReadingFile, gStr.gsChooseBuildDifferentone);
+                return;
             }
 
-            //get lat and lon from boundary in kml
+            //get lat and lon from boundary
             FindLatLon(coordinates);
 
-            //reset sim and world to kml position
+            //reset sim and world to field position
             CreateNewField();
 
             //Load the outer boundary
             LoadKMLBoundary(coordinates);
         }
 
-        private delegate void ReadCoordinates(string filename, ref string[] coordinates);
-
-        private void ReadCoordinatesFromShapefile(string filename, ref string[] coordinates)
+        private static void TransformCoordinates(ref string[] coordinates, int currentEPSG, int targetEPSG)
         {
+            List<double[]> xys = new List<double[]>();
+            foreach (string coordinate in coordinates)
+            {
+                string[] coordinateParts = coordinate.Split(',');
+                xys.Add(new double[] { double.Parse(coordinateParts[0], CultureInfo.GetCultureInfo("en")), double.Parse(coordinateParts[1], CultureInfo.GetCultureInfo("en")) });
+            }
+            ProjectionInfo currentCRS = ProjectionInfo.FromEpsgCode(currentEPSG);
+            ProjectionInfo targetCRS = ProjectionInfo.FromEpsgCode(targetEPSG);
+            for (int i = 0; i < xys.Count; i++)
+            {
+                Debug.WriteLine(xys[i][0]);
+                Debug.WriteLine(xys[i][1]);
+                Reproject.ReprojectPoints(
+                    xys[i],
+                    new double[] { 450.0 }, // altitude
+                    currentCRS,
+                    targetCRS,
+                    0,
+                    1);
+            }
+            for (int i = 0; i < xys.Count; i++)
+            {
+                coordinates[i] = String.Format("{0},{1}", xys[i][0].ToString().Replace(',', '.'), xys[i][1].ToString().Replace(',', '.'));
+            }
+        }
+
+        private delegate void ReadCoordinates(string filename, ref string[] coordinates, ref int currentEPSG);
+
+        private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates, ref int currentEPSG)
+        {
+            //https://stackoverflow.com/questions/37159130/how-to-determine-the-coordinatesystem-of-a-shapefile-set-with-shapefiledatareade
+
             string[] numbersets = { };
 
-            List<string> numberslist = new List<string>();
+            string projectPath = filePath.Replace("shp", "prj");
 
-            foreach (var feature in Shapefile.ReadAllFeatures(filename))
+            List<string> numberslist = new List<string>();
+            try
             {
 
-                byte[] rawData = feature.Geometry.ToBinary();
+                    var projectionInfo = ProjectionInfo.Open(projectPath);
+                    //currentEPSG = Convert.ToInt32(projectionInfo.Authority);
+                    var temp = projectionInfo.GeographicInfo.Datum.Proj4DatumName;
+                    var VarepsgCode = ProjectionInfo.FromProj4String("urn:ogc:def:crs:OGC:1.3:CRS84");
+                NetTopologySuite.Features.Feature[] feature = Shapefile.ReadAllFeatures(filePath);
+                if (feature.Length > 1)
+                {
+                    mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
+                }
+                byte[] rawData = feature[0].Geometry.ToBinary();
 
                 WKBReader reader = new WKBReader();
 
                 Geometry geo = reader.Read(rawData);
+                
+                
 
                 geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
 
                 coordinates = numberslist.ToArray();
             }
+            catch (Exception)
+            {
+                mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
+            }
+            coordinates = numberslist.ToArray();
+
         }
 
-        private void ReadCoordinatesFromKML(string filename, ref string[] coordinates)
+
+        private void ReadCoordinatesFromGeoPackage(string filepath, ref string[] coordinates, ref int currentEPSG)
         {
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(filename))
+    
+            byte[] rawData = null;
+
+            byte[] gpkgData = null;
+
+            List<string> numberslist = new List<string>();
+
+            string[] tableNames = { "gpkg_spatial_ref_sys", "gpkg_contents", "gpkg_ogr_contents", "gpkg_geometry_columns", "gpkg_tile_matrix_set", "gpkg_tile_matrix", "sqlite_sequence", "gpkg_extensions", "rtree_felder_geometry", "rtree_felder_geometry_rowid", "rtree_felder_geometry_node", "rtree_felder_geometry_parent" };
+
+            string table = "";
+            //SQlite connection
+            try
             {
+                using (var conn = new SQLiteConnection("Data Source = " + filepath + "; Version = 3;"))
+                {
+                    conn.Open();
+                    var command = conn.CreateCommand();
+                    // get epsg
+                    command.CommandText = @"SELECT srs_id FROM gpkg_geometry_columns;";
+
+                    using (var SQLreader = command.ExecuteReader())
+                    {
+                        while (SQLreader.Read())
+                        {
+                            currentEPSG = Convert.ToInt32(SQLreader[0]);
+
+                        }
+
+                    }
+
+
+                    //get geometry
+                    // get table name
+                    DataTable dt = conn.GetSchema("Tables");
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        string tablename = (string)row[2];
+                        if (!tableNames.Contains(tablename))
+                        {
+                            table = tablename;
+                            break;
+                        }
+                    }
+
+                    // check field number
+
+                    int fieldNumber = 0;
+                    command.CommandText = @"SELECT count(*) FROM " + table + ";";
+                    using (var SQLreader = command.ExecuteReader())
+                    {
+                        while (SQLreader.Read())
+                        {
+                            fieldNumber = Convert.ToInt32(SQLreader[0]);
+
+                        }
+                        if (fieldNumber > 1)
+                        {
+                            mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
+                        }
+                    }
+
+
+
+                    //get data
+
+                    command.CommandText = @"SELECT geometry from " + table + ";";
+
+                    using (var SQLreader = command.ExecuteReader())
+                    {
+                        while (SQLreader.Read())
+                        {
+                            rawData = (byte[])SQLreader["geometry"];
+                            gpkgData = rawData.Skip(40).ToArray();      //SKIP gpkg Header
+                        }
+
+                    }
+
+                    conn.Close();
+                }
+
+                WKBReader reader = new WKBReader();
+
+
+                Geometry geo = reader.Read(gpkgData);
+
+                geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
+
+                coordinates = numberslist.ToArray();
+            }
+            catch (Exception ex)
+            {
+                mf.TimedMessageBox(2000, gStr.gsError, gStr.gsError);
+            }
+        }
+
+        private void ReadCoordinatesFromGeoJSON(string filePath, ref string[] coordinates, ref int currentEPSG)
+        {
+
+
+            List<string> numberslist = new List<string>();
+
+            string text = File.ReadAllText(filePath);
+            try
+            {
+                FeatureCollection collection = JsonConvert.DeserializeObject<FeatureCollection>(text);
+                // Ignore every GeoJSONObjectType but Polygon
+                if (collection.Features[0].Geometry.Type.Equals(GeoJSONObjectType.Polygon))
+                {
+                    Polygon field = collection.Features[0].Geometry as Polygon;
+                    if (field.Coordinates.Count > 0)
+                    {
+                        LineString border = field.Coordinates[0];
+                        foreach (var borderCoordinates in border.Coordinates)
+                        {
+                            numberslist.Add(String.Format("{0},{1}", borderCoordinates.Longitude, borderCoordinates.Latitude));
+                        }
+                    }
+                }
+
+                coordinates = numberslist.ToArray();
+            }
+            catch (Exception) { }
+        }
+
+        private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates, ref int currentEPSG)
+        {
+
+
+            using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
+            {
+                bool alreadyOneField = false;
                 try
                 {
                     string lineOfCoordinates = null;
@@ -185,6 +401,12 @@ namespace AgOpenGPS
 
                         if (startIndex != -1)
                         {
+                            if (alreadyOneField)
+                            {
+                                mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
+                                break;
+                            }
+                            alreadyOneField = true;
                             while (true)
                             {
                                 int endIndex = line.IndexOf("</coordinates>");
@@ -208,6 +430,7 @@ namespace AgOpenGPS
 
                             char[] delimiterChars = { ' ', '\t', '\r', '\n' };
                             coordinates = lineOfCoordinates.Split(delimiterChars);
+
                         }
                     }
 
@@ -221,8 +444,8 @@ namespace AgOpenGPS
 
             mf.bnd.isOkToAddPoints = false;
         }
-
-        private void btnAddDate_Click(object sender, EventArgs e)
+    
+    private void btnAddDate_Click(object sender, EventArgs e)
         {
             tboxFieldName.Text += " " + DateTime.Now.ToString("MMM.dd", CultureInfo.InvariantCulture);
 
@@ -243,6 +466,20 @@ namespace AgOpenGPS
             else
             {
                 btnLoadField.Enabled = true;
+            }
+        }
+
+        private void cbChooseFiletype_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbChooseFiletype.SelectedItem == "Geopackage")
+            {
+                this.txtEPSG.Visible = false;
+                this.lbEPSG.Visible = false;
+            }
+            else
+            {
+                this.txtEPSG.Visible = true;
+                this.lbEPSG.Visible = true;
             }
         }
 

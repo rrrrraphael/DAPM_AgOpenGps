@@ -255,8 +255,8 @@
   <data name="gsError" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="gsErrorreadingKML" xml:space="preserve">
-    <value>Error lectura KML</value>
+  <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Error lectura el fichero de datos</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>Fichero de Parcela corrupto</value>
@@ -1567,5 +1567,11 @@ Esto es importante ya que las paralelas se hacen en el lado derecho de la línea
     <value>Pases de paralela
 
 Introduzca el número de pases de paralela o use las flechas hacia arriba y hacia abajo para cambiar el número</value>
+  </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Se utiliza el primer campo</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>varios campos en el archivo</value>
   </data>
 </root>

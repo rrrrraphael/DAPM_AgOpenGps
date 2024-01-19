@@ -255,8 +255,8 @@
   <data name="gsError" xml:space="preserve">
     <value>Chyba</value>
   </data>
-  <data name="gsErrorreadingKML" xml:space="preserve">
-    <value>Chyba pri čítaní KML</value>
+  <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Chyba pri čítaní zo súboru</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>Súbor obsahujúci pole je neplatný</value>
@@ -482,5 +482,11 @@
   </data>
   <data name="gsWest" xml:space="preserve">
     <value>Západ</value>
+  </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Používa sa 1. pole</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>niekoľko polí v súbore</value>
   </data>
 </root>

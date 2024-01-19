@@ -255,8 +255,8 @@
   <data name="gsError" xml:space="preserve">
     <value>Ошибка</value>
   </data>
-  <data name="gsErrorreadingKML" xml:space="preserve">
-    <value>Ошибка чтения KML</value>
+  <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Ошибка чтения из файла</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>Файл поля поврежден</value>
@@ -482,5 +482,11 @@
   </data>
   <data name="gsWest" xml:space="preserve">
     <value>Запад</value>
+  </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>используется 1-е поле</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>несколько полей в файле</value>
   </data>
 </root>

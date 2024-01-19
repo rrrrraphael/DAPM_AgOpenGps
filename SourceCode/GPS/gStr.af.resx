@@ -255,8 +255,8 @@
   <data name="gsError" xml:space="preserve">
     <value>zError</value>
   </data>
-  <data name="gsErrorreadingKML" xml:space="preserve">
-    <value>zError reading KML</value>
+  <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>zError reading File</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>zField File is Corrupt</value>
@@ -488,5 +488,11 @@
   </data>
   <data name="h_btn2D" xml:space="preserve">
     <value>Changed</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>Many field in file</value>
+  </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1st field is used</value>
   </data>
 </root>

@@ -475,11 +475,11 @@ namespace AgOpenGPS {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error reading KML.
+        ///   Looks up a localized string similar to Error reading File.
         /// </summary>
-        public static string gsErrorreadingKML {
+        public static string gsErrorReadingFile {
             get {
-                return ResourceManager.GetString("gsErrorreadingKML", resourceCulture);
+                return ResourceManager.GetString("gsErrorReadingFile", resourceCulture);
             }
         }
         
@@ -516,6 +516,15 @@ namespace AgOpenGPS {
         public static string gsFileError {
             get {
                 return ResourceManager.GetString("gsFileError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1st field is used.
+        /// </summary>
+        public static string gsFirstOneIsUsed {
+            get {
+                return ResourceManager.GetString("gsFirstOneIsUsed", resourceCulture);
             }
         }
         
@@ -1101,6 +1110,15 @@ namespace AgOpenGPS {
         public static string gsToFile {
             get {
                 return ResourceManager.GetString("gsToFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Several fields in file.
+        /// </summary>
+        public static string gsTooManyFields {
+            get {
+                return ResourceManager.GetString("gsTooManyFields", resourceCulture);
             }
         }
         

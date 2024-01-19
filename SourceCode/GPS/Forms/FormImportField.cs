@@ -410,8 +410,7 @@ namespace AgOpenGPS
 
         private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
-            // ToDo implement currentEPSG
-            throw new NotImplementedException();
+            //only WGS84 possible
 
             using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
             {

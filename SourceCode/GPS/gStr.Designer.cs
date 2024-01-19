@@ -1175,7 +1175,7 @@ namespace AgOpenGPS {
                 return ResourceManager.GetString("gsUseSelected", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to WebCam.
         /// </summary>

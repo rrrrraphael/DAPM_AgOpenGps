@@ -21,7 +21,7 @@ namespace AgOpenGPS
 
             InitializeComponent();
             btnByDistance.Text = gStr.gsSort;
-            btnExportLv.Text = gStr.gsUseSelected;
+            btnExportLv.Text = gStr.gsExport;
         }
         private void FormFilePicker_Load(object sender, EventArgs e)
         {
@@ -512,9 +512,13 @@ namespace AgOpenGPS
 
         private void btnExportLv_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            string pathToField = Environment.GetFolderPath(@Environment.SpecialFolder.UserProfile) + "\\Documents" + "\\AgOpenGPS" + "\\Fields" + "\\" + lvLines.SelectedItems[0].Text + "\\Field.kml";
+            if (File.Exists(pathToField))
             {
-                File.Copy(,folderBrowserDialog1.SelectedPath);
+                if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".kml");
+                }
             }
         }
     }

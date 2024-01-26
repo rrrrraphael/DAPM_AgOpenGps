@@ -517,7 +517,7 @@ namespace AgOpenGPS
             {
                 if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".kml");
+                    File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\field_export_" + lvLines.SelectedItems[0].Text + ".kml");
                 }
             }
         }

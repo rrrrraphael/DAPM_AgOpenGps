@@ -471,15 +471,15 @@ namespace AgOpenGPS
 
         private void cbChooseFiletype_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbChooseFiletype.SelectedItem == "Geopackage")
-            {
-                this.txtEPSG.Visible = false;
-                this.lbEPSG.Visible = false;
-            }
-            else
+            if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
                 this.txtEPSG.Visible = true;
                 this.lbEPSG.Visible = true;
+            }
+            else
+            {
+                this.txtEPSG.Visible = false;
+                this.lbEPSG.Visible = false;
             }
         }
 

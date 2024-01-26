@@ -39,8 +39,8 @@
             this.btnAddTime = new System.Windows.Forms.Button();
             this.cbChooseFiletype = new System.Windows.Forms.ComboBox();
             this.lbChooseFIletype = new System.Windows.Forms.Label();
-            this.txtEpsgCode = new System.Windows.Forms.TextBox();
-            this.lbEpsgCode = new System.Windows.Forms.Label();
+            this.txtEPSG = new System.Windows.Forms.TextBox();
+            this.lbEPSG = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tboxFieldName
@@ -207,24 +207,24 @@
             this.lbChooseFIletype.TabIndex = 156;
             this.lbChooseFIletype.Text = "Choose Filetype";
             // 
-            // txtEpsgCode
+            // txtEPSG
             // 
-            this.txtEpsgCode.Location = new System.Drawing.Point(402, 111);
-            this.txtEpsgCode.Name = "txtEpsgCode";
-            this.txtEpsgCode.Size = new System.Drawing.Size(178, 30);
-            this.txtEpsgCode.TabIndex = 157;
-            this.txtEpsgCode.Text = "4326";
-            this.txtEpsgCode.Visible = false;
+            this.txtEPSG.Location = new System.Drawing.Point(402, 111);
+            this.txtEPSG.Name = "txtEPSG";
+            this.txtEPSG.Size = new System.Drawing.Size(178, 30);
+            this.txtEPSG.TabIndex = 157;
+            this.txtEPSG.Text = "4326";
+            this.txtEPSG.Visible = false;
             // 
-            // lbEpsgCode
+            // lbEPSG
             // 
-            this.lbEpsgCode.AutoSize = true;
-            this.lbEpsgCode.Location = new System.Drawing.Point(285, 114);
-            this.lbEpsgCode.Name = "lbEpsgCode";
-            this.lbEpsgCode.Size = new System.Drawing.Size(111, 23);
-            this.lbEpsgCode.TabIndex = 158;
-            this.lbEpsgCode.Text = "EPSG-Code:";
-            this.lbEpsgCode.Visible = false;
+            this.lbEPSG.AutoSize = true;
+            this.lbEPSG.Location = new System.Drawing.Point(285, 114);
+            this.lbEPSG.Name = "lbEPSG";
+            this.lbEPSG.Size = new System.Drawing.Size(111, 23);
+            this.lbEPSG.TabIndex = 158;
+            this.lbEPSG.Text = "EPSG-Code:";
+            this.lbEPSG.Visible = false;
             // 
             // FormImportField
             // 
@@ -233,8 +233,8 @@
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(608, 332);
             this.ControlBox = false;
-            this.Controls.Add(this.lbEpsgCode);
-            this.Controls.Add(this.txtEpsgCode);
+            this.Controls.Add(this.lbEPSG);
+            this.Controls.Add(this.txtEPSG);
             this.Controls.Add(this.lbChooseFIletype);
             this.Controls.Add(this.cbChooseFiletype);
             this.Controls.Add(this.btnAddDate);
@@ -272,7 +272,7 @@
         private System.Windows.Forms.Button btnAddTime;
         private System.Windows.Forms.ComboBox cbChooseFiletype;
         private System.Windows.Forms.Label lbChooseFIletype;
-        private System.Windows.Forms.TextBox txtEpsgCode;
-        private System.Windows.Forms.Label lbEpsgCode;
+        private System.Windows.Forms.TextBox txtEPSG;
+        private System.Windows.Forms.Label lbEPSG;
     }
 }

@@ -240,7 +240,7 @@ namespace AgOpenGPS
 
                 coordinates = numberslist.ToArray();
 
-                currentEPSG = int.Parse(this.txtEpsgCode.Text);
+                currentEPSG = int.Parse(this.txtEPSG.Text);
 
                 
             }
@@ -501,13 +501,13 @@ namespace AgOpenGPS
         {
             if(cbChooseFiletype.SelectedItem == "Shapefile")
             {
-                this.txtEpsgCode.Visible = true;
-                this.lbEpsgCode.Visible = true;
+                this.txtEPSG.Visible = true;
+                this.lbEPSG.Visible = true;
             }
             else
             {
-                this.txtEpsgCode.Visible = false;
-                this.lbEpsgCode.Visible = false;
+                this.txtEPSG.Visible = false;
+                this.lbEPSG.Visible = false;
             }
 
         }

@@ -484,6 +484,15 @@ namespace AgOpenGPS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        public static string gsExport {
+            get {
+                return ResourceManager.GetString("gsExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field File is Corrupt.
         /// </summary>
         public static string gsFieldFileIsCorrupt {
@@ -1166,7 +1175,7 @@ namespace AgOpenGPS {
                 return ResourceManager.GetString("gsUseSelected", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to WebCam.
         /// </summary>

@@ -35,6 +35,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnInField = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnJobExport = new System.Windows.Forms.Button();
             this.lblSatsTracked = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.lblLongitude = new System.Windows.Forms.Label();
             this.btnImportFile = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,7 +60,7 @@
             this.btnJobOpen.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnJobOpen.Image = global::AgOpenGPS.Properties.Resources.FileOpen;
             this.btnJobOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnJobOpen.Location = new System.Drawing.Point(454, 259);
+            this.btnJobOpen.Location = new System.Drawing.Point(454, 170);
             this.btnJobOpen.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnJobOpen.Name = "btnJobOpen";
             this.btnJobOpen.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
@@ -78,7 +80,7 @@
             this.btnJobNew.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnJobNew.Image = global::AgOpenGPS.Properties.Resources.FileNew;
             this.btnJobNew.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnJobNew.Location = new System.Drawing.Point(34, 342);
+            this.btnJobNew.Location = new System.Drawing.Point(35, 260);
             this.btnJobNew.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnJobNew.Name = "btnJobNew";
             this.btnJobNew.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
@@ -114,7 +116,7 @@
             this.btnJobResume.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnJobResume.Image = global::AgOpenGPS.Properties.Resources.FilePrevious;
             this.btnJobResume.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnJobResume.Location = new System.Drawing.Point(454, 133);
+            this.btnJobResume.Location = new System.Drawing.Point(454, 80);
             this.btnJobResume.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnJobResume.Name = "btnJobResume";
             this.btnJobResume.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
@@ -130,7 +132,7 @@
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.textBox1.Location = new System.Drawing.Point(454, 81);
+            this.textBox1.Location = new System.Drawing.Point(454, 20);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(268, 50);
@@ -161,6 +163,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
+            this.panel1.Controls.Add(this.btnJobExport);
             this.panel1.Controls.Add(this.lblSatsTracked);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label8);
@@ -183,6 +186,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(759, 450);
             this.panel1.TabIndex = 90;
+            // 
+            // btnJobExport
+            // 
+            this.btnJobExport.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnJobExport.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnJobExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnJobExport.Font = new System.Drawing.Font("Tahoma", 20.25F);
+            this.btnJobExport.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnJobExport.Image = global::AgOpenGPS.Properties.Resources.FileOpen;
+            this.btnJobExport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnJobExport.Location = new System.Drawing.Point(454, 260);
+            this.btnJobExport.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.btnJobExport.Name = "btnJobExport";
+            this.btnJobExport.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnJobExport.Size = new System.Drawing.Size(268, 82);
+            this.btnJobExport.TabIndex = 104;
+            this.btnJobExport.Text = "Export";
+            this.btnJobExport.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnJobExport.UseVisualStyleBackColor = false;
+            this.btnJobExport.Click += new System.EventHandler(this.btnJobExport_Click);
             // 
             // lblSatsTracked
             // 
@@ -320,7 +343,7 @@
             this.btnImportFile.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnImportFile.Image = global::AgOpenGPS.Properties.Resources.FileImportField1;
             this.btnImportFile.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnImportFile.Location = new System.Drawing.Point(34, 211);
+            this.btnImportFile.Location = new System.Drawing.Point(34, 170);
             this.btnImportFile.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnImportFile.Name = "btnImportFile";
             this.btnImportFile.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
@@ -330,6 +353,10 @@
             this.btnImportFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnImportFile.UseVisualStyleBackColor = false;
             this.btnImportFile.Click += new System.EventHandler(this.btnFromKML_Click);
+            // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
             // 
             // FormJob
             // 
@@ -376,5 +403,7 @@
         private System.Windows.Forms.Label lblFixQuality;
         private System.Windows.Forms.Label lblSatsTracked;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnJobExport;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }

@@ -1426,4 +1426,7 @@ Permet d'inverser le sens des lignes, par exemple à l'activation des lignes de 
   <data name="gsTooManyFields" xml:space="preserve">
     <value>plusieurs champs dans le fichier</value>
   </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Exporter</value>
+  </data>
 </root>

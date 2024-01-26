@@ -1582,4 +1582,7 @@ Enter the number of tram passes or use the up down arrows to change the number</
   <data name="gsTooManyFields" xml:space="preserve">
     <value>Több mező a fájlban</value>
   </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
 </root>

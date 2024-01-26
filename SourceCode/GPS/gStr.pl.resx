@@ -486,4 +486,7 @@
   <data name="gsTooManyFields" xml:space="preserve">
     <value>Wiele pól w pliku</value>
   </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Eksport</value>
+  </data>
 </root>

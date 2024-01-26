@@ -489,4 +489,7 @@
   <data name="gsTooManyFields" xml:space="preserve">
     <value>flere felter i filen</value>
   </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>eksport</value>
+  </data>
 </root>

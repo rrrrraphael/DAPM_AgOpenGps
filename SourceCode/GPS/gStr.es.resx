@@ -1574,4 +1574,7 @@ Introduzca el número de pases de paralela o use las flechas hacia arriba y haci
   <data name="gsTooManyFields" xml:space="preserve">
     <value>varios campos en el archivo</value>
   </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
 </root>

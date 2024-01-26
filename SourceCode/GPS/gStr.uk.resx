@@ -363,4 +363,7 @@
   <data name="gsTooManyFields" xml:space="preserve">
     <value>декілька полів у файлі</value>
   </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>експорт</value>
+  </data>
 </root>

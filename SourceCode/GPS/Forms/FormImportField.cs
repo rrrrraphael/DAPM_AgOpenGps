@@ -23,6 +23,9 @@ using System.Drawing;
 using System.Data;
 using System.Diagnostics;
 using DotSpatial.Projections;
+using System.Windows.Forms.DataVisualization.Charting;
+using GeoJSON.Net.Converters;
+using GeoJSON.Net.CoordinateReferenceSystem;
 
 namespace AgOpenGPS
 {
@@ -125,8 +128,11 @@ namespace AgOpenGPS
             }
             else if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
+
                 //set the filter to KML only
                 ofd.Filter = "Shapefiles (*.SHP)|*.SHP";
+
+
 
                 ReadCoordinates = ReadCoordinatesFromShapefile;
             }
@@ -151,14 +157,8 @@ namespace AgOpenGPS
 
             if (currentEPSG == -1)
             {
-                if (!String.IsNullOrEmpty(this.txtEPSG.Text))
-                {
-                    currentEPSG = int.Parse(this.txtEPSG.Text);
-                }
-                else
-                {
-                    currentEPSG = 4326; //WGS84
-                }
+                //ToDo Fehler Meldung EPSG Code nicht erkannt/erfasst
+                //throw new NotImplementedException();
             }
 
             if (currentEPSG != 4326)
@@ -215,20 +215,14 @@ namespace AgOpenGPS
 
         private void ReadCoordinatesFromShapefile(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
-            //https://stackoverflow.com/questions/37159130/how-to-determine-the-coordinatesystem-of-a-shapefile-set-with-shapefiledatareade
-
             string[] numbersets = { };
 
-            string projectPath = filePath.Replace("shp", "prj");
-
+            string projectPath = filePath.Replace(".shp", ".prj");
             List<string> numberslist = new List<string>();
             try
             {
 
-                    var projectionInfo = ProjectionInfo.Open(projectPath);
-                    //currentEPSG = Convert.ToInt32(projectionInfo.Authority);
-                    var temp = projectionInfo.GeographicInfo.Datum.Proj4DatumName;
-                    var VarepsgCode = ProjectionInfo.FromProj4String("urn:ogc:def:crs:OGC:1.3:CRS84");
+
                 NetTopologySuite.Features.Feature[] feature = Shapefile.ReadAllFeatures(filePath);
                 if (feature.Length > 1)
                 {
@@ -239,25 +233,28 @@ namespace AgOpenGPS
                 WKBReader reader = new WKBReader();
 
                 Geometry geo = reader.Read(rawData);
-                
-                
+
+
 
                 geo.Coordinates.ToList().ForEach(c => numberslist.Add(c.ToString().Replace("(", " ").Replace(")", " ").Replace(" ", "").Trim()));
 
                 coordinates = numberslist.ToArray();
+
+                currentEPSG = int.Parse(this.txtEpsgCode.Text);
+
+                
             }
             catch (Exception)
             {
                 mf.TimedMessageBox(4000, gStr.gsError, gStr.gsError);
             }
-            coordinates = numberslist.ToArray();
 
         }
 
 
         private void ReadCoordinatesFromGeoPackage(string filepath, ref string[] coordinates, ref int currentEPSG)
         {
-    
+        
             byte[] rawData = null;
 
             byte[] gpkgData = null;
@@ -358,9 +355,10 @@ namespace AgOpenGPS
 
             List<string> numberslist = new List<string>();
 
-            string text = File.ReadAllText(filePath);
             try
             {
+                string text = File.ReadAllText(filePath);
+
                 FeatureCollection collection = JsonConvert.DeserializeObject<FeatureCollection>(text);
                 // Ignore every GeoJSONObjectType but Polygon
                 if (collection.Features[0].Geometry.Type.Equals(GeoJSONObjectType.Polygon))
@@ -375,14 +373,44 @@ namespace AgOpenGPS
                         }
                     }
                 }
+                else if (collection.Features[0].Geometry.Type.Equals(GeoJSONObjectType.MultiPolygon))
+                {
+                    MultiPolygon fields = collection.Features[0].Geometry as MultiPolygon;
+                    if (fields.Coordinates.Count > 0)
+                    {
+                        LineString border = fields.Coordinates[0].Coordinates[0];
+                        foreach (var borderCoordinates in border.Coordinates)
+                        {
+                            numberslist.Add(String.Format("{0},{1}", borderCoordinates.Longitude, borderCoordinates.Latitude));
+                        }
+                    }
+                }
 
-                coordinates = numberslist.ToArray();
+            coordinates = numberslist.ToArray();
+
+
+                string[] lines = text.Split(new[] { "\n" }, StringSplitOptions.None);
+                string epsgString = lines[3];
+
+                int indexEPSG = epsgString.IndexOf("EPSG::");
+            if(indexEPSG != -1)
+            {
+                string newEPSG = epsgString.Substring(indexEPSG, 11);
+                currentEPSG = int.Parse(newEPSG.Replace("EPSG::", "").Replace(@"\", "").Replace("\"", ""));
+            }
+            else
+            {
+                currentEPSG = 4326;
+            }
+
+
             }
             catch (Exception) { }
         }
 
         private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
+            //only WGS84 possible
 
 
             using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
@@ -467,6 +495,21 @@ namespace AgOpenGPS
             {
                 btnLoadField.Enabled = true;
             }
+        }
+
+        private void cbChooseFiletype_TextChanged(object sender, EventArgs e)
+        {
+            if(cbChooseFiletype.SelectedItem == "Shapefile")
+            {
+                this.txtEpsgCode.Visible = true;
+                this.lbEpsgCode.Visible = true;
+            }
+            else
+            {
+                this.txtEpsgCode.Visible = false;
+                this.lbEpsgCode.Visible = false;
+            }
+
         }
 
         private void cbChooseFiletype_SelectedIndexChanged(object sender, EventArgs e)

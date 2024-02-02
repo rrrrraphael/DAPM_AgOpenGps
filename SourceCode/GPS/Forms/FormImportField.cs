@@ -240,9 +240,18 @@ namespace AgOpenGPS
 
                 coordinates = numberslist.ToArray();
 
-                currentEPSG = int.Parse(this.txtEPSG.Text);
+                bool canConvert = int.TryParse(this.txtEPSG.Text, out currentEPSG);
 
-                
+
+                //currentEPSG = int.Parse(this.txtEPSG.Text);
+                if (!canConvert)
+                {
+                    mf.TimedMessageBox(4000, gStr.gsInvalidEPSG, gStr.gsEnterValidEPSG);
+                    currentEPSG = -1;
+
+                }
+
+
             }
             catch (Exception)
             {
@@ -514,15 +523,15 @@ namespace AgOpenGPS
 
         private void cbChooseFiletype_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbChooseFiletype.SelectedItem == "Geopackage")
-            {
-                this.txtEPSG.Visible = false;
-                this.lbEPSG.Visible = false;
-            }
-            else
+            if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
                 this.txtEPSG.Visible = true;
                 this.lbEPSG.Visible = true;
+            }
+            else
+            {
+                this.txtEPSG.Visible = false;
+                this.lbEPSG.Visible = false;
             }
         }
 

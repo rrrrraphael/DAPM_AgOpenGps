@@ -466,6 +466,15 @@ namespace AgOpenGPS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter a valid EPSG-Code.
+        /// </summary>
+        public static string gsEnterValidEPSG {
+            get {
+                return ResourceManager.GetString("gsEnterValidEPSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string gsError {
@@ -597,6 +606,15 @@ namespace AgOpenGPS {
         public static string gsInner {
             get {
                 return ResourceManager.GetString("gsInner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPSG-Code Invalid.
+        /// </summary>
+        public static string gsInvalidEPSG {
+            get {
+                return ResourceManager.GetString("gsInvalidEPSG", resourceCulture);
             }
         }
         
@@ -1175,7 +1193,7 @@ namespace AgOpenGPS {
                 return ResourceManager.GetString("gsUseSelected", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to WebCam.
         /// </summary>

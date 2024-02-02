@@ -489,4 +489,10 @@
   <data name="gsExport" xml:space="preserve">
     <value>Eksport</value>
   </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Wprowadź prawidłowy kod EPSG</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>Nieprawidłowy kod EPSG</value>
+  </data>
 </root>

@@ -492,4 +492,10 @@
   <data name="gsExport" xml:space="preserve">
     <value>Export</value>
   </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Zadajte platný kód EPSG</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>Neplatný kód EPSG</value>
+  </data>
 </root>

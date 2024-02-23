@@ -512,13 +512,18 @@ namespace AgOpenGPS
 
         private void btnExportLv_Click(object sender, EventArgs e)
         {
-            string pathToField = Environment.GetFolderPath(@Environment.SpecialFolder.UserProfile) + "\\Documents" + "\\AgOpenGPS" + "\\Fields" + "\\" + lvLines.SelectedItems[0].Text + "\\Field.kml";
+            //string pathToField = Environment.GetFolderPath(@Environment.SpecialFolder.MyDocuments) + "\\AgOpenGPS" + "\\Fields" + "\\" + lvLines.SelectedItems[0].Text + "\\Field.kml";
+            string pathToField = Path.Combine(Environment.GetFolderPath(@Environment.SpecialFolder.MyDocuments), "AgOpenGPS", "Fields", lvLines.SelectedItems[0].Text, "Field.kml");
             if (File.Exists(pathToField))
             {
                 if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
                 {
                     File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\field_export_" + lvLines.SelectedItems[0].Text + ".kml");
                 }
+            }
+            else
+            {
+                MessageBox.Show("Feld existiert nicht");
             }
         }
     }

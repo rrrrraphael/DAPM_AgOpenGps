@@ -356,7 +356,7 @@ namespace AgOpenGPS
         {
             try
             {
-                loopBackSocket.EndSend(asyncResult);
+                    loopBackSocket.EndSend(asyncResult);
             }
             catch (Exception ex)
             {

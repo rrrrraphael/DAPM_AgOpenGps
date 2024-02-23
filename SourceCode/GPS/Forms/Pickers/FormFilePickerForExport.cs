@@ -529,14 +529,15 @@ namespace AgOpenGPS
         {
             if (lvLines.SelectedIndices.Count != 0)
             {
+                string pathToField = Path.Combine(Environment.GetFolderPath(@Environment.SpecialFolder.MyDocuments), "AgOpenGPS", "Fields", lvLines.SelectedItems[0].Text, "Field.kml");
                 if (cbChooseFiletype.SelectedItem.ToString() == "KML")
                 {
-                    string pathToField = Path.Combine(Environment.GetFolderPath(@Environment.SpecialFolder.MyDocuments), "AgOpenGPS", "Fields", lvLines.SelectedItems[0].Text, "Field.kml");
+                    
                     if (File.Exists(pathToField))
                     {
                         if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
                         {
-                            File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\field_export_" + lvLines.SelectedItems[0].Text + ".kml");
+                            File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".kml");
                         }
                     }
                     else
@@ -547,6 +548,13 @@ namespace AgOpenGPS
                 else if (cbChooseFiletype.SelectedItem.ToString() == "Shapefile")
                 {
                     // Shapefile
+                    if (File.Exists(pathToField))
+                    {
+                        if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            ExportShapefile(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".shp");
+                        }
+                    }
                 }
                 else if (cbChooseFiletype.SelectedItem.ToString() == "Geopackage")
                 {
@@ -555,6 +563,13 @@ namespace AgOpenGPS
                 else if (cbChooseFiletype.SelectedItem.ToString() == "GeoJSON")
                 {
                     // GeoJSON
+                    if (File.Exists(pathToField))
+                    {
+                        if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            Export_GeoJson(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".geojson");
+                        }
+                    }
                 }
             }
             else

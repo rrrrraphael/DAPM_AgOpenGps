@@ -31,6 +31,8 @@ namespace AgOpenGPS
 
             string[] dirs = Directory.GetDirectories(mf.fieldsDirectory);
 
+            cbChooseFiletype.SelectedIndex = 0;
+
             //fileList?.Clear();
 
             if (dirs == null || dirs.Length < 1)
@@ -512,18 +514,39 @@ namespace AgOpenGPS
 
         private void btnExportLv_Click(object sender, EventArgs e)
         {
-            //string pathToField = Environment.GetFolderPath(@Environment.SpecialFolder.MyDocuments) + "\\AgOpenGPS" + "\\Fields" + "\\" + lvLines.SelectedItems[0].Text + "\\Field.kml";
-            string pathToField = Path.Combine(Environment.GetFolderPath(@Environment.SpecialFolder.MyDocuments), "AgOpenGPS", "Fields", lvLines.SelectedItems[0].Text, "Field.kml");
-            if (File.Exists(pathToField))
+            if (lvLines.SelectedIndices.Count != 0)
             {
-                if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                if (cbChooseFiletype.SelectedItem.ToString() == "KML")
                 {
-                    File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\field_export_" + lvLines.SelectedItems[0].Text + ".kml");
+                    string pathToField = Path.Combine(Environment.GetFolderPath(@Environment.SpecialFolder.MyDocuments), "AgOpenGPS", "Fields", lvLines.SelectedItems[0].Text, "Field.kml");
+                    if (File.Exists(pathToField))
+                    {
+                        if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\field_export_" + lvLines.SelectedItems[0].Text + ".kml");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Feld existiert nicht");
+                    }
+                }
+                else if (cbChooseFiletype.SelectedItem.ToString() == "Shapefile")
+                {
+                    // Shapefile
+                }
+                else if (cbChooseFiletype.SelectedItem.ToString() == "Geopackage")
+                {
+                    // Geopackage
+                }
+                else if (cbChooseFiletype.SelectedItem.ToString() == "GeoJSON")
+                {
+                    // GeoJSON
                 }
             }
             else
             {
-                MessageBox.Show("Feld existiert nicht");
+                MessageBox.Show("Kein Feld ausgewählt");
             }
         }
     }

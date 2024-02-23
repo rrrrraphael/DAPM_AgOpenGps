@@ -1,8 +1,20 @@
-﻿using System;
+﻿using NetTopologySuite.Features;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO.Esri.Shapefiles.Writers;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using NetTopologySuite.Features;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
+using ProjNet;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using NetTopologySuite.IO.Esri;
+
 
 namespace AgOpenGPS
 {
@@ -513,13 +525,115 @@ namespace AgOpenGPS
         private void btnExportLv_Click(object sender, EventArgs e)
         {
             string pathToField = Environment.GetFolderPath(@Environment.SpecialFolder.UserProfile) + "\\Documents" + "\\AgOpenGPS" + "\\Fields" + "\\" + lvLines.SelectedItems[0].Text + "\\Field.kml";
+
+            this.ExportShapefile(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".shp");
+
             if (File.Exists(pathToField))
             {
                 if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".kml");
+                    File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\field_export_" + lvLines.SelectedItems[0].Text + ".kml");
                 }
             }
         }
+
+
+        private string[] ReadExistingKML(string kmlPath)
+        {
+            string[] coordinates;
+            using (System.IO.StreamReader reader = new System.IO.StreamReader(kmlPath))
+            {
+                bool alreadyOneField = false;
+
+                string lineOfCoordinates = null;
+                int startIndex;
+                while (!reader.EndOfStream)
+                {
+                    //start to read the file
+                    string line = reader.ReadLine();
+
+                    startIndex = line.IndexOf("<coordinates>");
+
+                    if (startIndex != -1)
+                    {
+                        if (alreadyOneField)
+                        {
+                            mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
+                            break;
+                        }
+                        alreadyOneField = true;
+                        while (true)
+                        {
+                            int endIndex = line.IndexOf("</coordinates>");
+
+                            if (endIndex == -1)
+                            {
+                                //just add the line
+                                if (startIndex == -1) lineOfCoordinates += line.Substring(0);
+                                else lineOfCoordinates += line.Substring(startIndex + 13);
+                            }
+                            else
+                            {
+                                if (startIndex == -1) lineOfCoordinates += line.Substring(0, endIndex);
+                                else lineOfCoordinates += line.Substring(startIndex + 13, endIndex - (startIndex + 13));
+                                break;
+                            }
+                            line = reader.ReadLine();
+                            line = line.Trim();
+                            startIndex = -1;
+                        }
+
+                        char[] delimiterChars = { ' ', '\t', '\r', '\n' };
+                        coordinates = lineOfCoordinates.Split(delimiterChars);
+                        return coordinates;
+
+                    }
+
+                }
+                return null;
+            }
+        }
+
+        private void ExportShapefile(string kmlPath, string shpPath)
+        {
+
+            string[] coordinates = this.ReadExistingKML(kmlPath);
+
+            
+            for (int i = 0; i < coordinates.Length; i++)
+            {
+                coordinates[i] = coordinates[i].Replace(",0", "");
+                coordinates[i] = coordinates[i].Replace(',', ' ');
+                coordinates[i] = coordinates[i] + ",";
+            }
+            coordinates[coordinates.Length - 1] = coordinates[coordinates.Length - 1].Replace(",", "");
+            coordinates[coordinates.Length - 2] = coordinates[coordinates.Length - 2].Replace(",", "");
+
+            string coordinateString = String.Join(" ", coordinates);
+
+
+
+            string wkt = $"POLYGON((" + coordinateString + "))";
+
+            var features = new List<Feature>();
+            var wktReader = new WKTReader();
+
+            var geometry2 = wktReader.Read(wkt);
+
+            var attributes = new AttributesTable
+            {
+                { "Date", new DateTime(2022, 1, 1) },
+                { "Content", $"I am No. 1" }
+            };
+
+            var feature = new Feature(geometry2, attributes);
+            features.Add(feature);
+
+            Shapefile.WriteAllFeatures(features, shpPath);
+
+
+
+        }
+
     }
 }

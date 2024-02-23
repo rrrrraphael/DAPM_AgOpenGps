@@ -508,15 +508,10 @@ namespace AgOpenGPS
 
         private void cbChooseFiletype_TextChanged(object sender, EventArgs e)
         {
-            if(cbChooseFiletype.SelectedItem == "Shapefile")
+            if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
                 this.txtEPSG.Visible = true;
                 this.lbEPSG.Visible = true;
-            }
-            else
-            {
-                this.txtEPSG.Visible = false;
-                this.lbEPSG.Visible = false;
             }
 
         }
@@ -525,8 +520,8 @@ namespace AgOpenGPS
         {
             if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
-                this.txtEPSG.Visible = true;
-                this.lbEPSG.Visible = true;
+                this.txtEPSG.Visible = false;
+                this.lbEPSG.Visible = false;
             }
             else
             {

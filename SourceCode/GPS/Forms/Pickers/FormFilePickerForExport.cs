@@ -1,8 +1,21 @@
-﻿using System;
+﻿using NetTopologySuite.Features;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO.Esri.Shapefiles.Writers;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using NetTopologySuite.Features;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using NetTopologySuite.IO.Esri;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 
 namespace AgOpenGPS
 {
@@ -549,5 +562,149 @@ namespace AgOpenGPS
                 MessageBox.Show("Kein Feld ausgewählt");
             }
         }
+            
+
+
+        private string[] ReadExistingKML(string kmlPath)
+        {
+            string[] coordinates;
+            using (System.IO.StreamReader reader = new System.IO.StreamReader(kmlPath))
+            {
+                bool alreadyOneField = false;
+
+                string lineOfCoordinates = null;
+                int startIndex;
+                while (!reader.EndOfStream)
+                {
+                    //start to read the file
+                    string line = reader.ReadLine();
+
+                    startIndex = line.IndexOf("<coordinates>");
+
+                    if (startIndex != -1)
+                    {
+                        if (alreadyOneField)
+                        {
+                            mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
+                            break;
+                        }
+                        alreadyOneField = true;
+                        while (true)
+                        {
+                            int endIndex = line.IndexOf("</coordinates>");
+
+                            if (endIndex == -1)
+                            {
+                                //just add the line
+                                if (startIndex == -1) lineOfCoordinates += line.Substring(0);
+                                else lineOfCoordinates += line.Substring(startIndex + 13);
+                            }
+                            else
+                            {
+                                if (startIndex == -1) lineOfCoordinates += line.Substring(0, endIndex);
+                                else lineOfCoordinates += line.Substring(startIndex + 13, endIndex - (startIndex + 13));
+                                break;
+                            }
+                            line = reader.ReadLine();
+                            line = line.Trim();
+                            startIndex = -1;
+                        }
+
+                        char[] delimiterChars = { ' ', '\t', '\r', '\n' };
+                        coordinates = lineOfCoordinates.Split(delimiterChars);
+                        return coordinates;
+
+                    }
+
+                }
+                return null;
+            }
+        }
+
+        private void ExportShapefile(string kmlPath, string shpPath)
+        {
+
+            string[] coordinates = this.ReadExistingKML(kmlPath);
+
+            
+            for (int i = 0; i < coordinates.Length; i++)
+            {
+                coordinates[i] = coordinates[i].Replace(",0", "");
+                coordinates[i] = coordinates[i].Replace(',', ' ');
+                coordinates[i] = coordinates[i] + ",";
+            }
+            coordinates[coordinates.Length - 1] = coordinates[coordinates.Length - 1].Replace(",", "");
+            coordinates[coordinates.Length - 2] = coordinates[coordinates.Length - 2].Replace(",", "");
+
+            string coordinateString = String.Join(" ", coordinates);
+
+
+
+            string wkt = $"POLYGON((" + coordinateString + "))";
+
+            var features = new List<Feature>();
+            var wktReader = new WKTReader();
+
+            var geometry2 = wktReader.Read(wkt);
+
+            var attributes = new AttributesTable
+            {
+                { "Date", new DateTime(2022, 1, 1) },
+                { "Content", $"I am No. 1" }
+            };
+
+            var feature = new Feature(geometry2, attributes);
+            features.Add(feature);
+
+            Shapefile.WriteAllFeatures(features, shpPath);
+
+
+
+        }
+
+        private void Export_GeoJson(string kmlPath, string geojsonPath) 
+        {
+            var feature = new JObject();
+            feature["type"] = "Feature";
+            feature["geometry"] = new JObject();
+            feature["geometry"]["type"] = "Polygon";
+            feature["geometry"]["coordinates"] = new JArray();
+
+            var crs = new JObject();
+            var featureCollection = new JObject();
+            crs["type"] = "name";
+            var properties = new JObject();
+            properties["name"] = "urn:ogc:def:crs:OGC:1.3:CRS84";
+            crs["properties"] = properties;
+            featureCollection["crs"] = crs;
+
+            var coordinatesArray = new JArray();
+            string[] coordinates = this.ReadExistingKML(kmlPath);
+
+            foreach (var coordinate in coordinates)
+            {
+                if (coordinate != string.Empty)
+                {
+                    string temp = coordinate.Substring(0, coordinate.Length - 2); ;
+                    var coords = temp.Split(',');
+                    var longitude = double.Parse(coords[0], CultureInfo.InvariantCulture);
+                    var latitude = double.Parse(coords[1], CultureInfo.InvariantCulture);
+                    coordinatesArray.Add(new JArray(longitude, latitude));
+                }
+            }
+            // Add the array of coordinates to the Polygon feature
+            ((JArray)feature["geometry"]["coordinates"]).Add(coordinatesArray);
+
+            // Add properties if needed
+            feature["properties"] = new JObject();
+
+            // Create a FeatureCollection object to hold the Polygon feature
+            featureCollection["type"] = "FeatureCollection";
+            featureCollection["features"] = new JArray(feature);
+
+            // Save GeoJSON to a file
+            File.WriteAllText(geojsonPath, JsonConvert.SerializeObject(featureCollection, Formatting.Indented));
+        }
+
     }
 }

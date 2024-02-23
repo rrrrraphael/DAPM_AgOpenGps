@@ -492,4 +492,10 @@
   <data name="gsExport" xml:space="preserve">
     <value>Export</value>
   </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Geben Sie einen gültigen EPSG-Code ein</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>EPSG-Code ungültig</value>
+  </data>
 </root>

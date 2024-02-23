@@ -1577,4 +1577,10 @@ Introduzca el número de pases de paralela o use las flechas hacia arriba y haci
   <data name="gsExport" xml:space="preserve">
     <value>Exportar</value>
   </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Introduzca un código EPSG válido</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>Código EPSG inválida</value>
+  </data>
 </root>

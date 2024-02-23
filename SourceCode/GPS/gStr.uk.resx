@@ -366,4 +366,10 @@
   <data name="gsExport" xml:space="preserve">
     <value>експорт</value>
   </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Введіть дійсний EPSG-код</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>Недійсний код EPSG</value>
+  </data>
 </root>

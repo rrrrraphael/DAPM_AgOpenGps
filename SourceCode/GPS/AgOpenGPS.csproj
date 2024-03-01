@@ -115,6 +115,9 @@
     <Reference Include="NetTopologySuite.IO.Esri.Shapefile, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
       <HintPath>..\packages\NetTopologySuite.IO.Esri.Shapefile.1.0.0\lib\netstandard2.0\NetTopologySuite.IO.Esri.Shapefile.dll</HintPath>
     </Reference>
+    <Reference Include="NetTopologySuite.IO.GeoPackage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.GeoPackage.2.0.0\lib\netstandard2.0\NetTopologySuite.IO.GeoPackage.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>

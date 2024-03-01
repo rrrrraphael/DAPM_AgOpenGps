@@ -5,19 +5,13 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using NetTopologySuite.IO;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using NetTopologySuite.IO.Esri;
-using System.Configuration;
 using System.Linq;
-using System.Windows.Forms.VisualStyles;
 using NetTopologySuite.Geometries;
 using System.Data.SQLite;
 using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
 
 namespace AgOpenGPS
 {
@@ -560,7 +554,14 @@ namespace AgOpenGPS
                 }
                 else if (cbChooseFiletype.SelectedItem.ToString() == "Geopackage")
                 {
-                    // Geopackage
+                    // GeoPackage
+                    if (File.Exists(pathToField))
+                    {
+                        if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            ExportGeoPackage(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".gpkg");
+                        }
+                    }
                 }
                 else if (cbChooseFiletype.SelectedItem.ToString() == "GeoJSON")
                 {
@@ -578,7 +579,6 @@ namespace AgOpenGPS
             {
                 MessageBox.Show("Kein Feld ausgewählt");
             }
-            this.ExportGeoPackage(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".gpkg");
 
         }
             
@@ -656,15 +656,15 @@ namespace AgOpenGPS
             coordinates[coordinates.Length - 2] = coordinates[coordinates.Length - 2].Replace(",", "");
 
             string coordinateString = String.Join(" ", coordinates);
-
-
-
             string wkt = $"POLYGON((" + coordinateString + "))";
+
+
 
             var features = new List<Feature>();
             var wktReader = new WKTReader();
 
             var geometry2 = wktReader.Read(wkt);
+
 
             var attributes = new AttributesTable
             {
@@ -836,6 +836,43 @@ namespace AgOpenGPS
                 connection.Close();
             }
 
+        }
+
+        private void Export_GeoJson(string kmlPath, string geojsonPath)
+        {
+            var feature = new JObject();
+            feature["type"] = "Feature";
+            feature["geometry"] = new JObject();
+            feature["geometry"]["type"] = "Polygon";
+            feature["geometry"]["coordinates"] = new JArray();
+
+            var crs = new JObject();
+            var featureCollection = new JObject();
+            crs["type"] = "name";
+            var properties = new JObject();
+            properties["name"] = "urn:ogc:def:crs:OGC:1.3:CRS84";
+            crs["properties"] = properties;
+            featureCollection["crs"] = crs;
+
+            var coordinatesArray = new JArray();
+            string[] coordinates = this.ReadExistingKML(kmlPath);
+
+            foreach (var coordinate in coordinates)
+            {
+                if (coordinate != string.Empty)
+                {
+                    string temp = coordinate.Substring(0, coordinate.Length - 2); ;
+                    var coords = temp.Split(',');
+                    var longitude = double.Parse(coords[0], CultureInfo.InvariantCulture);
+                    var latitude = double.Parse(coords[1], CultureInfo.InvariantCulture);
+                    coordinatesArray.Add(new JArray(longitude, latitude));
+                }
+            }
+            // Add the array of coordinates to the Polygon feature
+            ((JArray)feature["geometry"]["coordinates"]).Add(coordinatesArray);
+
+            // Add properties if needed
+            feature["properties"] = new JObject();
 
             // Create a FeatureCollection object to hold the Polygon feature
             featureCollection["type"] = "FeatureCollection";

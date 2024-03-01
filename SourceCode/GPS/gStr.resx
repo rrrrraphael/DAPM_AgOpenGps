@@ -1612,4 +1612,10 @@ Enter the number of tram passes or use the up down arrows to change the number</
   <data name="gsExport" xml:space="preserve">
     <value>Export</value>
   </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Enter a valid EPSG-Code</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>EPSG-Code Invalid</value>
+  </data>
 </root>

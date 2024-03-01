@@ -5,6 +5,9 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using NetTopologySuite.IO;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using NetTopologySuite.IO.Esri;
 using System.Configuration;
 using System.Linq;
@@ -12,6 +15,8 @@ using System.Windows.Forms.VisualStyles;
 using NetTopologySuite.Geometries;
 using System.Data.SQLite;
 using System.Data;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 namespace AgOpenGPS
@@ -40,6 +45,8 @@ namespace AgOpenGPS
             ListViewItem itm;
 
             string[] dirs = Directory.GetDirectories(mf.fieldsDirectory);
+
+            cbChooseFiletype.SelectedIndex = 0;
 
             //fileList?.Clear();
 
@@ -522,21 +529,59 @@ namespace AgOpenGPS
 
         private void btnExportLv_Click(object sender, EventArgs e)
         {
-            string pathToField = Environment.GetFolderPath(@Environment.SpecialFolder.UserProfile) + "\\Documents" + "\\AgOpenGPS" + "\\Fields" + "\\" + lvLines.SelectedItems[0].Text + "\\Field.kml";
-
-            //this.ExportShapefile(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".shp");
-
-
-            if (File.Exists(pathToField))
+            if (lvLines.SelectedIndices.Count != 0)
             {
-                if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                string pathToField = Path.Combine(Environment.GetFolderPath(@Environment.SpecialFolder.MyDocuments), "AgOpenGPS", "Fields", lvLines.SelectedItems[0].Text, "Field.kml");
+                if (cbChooseFiletype.SelectedItem.ToString() == "KML")
                 {
-                    File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\field_export_" + lvLines.SelectedItems[0].Text + ".kml");
+                    
+                    if (File.Exists(pathToField))
+                    {
+                        if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            File.Copy(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".kml");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Feld existiert nicht");
+                    }
                 }
+                else if (cbChooseFiletype.SelectedItem.ToString() == "Shapefile")
+                {
+                    // Shapefile
+                    if (File.Exists(pathToField))
+                    {
+                        if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            ExportShapefile(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".shp");
+                        }
+                    }
+                }
+                else if (cbChooseFiletype.SelectedItem.ToString() == "Geopackage")
+                {
+                    // Geopackage
+                }
+                else if (cbChooseFiletype.SelectedItem.ToString() == "GeoJSON")
+                {
+                    // GeoJSON
+                    if (File.Exists(pathToField))
+                    {
+                        if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            Export_GeoJson(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".geojson");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Kein Feld ausgewählt");
             }
             this.ExportGeoPackage(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".gpkg");
 
         }
+            
 
 
         private string[] ReadExistingKML(string kmlPath)
@@ -792,7 +837,12 @@ namespace AgOpenGPS
             }
 
 
+            // Create a FeatureCollection object to hold the Polygon feature
+            featureCollection["type"] = "FeatureCollection";
+            featureCollection["features"] = new JArray(feature);
 
+            // Save GeoJSON to a file
+            File.WriteAllText(geojsonPath, JsonConvert.SerializeObject(featureCollection, Formatting.Indented));
         }
 
     }

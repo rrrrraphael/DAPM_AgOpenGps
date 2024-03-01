@@ -1429,4 +1429,10 @@ Permet d'inverser le sens des lignes, par exemple à l'activation des lignes de 
   <data name="gsExport" xml:space="preserve">
     <value>Exporter</value>
   </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Entrez un code EPSG valide</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>Code EPSG invalide</value>
+  </data>
 </root>

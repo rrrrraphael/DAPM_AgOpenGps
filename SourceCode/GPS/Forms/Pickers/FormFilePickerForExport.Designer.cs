@@ -44,6 +44,8 @@ namespace AgOpenGPS
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.cbChooseFiletype = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lvLines
@@ -94,7 +96,7 @@ namespace AgOpenGPS
             this.btnByDistance.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnByDistance.Image = global::AgOpenGPS.Properties.Resources.Sort;
             this.btnByDistance.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnByDistance.Location = new System.Drawing.Point(210, 507);
+            this.btnByDistance.Location = new System.Drawing.Point(163, 507);
             this.btnByDistance.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnByDistance.Name = "btnByDistance";
             this.btnByDistance.Size = new System.Drawing.Size(147, 63);
@@ -127,7 +129,7 @@ namespace AgOpenGPS
             this.btnDeleteAB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.btnDeleteAB.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnDeleteAB.Image = global::AgOpenGPS.Properties.Resources.Cancel64;
-            this.btnDeleteAB.Location = new System.Drawing.Point(502, 507);
+            this.btnDeleteAB.Location = new System.Drawing.Point(367, 507);
             this.btnDeleteAB.Name = "btnDeleteAB";
             this.btnDeleteAB.Size = new System.Drawing.Size(71, 63);
             this.btnDeleteAB.TabIndex = 91;
@@ -160,11 +162,37 @@ namespace AgOpenGPS
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(515, 488);
+            this.label2.Location = new System.Drawing.Point(380, 488);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 16);
             this.label2.TabIndex = 96;
             this.label2.Text = "Cancel";
+            // 
+            // cbChooseFiletype
+            // 
+            this.cbChooseFiletype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbChooseFiletype.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbChooseFiletype.FormattingEnabled = true;
+            this.cbChooseFiletype.ItemHeight = 29;
+            this.cbChooseFiletype.Items.AddRange(new object[] {
+            "KML",
+            "Shapefile",
+            "Geopackage",
+            "GeoJSON"});
+            this.cbChooseFiletype.Location = new System.Drawing.Point(482, 521);
+            this.cbChooseFiletype.Name = "cbChooseFiletype";
+            this.cbChooseFiletype.Size = new System.Drawing.Size(172, 37);
+            this.cbChooseFiletype.TabIndex = 97;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(517, 502);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(97, 16);
+            this.label3.TabIndex = 98;
+            this.label3.Text = "Choose Filetype";
             // 
             // FormFilePickerForExport
             // 
@@ -172,6 +200,8 @@ namespace AgOpenGPS
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 578);
             this.ControlBox = false;
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.cbChooseFiletype);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnDeleteField);
@@ -205,5 +235,7 @@ namespace AgOpenGPS
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private FolderBrowserDialog folderBrowserDialog1;
+        private ComboBox cbChooseFiletype;
+        private Label label3;
     }
 }

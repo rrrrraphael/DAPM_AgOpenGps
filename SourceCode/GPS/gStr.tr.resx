@@ -1610,4 +1610,10 @@ Tramvay geçiş sayısını girin veya sayıyı değiştirmek için yukarı aşa
   <data name="gsExport" xml:space="preserve">
     <value>Ihracat</value>
   </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Geçerli bir EPSG Kodu girin</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>EPSG Kodu geçersiz</value>
+  </data>
 </root>

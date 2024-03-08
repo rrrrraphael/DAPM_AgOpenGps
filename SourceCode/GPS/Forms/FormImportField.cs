@@ -188,8 +188,11 @@ namespace AgOpenGPS
             List<double[]> xys = new List<double[]>();
             foreach (string coordinate in coordinates)
             {
-                string[] coordinateParts = coordinate.Split(',');
-                xys.Add(new double[] { double.Parse(coordinateParts[0], CultureInfo.GetCultureInfo("en")), double.Parse(coordinateParts[1], CultureInfo.GetCultureInfo("en")) });
+                if (coordinate != "")
+                {
+                    string[] coordinateParts = coordinate.Split(',');
+                    xys.Add(new double[] { double.Parse(coordinateParts[0], CultureInfo.GetCultureInfo("en")), double.Parse(coordinateParts[1], CultureInfo.GetCultureInfo("en")) });
+                }
             }
             ProjectionInfo currentCRS = ProjectionInfo.FromEpsgCode(currentEPSG);
             ProjectionInfo targetCRS = ProjectionInfo.FromEpsgCode(targetEPSG);
@@ -480,6 +483,7 @@ namespace AgOpenGPS
             }
 
             mf.bnd.isOkToAddPoints = false;
+            currentEPSG = 4326;
         }
     
     private void btnAddDate_Click(object sender, EventArgs e)

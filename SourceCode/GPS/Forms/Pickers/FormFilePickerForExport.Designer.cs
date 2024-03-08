@@ -178,7 +178,8 @@ namespace AgOpenGPS
             "KML",
             "Shapefile",
             "Geopackage",
-            "GeoJSON"});
+            "GeoJSON",
+            "ISOXML"});
             this.cbChooseFiletype.Location = new System.Drawing.Point(482, 521);
             this.cbChooseFiletype.Name = "cbChooseFiletype";
             this.cbChooseFiletype.Size = new System.Drawing.Size(172, 37);

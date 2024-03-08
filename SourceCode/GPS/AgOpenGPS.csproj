@@ -195,6 +195,7 @@
     </Compile>
     <Compile Include="Classes\CBoundary.cs" />
     <Compile Include="Classes\CGuidance.cs" />
+    <Compile Include="Classes\Coord.cs" />
     <Compile Include="Classes\CRecordedPath.cs" />
     <Compile Include="Classes\CPatches.cs" />
     <Compile Include="Classes\CSettings.cs" />
@@ -229,6 +230,16 @@
       <DependentUpon>CBoundaryList.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\CTool.cs" />
+    <Compile Include="Classes\Field.cs" />
+    <Compile Include="Classes\FieldBoundary.cs" />
+    <Compile Include="Classes\GGP.cs" />
+    <Compile Include="Classes\GPN.cs" />
+    <Compile Include="Classes\IsoXml.cs" />
+    <Compile Include="Classes\LSG.cs" />
+    <Compile Include="Classes\PFD.cs" />
+    <Compile Include="Classes\PLN.cs" />
+    <Compile Include="Classes\PNT.cs" />
+    <Compile Include="Classes\Track.cs" />
     <Compile Include="Forms\FormImportField.cs">
       <SubType>Form</SubType>
     </Compile>

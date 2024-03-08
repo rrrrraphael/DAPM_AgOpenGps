@@ -12,6 +12,7 @@ using System.Data.SQLite;
 using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ShpToIsoXml;
 
 namespace AgOpenGPS
 {
@@ -574,6 +575,13 @@ namespace AgOpenGPS
                         }
                     }
                 }
+                else if(cbChooseFiletype.SelectedItem.ToString() == "ISOXML") {
+
+                    if (File.Exists(pathToField))
+                    {
+                        Export_IsoXml(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".xml");
+                    }
+                }
             }
             else
             {
@@ -835,6 +843,29 @@ namespace AgOpenGPS
 
                 connection.Close();
             }
+
+        }
+
+        private void Export_IsoXml(string kmlPath, string isoXmlPath)
+        {
+            string[] coordinates = this.ReadExistingKML(kmlPath);
+            for (int i = 0; i < coordinates.Length; i++)
+            {
+                coordinates[i] = coordinates[i].Replace(",0", "");
+                coordinates[i] = coordinates[i].Replace(',', ' ');
+                coordinates[i] = coordinates[i] + ",";
+            }
+            coordinates[coordinates.Length - 1] = coordinates[coordinates.Length - 1].Replace(",", "");
+            coordinates[coordinates.Length - 2] = coordinates[coordinates.Length - 2].Replace(",", "");
+
+            coordinates = coordinates.Take(coordinates.Count() - 1).ToArray();
+
+            List<Coord> coordList = new List<Coord>();
+            foreach (string coord in coordinates)
+            {
+                string[] cordSingl = coord.Split(' ');
+            }
+            
 
         }
 

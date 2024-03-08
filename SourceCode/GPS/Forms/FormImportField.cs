@@ -480,6 +480,7 @@ namespace AgOpenGPS
             }
 
             mf.bnd.isOkToAddPoints = false;
+            currentEPSG = 4326;
         }
     
     private void btnAddDate_Click(object sender, EventArgs e)

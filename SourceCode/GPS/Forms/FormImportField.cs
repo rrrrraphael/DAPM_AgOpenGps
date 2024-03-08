@@ -500,6 +500,7 @@ namespace AgOpenGPS
                     int startIndex;
                     int polygon;
                     bool polygonbefore = false;
+                    bool linestringbefore = false;
                     int linestring;
                     while (!reader.EndOfStream)
                     {
@@ -513,6 +514,11 @@ namespace AgOpenGPS
                         if (polygon != -1)
                         {
                             polygonbefore = true;
+                        }
+
+                        if (linestring != -1)
+                        {
+                            linestringbefore = true;
                         }
                         if (startIndex != -1 && polygonbefore == true)
                         {
@@ -545,9 +551,9 @@ namespace AgOpenGPS
 
                             char[] delimiterChars = { ' ', '\t', '\r', '\n' };
                             coordinates = lineOfCoordinates.Split(delimiterChars);
-
+                            polygonbefore = false;
                         }
-                        if (linestring != -1)
+                        if (startIndex != -1 && linestringbefore == true)
                         {
                             while (true)
                             {

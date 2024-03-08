@@ -494,17 +494,6 @@ namespace AgOpenGPS
 
         }
 
-        private void cbChooseFiletype_SelectedValueChanged(object sender, EventArgs e)
-        {
-            if (String.IsNullOrEmpty(tboxFieldName.Text.Trim()))
-            {
-                btnLoadField.Enabled = false;
-            }
-            else
-            {
-                btnLoadField.Enabled = true;
-            }
-        }
 
         private void cbChooseFiletype_TextChanged(object sender, EventArgs e)
         {
@@ -520,8 +509,8 @@ namespace AgOpenGPS
         {
             if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
-                this.txtEPSG.Visible = false;
-                this.lbEPSG.Visible = false;
+                this.txtEPSG.Visible = true;
+                this.lbEPSG.Visible = true;
             }
             else
             {

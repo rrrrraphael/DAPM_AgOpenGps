@@ -195,7 +195,7 @@
             this.cbChooseFiletype.TabIndex = 155;
             this.cbChooseFiletype.SelectedIndexChanged += new System.EventHandler(this.cbChooseFiletype_SelectedIndexChanged);
             this.cbChooseFiletype.SelectedValueChanged += new System.EventHandler(this.cbChooseFiletype_SelectedValueChanged);
-            this.cbChooseFiletype.TextChanged += new System.EventHandler(this.cbChooseFiletype_TextChanged);
+            //this.cbChooseFiletype.TextChanged += new System.EventHandler(this.cbChooseFiletype_TextChanged);
             // 
             // lbChooseFIletype
             // 

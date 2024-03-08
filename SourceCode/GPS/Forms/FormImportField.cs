@@ -5,27 +5,19 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Linq;
 using Newtonsoft.Json;
 using GeoJSON.Net.Feature;
-using System.Collections.ObjectModel;
-using GeoJSON.Net.Geometry;
 using GeoJSON.Net;
-using Point = GeoJSON.Net.Geometry.Point;
 using Polygon = GeoJSON.Net.Geometry.Polygon;
 using LineString = GeoJSON.Net.Geometry.LineString;
 using MultiPolygon = GeoJSON.Net.Geometry.MultiPolygon;
 using System.Data.SQLite;
-using System.Drawing;
 using System.Data;
 using System.Diagnostics;
 using DotSpatial.Projections;
-using System.Windows.Forms.DataVisualization.Charting;
-using GeoJSON.Net.Converters;
-using GeoJSON.Net.CoordinateReferenceSystem;
 
 namespace AgOpenGPS
 {
@@ -114,6 +106,7 @@ namespace AgOpenGPS
 
             OpenFileDialog ofd = new OpenFileDialog
             {
+
                 // default the filter is set for KML
                 Filter = "KML files (*.KML)|*.KML",
                 //the initial directory, fields, for the open dialog
@@ -128,16 +121,15 @@ namespace AgOpenGPS
             }
             else if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
-
                 //set the filter to KML only
                 ofd.Filter = "Shapefiles (*.SHP)|*.SHP";
-
 
 
                 ReadCoordinates = ReadCoordinatesFromShapefile;
             }
             else if (cbChooseFiletype.SelectedItem == "GeoJSON")
             {
+
                 //set the filter to GeoJSON only
                 ofd.Filter = "GeoJSON files (*.GEOJSON)|*.GEOJSON";
 
@@ -420,7 +412,7 @@ namespace AgOpenGPS
         private void ReadCoordinatesFromKML(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
             //only WGS84 possible
-
+            
 
             using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
             {
@@ -477,12 +469,13 @@ namespace AgOpenGPS
                     mf.TimedMessageBox(2000, "Exception", "Catch Exception");
                     return;
                 }
+                currentEPSG = 4326;
             }
 
             mf.bnd.isOkToAddPoints = false;
         }
     
-    private void btnAddDate_Click(object sender, EventArgs e)
+        private void btnAddDate_Click(object sender, EventArgs e)
         {
             tboxFieldName.Text += " " + DateTime.Now.ToString("MMM.dd", CultureInfo.InvariantCulture);
 
@@ -496,32 +489,27 @@ namespace AgOpenGPS
 
         private void cbChooseFiletype_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(tboxFieldName.Text.Trim()))
-            {
-                btnLoadField.Enabled = false;
-            }
-            else
-            {
-                btnLoadField.Enabled = true;
-            }
-        }
 
-        private void cbChooseFiletype_TextChanged(object sender, EventArgs e)
-        {
-            if (cbChooseFiletype.SelectedItem == "Shapefile")
+            if(this.cbChooseFiletype.SelectedItem == "Shapefile")
             {
                 this.txtEPSG.Visible = true;
                 this.lbEPSG.Visible = true;
             }
-
+            else
+            {
+                this.txtEPSG.Visible = false;
+                this.lbEPSG.Visible = false;
+            }
         }
+
+
 
         private void cbChooseFiletype_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbChooseFiletype.SelectedItem == "Shapefile")
             {
-                this.txtEPSG.Visible = false;
-                this.lbEPSG.Visible = false;
+                this.txtEPSG.Visible = true;
+                this.lbEPSG.Visible = true;
             }
             else
             {

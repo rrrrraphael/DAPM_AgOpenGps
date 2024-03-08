@@ -485,8 +485,111 @@ namespace AgOpenGPS
             mf.bnd.isOkToAddPoints = false;
             currentEPSG = 4326;
         }
-    
-    private void btnAddDate_Click(object sender, EventArgs e)
+
+        private void ReadCoordinatesFromKMLWithTracks(string filePath, ref string[] coordinates, ref int currentEPSG)
+        {
+            //only WGS84 possible
+
+
+            using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
+            {
+                bool alreadyOneField = false;
+                try
+                {
+                    string lineOfCoordinates = null;
+                    int startIndex;
+                    int polygon;
+                    bool polygonbefore = false;
+                    int linestring;
+                    while (!reader.EndOfStream)
+                    {
+                        //start to read the file
+                        string line = reader.ReadLine();
+
+                        startIndex = line.IndexOf("<coordinates>");
+                        polygon = line.IndexOf("<Polygon>");
+                        linestring = line.IndexOf("<LineString>");
+
+                        if (polygon != -1)
+                        {
+                            polygonbefore = true;
+                        }
+                        if (startIndex != -1 && polygonbefore == true)
+                        {
+                            if (alreadyOneField)
+                            {
+                                mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
+                                break;
+                            }
+                            alreadyOneField = true;
+                            while (true)
+                            {
+                                int endIndex = line.IndexOf("</coordinates>");
+
+                                if (endIndex == -1)
+                                {
+                                    //just add the line
+                                    if (startIndex == -1) lineOfCoordinates += line.Substring(0);
+                                    else lineOfCoordinates += line.Substring(startIndex + 13);
+                                }
+                                else
+                                {
+                                    if (startIndex == -1) lineOfCoordinates += line.Substring(0, endIndex);
+                                    else lineOfCoordinates += line.Substring(startIndex + 13, endIndex - (startIndex + 13));
+                                    break;
+                                }
+                                line = reader.ReadLine();
+                                line = line.Trim();
+                                startIndex = -1;
+                            }
+
+                            char[] delimiterChars = { ' ', '\t', '\r', '\n' };
+                            coordinates = lineOfCoordinates.Split(delimiterChars);
+
+                        }
+                        if (linestring != -1)
+                        {
+                            while (true)
+                            {
+                                int endIndex = line.IndexOf("</coordinates>");
+
+                                if (endIndex == -1)
+                                {
+                                    //just add the line
+                                    if (startIndex == -1) lineOfCoordinates += line.Substring(0);
+                                    else lineOfCoordinates += line.Substring(startIndex + 13);
+                                }
+                                else
+                                {
+                                    if (startIndex == -1) lineOfCoordinates += line.Substring(0, endIndex);
+                                    else lineOfCoordinates += line.Substring(startIndex + 13, endIndex - (startIndex + 13));
+                                    break;
+                                }
+                                line = reader.ReadLine();
+                                line = line.Trim();
+                                startIndex = -1;
+                            }
+
+                            char[] delimiterChars = { ' ', '\t', '\r', '\n' };
+                            coordinates = lineOfCoordinates.Split(delimiterChars);
+
+                        }
+
+                    }
+
+                }
+                catch (Exception)
+                {
+                    mf.TimedMessageBox(2000, "Exception", "Catch Exception");
+                    return;
+                }
+            }
+
+            mf.bnd.isOkToAddPoints = false;
+            currentEPSG = 4326;
+        }
+
+        private void btnAddDate_Click(object sender, EventArgs e)
         {
             tboxFieldName.Text += " " + DateTime.Now.ToString("MMM.dd", CultureInfo.InvariantCulture);
 

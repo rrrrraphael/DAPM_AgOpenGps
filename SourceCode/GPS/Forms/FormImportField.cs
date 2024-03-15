@@ -26,6 +26,7 @@ using DotSpatial.Projections;
 using System.Windows.Forms.DataVisualization.Charting;
 using GeoJSON.Net.Converters;
 using GeoJSON.Net.CoordinateReferenceSystem;
+using System.Text;
 
 namespace AgOpenGPS
 {
@@ -110,7 +111,7 @@ namespace AgOpenGPS
         private void btnLoadField_Click(object sender, EventArgs e)
         {
             // default readCoordinates is set for Shapefile
-            ReadCoordinates ReadCoordinates = ReadCoordinatesFromKML;
+            ReadCoordinates ReadCoordinates = ReadCoordinatesFromKMLWithTracks;
 
             OpenFileDialog ofd = new OpenFileDialog
             {
@@ -485,11 +486,14 @@ namespace AgOpenGPS
             mf.bnd.isOkToAddPoints = false;
             currentEPSG = 4326;
         }
-
         private void ReadCoordinatesFromKMLWithTracks(string filePath, ref string[] coordinates, ref int currentEPSG)
         {
-            //only WGS84 possible
+            double Lat = 0;
+            double Lon = 0;
+            double North, East;
 
+            mf.pn.SetLocalMetersPerDegree();
+            mf.pn.ConvertWGS84ToLocal(Lat, Lon, out North, out East);
 
             using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
             {
@@ -594,6 +598,7 @@ namespace AgOpenGPS
             mf.bnd.isOkToAddPoints = false;
             currentEPSG = 4326;
         }
+
 
         private void btnAddDate_Click(object sender, EventArgs e)
         {

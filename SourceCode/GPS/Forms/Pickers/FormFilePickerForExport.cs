@@ -13,6 +13,9 @@ using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ShpToIsoXml;
+using IsoXml;
+using NetTopologySuite.Operation;
+using System.IO.Compression;
 
 namespace AgOpenGPS
 {
@@ -576,10 +579,13 @@ namespace AgOpenGPS
                     }
                 }
                 else if(cbChooseFiletype.SelectedItem.ToString() == "ISOXML") {
-
+                    // IsoXML
                     if (File.Exists(pathToField))
                     {
-                        Export_IsoXml(pathToField, folderBrowserDialog1.SelectedPath + "\\" + lvLines.SelectedItems[0].Text + ".xml");
+                        if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            Export_IsoXml(pathToField, folderBrowserDialog1.SelectedPath + "\\TASKDATA");
+                        }
                     }
                 }
             }
@@ -846,7 +852,7 @@ namespace AgOpenGPS
 
         }
 
-        private void Export_IsoXml(string kmlPath, string isoXmlPath)
+        private void Export_IsoXml(string kmlPath, string isoXmlDirPath)
         {
             string[] coordinates = this.ReadExistingKML(kmlPath);
             for (int i = 0; i < coordinates.Length; i++)
@@ -860,12 +866,40 @@ namespace AgOpenGPS
 
             coordinates = coordinates.Take(coordinates.Count() - 1).ToArray();
 
-            List<Coord> coordList = new List<Coord>();
-            foreach (string coord in coordinates)
+            IsoXml.IsoXml isoxml = new IsoXml.IsoXml();
+            FieldBoundary boundary = new FieldBoundary();
+
+            PFD pfd = new PFD();
+            int pfdCnt = 1;
+
+            isoxml.PFDList.Add(pfd);
+
+            pfd.Depth = 1;
+            pfd.Name = boundary.Name;
+            pfd.Id = pfdCnt;
+            pfdCnt++;
+            pfd.PLN = new PLN();
+            pfd.PLN.Depth = 1;
+            LSG lsg = new LSG();
+            lsg.Depth = 1;
+            lsg.LSGType = LSG.Type.Boundary;
+            pfd.PLN.LSG = lsg;
+            foreach(string coordinate in coordinates)
             {
-                string[] cordSingl = coord.Split(' ');
+                string[] coordAr = coordinate.Replace(",", "").Split(' ');
+                lsg.Points.Add(new PNT(decimal.Parse(coordAr[0]), decimal.Parse(coordAr[1]), PNT.PntType.Boundary) { Depth = 4 });
             }
+
+            Directory.CreateDirectory(isoXmlDirPath);
+            string isoXmlDirPath2 = isoXmlDirPath + "\\TASKDATA";
+            Directory.CreateDirectory(isoXmlDirPath2);
+            string isoXmlPath = isoXmlDirPath2 + "\\TASKDATA.xml";
+
+            File.WriteAllText(isoXmlPath, isoxml.ToString());
+            string zipPath = isoXmlDirPath + ".zip";
             
+            
+            ZipFile.CreateFromDirectory(isoXmlDirPath, zipPath);
 
         }
 

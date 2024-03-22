@@ -580,11 +580,14 @@ namespace AgOpenGPS
                 }
                 else if(cbChooseFiletype.SelectedItem.ToString() == "ISOXML") {
                     // IsoXML
+
+                    string farmer = this.txtFarmer.Text;
+                    string farm = this.txtFarm.Text;
                     if (File.Exists(pathToField))
                     {
                         if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
                         {
-                            Export_IsoXml(pathToField, folderBrowserDialog1.SelectedPath + "\\TASKDATA");
+                            Export_IsoXml(pathToField, folderBrowserDialog1.SelectedPath + "\\TASKDATA", farm, farmer);
                         }
                     }
                 }
@@ -852,7 +855,7 @@ namespace AgOpenGPS
 
         }
 
-        private void Export_IsoXml(string kmlPath, string isoXmlDirPath)
+        private void Export_IsoXml(string kmlPath, string isoXmlDirPath, string farm, string farmer)
         {
             string[] coordinates = this.ReadExistingKML(kmlPath);
             for (int i = 0; i < coordinates.Length; i++)
@@ -866,16 +869,16 @@ namespace AgOpenGPS
 
             coordinates = coordinates.Take(coordinates.Count() - 1).ToArray();
 
-            IsoXml.IsoXml isoxml = new IsoXml.IsoXml();
+            IsoXml.IsoXml isoxml = new IsoXml.IsoXml(farmer, farm);
             FieldBoundary boundary = new FieldBoundary();
 
             PFD pfd = new PFD();
             int pfdCnt = 1;
+            pfd.Name = Path.GetFileName(Path.GetDirectoryName(kmlPath)); 
 
             isoxml.PFDList.Add(pfd);
 
             pfd.Depth = 1;
-            pfd.Name = boundary.Name;
             pfd.Id = pfdCnt;
             pfdCnt++;
             pfd.PLN = new PLN();
@@ -897,9 +900,17 @@ namespace AgOpenGPS
 
             File.WriteAllText(isoXmlPath, isoxml.ToString());
             string zipPath = isoXmlDirPath + ".zip";
-            
-            
-            ZipFile.CreateFromDirectory(isoXmlDirPath, zipPath);
+
+            if (!File.Exists(zipPath))
+            {
+                ZipFile.CreateFromDirectory(isoXmlDirPath, zipPath);
+                Directory.Delete(isoXmlDirPath, true);
+            }
+            else
+            {
+                Directory.Delete(isoXmlDirPath, true);
+                
+            }
 
         }
 
@@ -947,5 +958,50 @@ namespace AgOpenGPS
             File.WriteAllText(geojsonPath, JsonConvert.SerializeObject(featureCollection, Formatting.Indented));
         }
 
+        private void cbChooseFiletype_TextChanged(object sender, EventArgs e)
+        {
+            if(cbChooseFiletype.Text == "ISOXML")
+            {
+                this.lbFarm.Visible = true;
+                this.lbFarmer.Visible = true;
+                this.txtFarm.Visible = true;
+                this.txtFarmer.Visible = true;
+            }
+            else
+            {
+                this.lbFarm.Visible = false;
+                this.lbFarmer.Visible = false;
+                this.txtFarm.Visible = false;
+                this.txtFarmer.Visible = false;
+            }
+        }
+
+
+        private void txtFarmer_Enter(object sender, EventArgs e)
+        {
+            this.txtFarmer.Text = "";
+        }
+
+        private void txtFarmer_Leave(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.txtFarmer.Text))
+            {
+                this.txtFarmer.Text = "AgOpenFarmer";
+            }
+        }
+
+        private void txtFarm_Enter(object sender, EventArgs e)
+        {
+            this.txtFarm.Text = "";
+
+        }
+
+        private void txtFarm_Leave(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.txtFarm.Text))
+            {
+                this.txtFarm.Text = "AgOpenFarm";
+            }
+        }
     }
 }

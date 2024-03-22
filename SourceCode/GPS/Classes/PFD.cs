@@ -22,7 +22,7 @@ namespace IsoXml
 
         public override string ToString()
         {
-            string ret = IsoXml.Spaces(Depth) + string.Format("<PFD A=\"PFD{0}\" C=\"{1}\"  E=\"CTR1\" F=\"FRM1\">" + Environment.NewLine, Id, Name);
+            string ret = IsoXml.Spaces(Depth) + string.Format("<PFD A=\"PFD{0}\" C=\"{1}\" D=\"0\" E=\"CTR1\" F=\"FRM1\">" + Environment.NewLine, Id, Name);
             ret += PLN.ToString();
             foreach (var ggp in GGPList)
             {

@@ -604,55 +604,62 @@ namespace AgOpenGPS
         private string[] ReadExistingKML(string kmlPath)
         {
             string[] coordinates;
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(kmlPath))
+            try
             {
-                bool alreadyOneField = false;
-
-                string lineOfCoordinates = null;
-                int startIndex;
-                while (!reader.EndOfStream)
+                using (System.IO.StreamReader reader = new System.IO.StreamReader(kmlPath))
                 {
-                    //start to read the file
-                    string line = reader.ReadLine();
+                    bool alreadyOneField = false;
 
-                    startIndex = line.IndexOf("<coordinates>");
-
-                    if (startIndex != -1)
+                    string lineOfCoordinates = null;
+                    int startIndex;
+                    while (!reader.EndOfStream)
                     {
-                        if (alreadyOneField)
-                        {
-                            mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
-                            break;
-                        }
-                        alreadyOneField = true;
-                        while (true)
-                        {
-                            int endIndex = line.IndexOf("</coordinates>");
+                        //start to read the file
+                        string line = reader.ReadLine();
 
-                            if (endIndex == -1)
+                        startIndex = line.IndexOf("<coordinates>");
+
+                        if (startIndex != -1)
+                        {
+                            if (alreadyOneField)
                             {
-                                //just add the line
-                                if (startIndex == -1) lineOfCoordinates += line.Substring(0);
-                                else lineOfCoordinates += line.Substring(startIndex + 13);
-                            }
-                            else
-                            {
-                                if (startIndex == -1) lineOfCoordinates += line.Substring(0, endIndex);
-                                else lineOfCoordinates += line.Substring(startIndex + 13, endIndex - (startIndex + 13));
+                                mf.TimedMessageBox(4000, gStr.gsTooManyFields, gStr.gsFirstOneIsUsed);
                                 break;
                             }
-                            line = reader.ReadLine();
-                            line = line.Trim();
-                            startIndex = -1;
+                            alreadyOneField = true;
+                            while (true)
+                            {
+                                int endIndex = line.IndexOf("</coordinates>");
+
+                                if (endIndex == -1)
+                                {
+                                    //just add the line
+                                    if (startIndex == -1) lineOfCoordinates += line.Substring(0);
+                                    else lineOfCoordinates += line.Substring(startIndex + 13);
+                                }
+                                else
+                                {
+                                    if (startIndex == -1) lineOfCoordinates += line.Substring(0, endIndex);
+                                    else lineOfCoordinates += line.Substring(startIndex + 13, endIndex - (startIndex + 13));
+                                    break;
+                                }
+                                line = reader.ReadLine();
+                                line = line.Trim();
+                                startIndex = -1;
+                            }
+
+                            char[] delimiterChars = { ' ', '\t', '\r', '\n' };
+                            coordinates = lineOfCoordinates.Split(delimiterChars);
+                            return coordinates;
+
                         }
 
-                        char[] delimiterChars = { ' ', '\t', '\r', '\n' };
-                        coordinates = lineOfCoordinates.Split(delimiterChars);
-                        return coordinates;
-
                     }
-
+                    return null;
                 }
+            }catch(Exception ex)
+            {
+                mf.TimedMessageBox(2000, gStr.gsError, gStr.gsErrorReadingFile);
                 return null;
             }
         }
@@ -661,301 +668,333 @@ namespace AgOpenGPS
         {
 
             string[] coordinates = this.ReadExistingKML(kmlPath);
-
-            
-            for (int i = 0; i < coordinates.Length; i++)
+            try
             {
-                coordinates[i] = coordinates[i].Replace(",0", "");
-                coordinates[i] = coordinates[i].Replace(',', ' ');
-                coordinates[i] = coordinates[i] + ",";
-            }
-            coordinates[coordinates.Length - 1] = coordinates[coordinates.Length - 1].Replace(",", "");
-            coordinates[coordinates.Length - 2] = coordinates[coordinates.Length - 2].Replace(",", "");
+                for (int i = 0; i < coordinates.Length; i++)
+                {
+                    coordinates[i] = coordinates[i].Replace(",0", "");
+                    coordinates[i] = coordinates[i].Replace(',', ' ');
+                    coordinates[i] = coordinates[i] + ",";
+                }
+                coordinates[coordinates.Length - 1] = coordinates[coordinates.Length - 1].Replace(",", "");
+                coordinates[coordinates.Length - 2] = coordinates[coordinates.Length - 2].Replace(",", "");
 
-            string coordinateString = String.Join(" ", coordinates);
-            string wkt = $"POLYGON((" + coordinateString + "))";
-
-
-
-            var features = new List<Feature>();
-            var wktReader = new WKTReader();
-
-            var geometry2 = wktReader.Read(wkt);
+                string coordinateString = String.Join(" ", coordinates);
+                string wkt = $"POLYGON((" + coordinateString + "))";
 
 
-            var attributes = new AttributesTable
+
+                var features = new List<Feature>();
+                var wktReader = new WKTReader();
+
+                var geometry2 = wktReader.Read(wkt);
+
+
+                var attributes = new AttributesTable
             {
                 { "Date", new DateTime(2022, 1, 1) },
                 { "Content", $"I am No. 1" }
             };
 
-            var feature = new Feature(geometry2, attributes);
-            features.Add(feature);
+                var feature = new Feature(geometry2, attributes);
+                features.Add(feature);
 
-            Shapefile.WriteAllFeatures(features, shpPath);
+                Shapefile.WriteAllFeatures(features, shpPath);
+            }
+            catch
+            {
+                mf.TimedMessageBox(2000, gStr.gsError, gStr.gsErrorReadingFile);
+            }
+            
+            
 
         }
 
         private void ExportGeoPackage(string kmlPath, string gpkgPath)
         {
             string[] coordinates = this.ReadExistingKML(kmlPath);
-            for (int i = 0; i < coordinates.Length; i++)
+
+            try
             {
-                coordinates[i] = coordinates[i].Replace(",0", "");
-                coordinates[i] = coordinates[i].Replace(',', ' ');
-                coordinates[i] = coordinates[i] + ",";
-            }
-            coordinates[coordinates.Length - 1] = coordinates[coordinates.Length - 1].Replace(",", "");
-            coordinates[coordinates.Length - 2] = coordinates[coordinates.Length - 2].Replace(",", "");
-
-            coordinates = coordinates.Take(coordinates.Count() - 1).ToArray();
-
-            List<double> xValuesList = new List<double>();
-            List<double> yValuesList = new List<double>();
-            string[] pointArr;
-
-            
-
-            foreach (string point in coordinates)
-            {
-                pointArr = point.Replace(',', ' ').Split(' ');
-                xValuesList.Add(double.Parse(pointArr[0]));
-                yValuesList.Add(double.Parse(pointArr[1]));
-            }
-
-            double[] xValues = xValuesList.ToArray();
-            double[] yValues = yValuesList.ToArray();
-
-            double xMax = xValues.Max();
-            double xMin = xValues.Min();
-
-            double yMax = yValues.Max();
-            double yMin = yValues.Min();
-
-            string tablename = "fields";
-
-            List<Coordinate> cordList = new List<Coordinate>();
-            for (int i = 0; i < xValues.Length; i++)
-            {
-                Coordinate cord = new Coordinate(xValues[i], yValues[i]);
-                cordList.Add(cord);
-            }
-
-            Coordinate[] cordArr = cordList.ToArray();
-            GeometryFactory geomFac = new GeometryFactory();
-            Geometry geo = geomFac.CreatePolygon(cordArr);
-
-            WKBWriter writer = new WKBWriter();
-
-            byte[] header = { 71, 80, 0, 3, 230, 16, 0, 0, 136, 85, 15, 221, 159, 62, 46, 64, 191, 70, 63, 104, 1, 64, 46, 64, 11, 136, 47, 123, 112, 16, 72, 64, 62, 68, 255, 202, 185, 16, 72, 64 };
-
-            byte[] rawData = writer.Write(geo);
-            rawData = header.Concat(rawData).ToArray();
-
-            if (File.Exists(gpkgPath))
-            {
-                File.Delete(gpkgPath);
-            }
-
-            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={gpkgPath};Version=3;"))
-            {
-                connection.Open();
-                connection.Close();
-            }
-
-
-            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={gpkgPath};Version=3;"))
-            {
-                connection.Open();
-
-                //connection.LoadExtension("mod_spatialite");
-
-                List<string> queries = new List<string>();
-                // SQL-Befehl zum Erstellen von Tabelle
-                queries.Add(@"CREATE TABLE " + tablename + @" ( ""fid"" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ""geometry"" POLYGON)");
-                queries.Add(@"CREATE TABLE gpkg_contents (table_name TEXT NOT NULL PRIMARY KEY,data_type TEXT NOT NULL,identifier TEXT UNIQUE,description TEXT DEFAULT '',last_change DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),min_x DOUBLE, min_y DOUBLE,max_x DOUBLE, max_y DOUBLE,srs_id INTEGER,CONSTRAINT fk_gc_r_srs_id FOREIGN KEY (srs_id) REFERENCES gpkg_spatial_ref_sys(srs_id))");
-                queries.Add(@"CREATE TABLE gpkg_extensions (table_name TEXT,column_name TEXT,extension_name TEXT NOT NULL,definition TEXT NOT NULL,scope TEXT NOT NULL,CONSTRAINT ge_tce UNIQUE (table_name, column_name, extension_name))");
-                queries.Add(@"CREATE TABLE gpkg_geometry_columns (table_name TEXT NOT NULL,column_name TEXT NOT NULL,geometry_type_name TEXT NOT NULL,srs_id INTEGER NOT NULL,z TINYINT NOT NULL,m TINYINT NOT NULL,CONSTRAINT pk_geom_cols PRIMARY KEY (table_name, column_name),CONSTRAINT uk_gc_table_name UNIQUE (table_name),CONSTRAINT fk_gc_tn FOREIGN KEY (table_name) REFERENCES gpkg_contents(table_name),CONSTRAINT fk_gc_srs FOREIGN KEY (srs_id) REFERENCES gpkg_spatial_ref_sys (srs_id))");
-                queries.Add(@"CREATE TABLE gpkg_ogr_contents(table_name TEXT NOT NULL PRIMARY KEY,feature_count INTEGER DEFAULT NULL)");
-                queries.Add(@"CREATE TABLE gpkg_spatial_ref_sys (srs_name TEXT NOT NULL,srs_id INTEGER NOT NULL PRIMARY KEY,organization TEXT NOT NULL,organization_coordsys_id INTEGER NOT NULL,definition  TEXT NOT NULL,description TEXT)");
-                queries.Add(@"CREATE TABLE gpkg_tile_matrix (table_name TEXT NOT NULL,zoom_level INTEGER NOT NULL,matrix_width INTEGER NOT NULL,matrix_height INTEGER NOT NULL,tile_width INTEGER NOT NULL,tile_height INTEGER NOT NULL,pixel_x_size DOUBLE NOT NULL,pixel_y_size DOUBLE NOT NULL,CONSTRAINT pk_ttm PRIMARY KEY (table_name, zoom_level),CONSTRAINT fk_tmm_table_name FOREIGN KEY (table_name) REFERENCES gpkg_contents(table_name))");
-                queries.Add(@"CREATE TABLE gpkg_tile_matrix_set (table_name TEXT NOT NULL PRIMARY KEY,srs_id INTEGER NOT NULL,min_x DOUBLE NOT NULL,min_y DOUBLE NOT NULL,max_x DOUBLE NOT NULL,max_y DOUBLE NOT NULL,CONSTRAINT fk_gtms_table_name FOREIGN KEY (table_name) REFERENCES gpkg_contents(table_name),CONSTRAINT fk_gtms_srs FOREIGN KEY (srs_id) REFERENCES gpkg_spatial_ref_sys (srs_id))");
-                queries.Add(@"CREATE VIRTUAL TABLE ""rtree_" + tablename + @"_geometry"" USING rtree(id, minx, maxx, miny, maxy)");
-                
-
-                // SQL-Befehle zum einfuegen von Daten
-                queries.Add(@"INSERT INTO gpkg_spatial_ref_sys (srs_name, srs_id, organization, organization_coordsys_id, definition, description) VALUES (""Undefined Cartesian SRS"", -1, ""NONE"", -1, ""undefinded"", ""undefined Cartesian coordinate reference system"");");
-                queries.Add(@"INSERT INTO gpkg_spatial_ref_sys (srs_name, srs_id, organization, organization_coordsys_id, definition, description) VALUES (""Undefined geographic SRS"", 0, ""NONE"", 0, ""undefinded"", ""undefined geographic coordinate reference system"");");
-                queries.Add(@"INSERT INTO gpkg_spatial_ref_sys (srs_name, srs_id, organization, organization_coordsys_id, definition, description) VALUES (""WGS 84 geodetic"", 4326, ""EPSG"", 4326, 'GEOGCS[""WGS 84"",DATUM[""WGS_1984"",SPHEROID[""WGS 84"",6378137,298.257223563,AUTHORITY[""EPSG"",""7030""]],AUTHORITY[""EPSG"",""6326""]],PRIMEM[""Greenwich"",0,AUTHORITY[""EPSG"",""8901""]],UNIT[""degree"",0.0174532925199433,AUTHORITY[""EPSG"",""9122""]],AXIS[""Latitude"",NORTH],AXIS[""Longitude"",EAST],AUTHORITY[""EPSG"",""4326""]]', ""longitude/latitude coordinates in decimal degrees on the WGS 84 spheroid"");");
-                queries.Add(String.Format(@"INSERT INTO gpkg_contents (table_name, data_type, identifier, min_x, min_y, max_x, max_y, srs_id) VALUES (""{0}"", ""features"", ""{0}"", {1}, {2}, {3}, {4},  4326);", tablename, xMin, yMin, xMax, yMax));
-                queries.Add(String.Format(@"INSERT INTO gpkg_geometry_columns (table_name, column_name, geometry_type_name, srs_id, z, m) VALUES (""{0}"", ""geometry"", ""POLYGON"", 4326, 0, 0);", tablename));
-                queries.Add(String.Format(@"INSERT INTO gpkg_ogr_contents (table_name, feature_count) VALUES (""{0}"", 1);", tablename));
-                queries.Add(String.Format(@"INSERT INTO rtree_{0}_geometry_rowid (rowid, nodeno) VALUES (1,1);", tablename));
-                queries.Add(String.Format(@"INSERT INTO rtree_{0}_geometry (minx, maxx, miny, maxy) VALUES ({1}, {2}, {3}, {4});", tablename, xMin, xMax, yMin, yMax));
-
-                foreach (string q in queries)
+                for (int i = 0; i < coordinates.Length; i++)
                 {
-                    SQLiteCommand comm = new SQLiteCommand(q, connection);
-                    Console.WriteLine(q);
-                    Console.WriteLine(comm.ExecuteScalar());
+                    coordinates[i] = coordinates[i].Replace(",0", "");
+                    coordinates[i] = coordinates[i].Replace(',', ' ');
+                    coordinates[i] = coordinates[i] + ",";
+                }
+                coordinates[coordinates.Length - 1] = coordinates[coordinates.Length - 1].Replace(",", "");
+                coordinates[coordinates.Length - 2] = coordinates[coordinates.Length - 2].Replace(",", "");
+
+                coordinates = coordinates.Take(coordinates.Count() - 1).ToArray();
+
+                List<double> xValuesList = new List<double>();
+                List<double> yValuesList = new List<double>();
+                string[] pointArr;
+
+
+
+                foreach (string point in coordinates)
+                {
+                    pointArr = point.Replace(',', ' ').Split(' ');
+                    xValuesList.Add(double.Parse(pointArr[0]));
+                    yValuesList.Add(double.Parse(pointArr[1]));
                 }
 
-                connection.Close();
-            }
+                double[] xValues = xValuesList.ToArray();
+                double[] yValues = yValuesList.ToArray();
 
-            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={gpkgPath};Version=3;"))
-            {
+                double xMax = xValues.Max();
+                double xMin = xValues.Min();
 
-                connection.Open();
-                connection.EnableExtensions(true);
+                double yMax = yValues.Max();
+                double yMin = yValues.Min();
 
-                string insertQuery = @"
+                string tablename = "fields";
+
+                List<Coordinate> cordList = new List<Coordinate>();
+                for (int i = 0; i < xValues.Length; i++)
+                {
+                    Coordinate cord = new Coordinate(xValues[i], yValues[i]);
+                    cordList.Add(cord);
+                }
+
+                Coordinate[] cordArr = cordList.ToArray();
+                GeometryFactory geomFac = new GeometryFactory();
+                Geometry geo = geomFac.CreatePolygon(cordArr);
+
+                WKBWriter writer = new WKBWriter();
+
+                byte[] header = { 71, 80, 0, 3, 230, 16, 0, 0, 136, 85, 15, 221, 159, 62, 46, 64, 191, 70, 63, 104, 1, 64, 46, 64, 11, 136, 47, 123, 112, 16, 72, 64, 62, 68, 255, 202, 185, 16, 72, 64 };
+
+                byte[] rawData = writer.Write(geo);
+                rawData = header.Concat(rawData).ToArray();
+
+                if (File.Exists(gpkgPath))
+                {
+                    File.Delete(gpkgPath);
+                }
+
+                using (SQLiteConnection connection = new SQLiteConnection($"Data Source={gpkgPath};Version=3;"))
+                {
+                    connection.Open();
+                    connection.Close();
+                }
+
+
+                using (SQLiteConnection connection = new SQLiteConnection($"Data Source={gpkgPath};Version=3;"))
+                {
+                    connection.Open();
+
+                    //connection.LoadExtension("mod_spatialite");
+
+                    List<string> queries = new List<string>();
+                    // SQL-Befehl zum Erstellen von Tabelle
+                    queries.Add(@"CREATE TABLE " + tablename + @" ( ""fid"" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ""geometry"" POLYGON)");
+                    queries.Add(@"CREATE TABLE gpkg_contents (table_name TEXT NOT NULL PRIMARY KEY,data_type TEXT NOT NULL,identifier TEXT UNIQUE,description TEXT DEFAULT '',last_change DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),min_x DOUBLE, min_y DOUBLE,max_x DOUBLE, max_y DOUBLE,srs_id INTEGER,CONSTRAINT fk_gc_r_srs_id FOREIGN KEY (srs_id) REFERENCES gpkg_spatial_ref_sys(srs_id))");
+                    queries.Add(@"CREATE TABLE gpkg_extensions (table_name TEXT,column_name TEXT,extension_name TEXT NOT NULL,definition TEXT NOT NULL,scope TEXT NOT NULL,CONSTRAINT ge_tce UNIQUE (table_name, column_name, extension_name))");
+                    queries.Add(@"CREATE TABLE gpkg_geometry_columns (table_name TEXT NOT NULL,column_name TEXT NOT NULL,geometry_type_name TEXT NOT NULL,srs_id INTEGER NOT NULL,z TINYINT NOT NULL,m TINYINT NOT NULL,CONSTRAINT pk_geom_cols PRIMARY KEY (table_name, column_name),CONSTRAINT uk_gc_table_name UNIQUE (table_name),CONSTRAINT fk_gc_tn FOREIGN KEY (table_name) REFERENCES gpkg_contents(table_name),CONSTRAINT fk_gc_srs FOREIGN KEY (srs_id) REFERENCES gpkg_spatial_ref_sys (srs_id))");
+                    queries.Add(@"CREATE TABLE gpkg_ogr_contents(table_name TEXT NOT NULL PRIMARY KEY,feature_count INTEGER DEFAULT NULL)");
+                    queries.Add(@"CREATE TABLE gpkg_spatial_ref_sys (srs_name TEXT NOT NULL,srs_id INTEGER NOT NULL PRIMARY KEY,organization TEXT NOT NULL,organization_coordsys_id INTEGER NOT NULL,definition  TEXT NOT NULL,description TEXT)");
+                    queries.Add(@"CREATE TABLE gpkg_tile_matrix (table_name TEXT NOT NULL,zoom_level INTEGER NOT NULL,matrix_width INTEGER NOT NULL,matrix_height INTEGER NOT NULL,tile_width INTEGER NOT NULL,tile_height INTEGER NOT NULL,pixel_x_size DOUBLE NOT NULL,pixel_y_size DOUBLE NOT NULL,CONSTRAINT pk_ttm PRIMARY KEY (table_name, zoom_level),CONSTRAINT fk_tmm_table_name FOREIGN KEY (table_name) REFERENCES gpkg_contents(table_name))");
+                    queries.Add(@"CREATE TABLE gpkg_tile_matrix_set (table_name TEXT NOT NULL PRIMARY KEY,srs_id INTEGER NOT NULL,min_x DOUBLE NOT NULL,min_y DOUBLE NOT NULL,max_x DOUBLE NOT NULL,max_y DOUBLE NOT NULL,CONSTRAINT fk_gtms_table_name FOREIGN KEY (table_name) REFERENCES gpkg_contents(table_name),CONSTRAINT fk_gtms_srs FOREIGN KEY (srs_id) REFERENCES gpkg_spatial_ref_sys (srs_id))");
+                    queries.Add(@"CREATE VIRTUAL TABLE ""rtree_" + tablename + @"_geometry"" USING rtree(id, minx, maxx, miny, maxy)");
+
+
+                    // SQL-Befehle zum einfuegen von Daten
+                    queries.Add(@"INSERT INTO gpkg_spatial_ref_sys (srs_name, srs_id, organization, organization_coordsys_id, definition, description) VALUES (""Undefined Cartesian SRS"", -1, ""NONE"", -1, ""undefinded"", ""undefined Cartesian coordinate reference system"");");
+                    queries.Add(@"INSERT INTO gpkg_spatial_ref_sys (srs_name, srs_id, organization, organization_coordsys_id, definition, description) VALUES (""Undefined geographic SRS"", 0, ""NONE"", 0, ""undefinded"", ""undefined geographic coordinate reference system"");");
+                    queries.Add(@"INSERT INTO gpkg_spatial_ref_sys (srs_name, srs_id, organization, organization_coordsys_id, definition, description) VALUES (""WGS 84 geodetic"", 4326, ""EPSG"", 4326, 'GEOGCS[""WGS 84"",DATUM[""WGS_1984"",SPHEROID[""WGS 84"",6378137,298.257223563,AUTHORITY[""EPSG"",""7030""]],AUTHORITY[""EPSG"",""6326""]],PRIMEM[""Greenwich"",0,AUTHORITY[""EPSG"",""8901""]],UNIT[""degree"",0.0174532925199433,AUTHORITY[""EPSG"",""9122""]],AXIS[""Latitude"",NORTH],AXIS[""Longitude"",EAST],AUTHORITY[""EPSG"",""4326""]]', ""longitude/latitude coordinates in decimal degrees on the WGS 84 spheroid"");");
+                    queries.Add(String.Format(@"INSERT INTO gpkg_contents (table_name, data_type, identifier, min_x, min_y, max_x, max_y, srs_id) VALUES (""{0}"", ""features"", ""{0}"", {1}, {2}, {3}, {4},  4326);", tablename, xMin, yMin, xMax, yMax));
+                    queries.Add(String.Format(@"INSERT INTO gpkg_geometry_columns (table_name, column_name, geometry_type_name, srs_id, z, m) VALUES (""{0}"", ""geometry"", ""POLYGON"", 4326, 0, 0);", tablename));
+                    queries.Add(String.Format(@"INSERT INTO gpkg_ogr_contents (table_name, feature_count) VALUES (""{0}"", 1);", tablename));
+                    queries.Add(String.Format(@"INSERT INTO rtree_{0}_geometry_rowid (rowid, nodeno) VALUES (1,1);", tablename));
+                    queries.Add(String.Format(@"INSERT INTO rtree_{0}_geometry (minx, maxx, miny, maxy) VALUES ({1}, {2}, {3}, {4});", tablename, xMin, xMax, yMin, yMax));
+
+                    foreach (string q in queries)
+                    {
+                        SQLiteCommand comm = new SQLiteCommand(q, connection);
+                        Console.WriteLine(q);
+                        Console.WriteLine(comm.ExecuteScalar());
+                    }
+
+                    connection.Close();
+                }
+
+                using (SQLiteConnection connection = new SQLiteConnection($"Data Source={gpkgPath};Version=3;"))
+                {
+
+                    connection.Open();
+                    connection.EnableExtensions(true);
+
+                    string insertQuery = @"
                 INSERT INTO " + tablename + " (fid, Geometry) VALUES (1, @PolygonData)";
 
-                string sqlCommand = "INSERT INTO fields (fid, geometry) VALUES (1, @BlobData)";
-                using (SQLiteCommand command = new SQLiteCommand(sqlCommand, connection))
-                {
-                    // SQLite-Parameter hinzufügen
-                    command.Parameters.Add("@BlobData", DbType.Binary).Value = rawData;
+                    string sqlCommand = "INSERT INTO fields (fid, geometry) VALUES (1, @BlobData)";
+                    using (SQLiteCommand command = new SQLiteCommand(sqlCommand, connection))
+                    {
+                        // SQLite-Parameter hinzufügen
+                        command.Parameters.Add("@BlobData", DbType.Binary).Value = rawData;
 
-                    // Befehl ausführen
-                    command.ExecuteNonQuery();
+                        // Befehl ausführen
+                        command.ExecuteNonQuery();
+                    }
+
+                    List<string> queries2 = new List<string>();
+
+                    queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_matrix_height_insert' BEFORE INSERT ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'insert on table ''gpkg_tile_matrix'' violates constraint: matrix_height cannot be less than 1') WHERE (NEW.matrix_height < 1); END");
+                    queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_matrix_height_update' BEFORE UPDATE OF matrix_height ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'update on table ''gpkg_tile_matrix'' violates constraint: matrix_height cannot be less than 1') WHERE (NEW.matrix_height < 1); END");
+                    queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_matrix_width_insert' BEFORE INSERT ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'insert on table ''gpkg_tile_matrix'' violates constraint: matrix_width cannot be less than 1') WHERE (NEW.matrix_width < 1); END");
+                    queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_matrix_width_update' BEFORE UPDATE OF matrix_width ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'update on table ''gpkg_tile_matrix'' violates constraint: matrix_width cannot be less than 1') WHERE (NEW.matrix_width < 1); END");
+                    queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_pixel_x_size_insert' BEFORE INSERT ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'insert on table ''gpkg_tile_matrix'' violates constraint: pixel_x_size must be greater than 0') WHERE NOT (NEW.pixel_x_size > 0); END");
+                    queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_pixel_x_size_update' BEFORE UPDATE OF pixel_x_size ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'update on table ''gpkg_tile_matrix'' violates constraint: pixel_x_size must be greater than 0') WHERE NOT (NEW.pixel_x_size > 0); END");
+                    queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_pixel_y_size_insert' BEFORE INSERT ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'insert on table ''gpkg_tile_matrix'' violates constraint: pixel_y_size must be greater than 0') WHERE NOT (NEW.pixel_y_size > 0); END");
+                    queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_pixel_y_size_update' BEFORE UPDATE OF pixel_y_size ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'update on table ''gpkg_tile_matrix'' violates constraint: pixel_y_size must be greater than 0') WHERE NOT (NEW.pixel_y_size > 0); END");
+                    queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_zoom_level_insert' BEFORE INSERT ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'insert on table ''gpkg_tile_matrix'' violates constraint: zoom_level cannot be less than 0') WHERE (NEW.zoom_level < 0); END");
+                    queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_zoom_level_update' BEFORE UPDATE of zoom_level ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'update on table ''gpkg_tile_matrix'' violates constraint: zoom_level cannot be less than 0') WHERE (NEW.zoom_level < 0); END");
+                    queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_delete"" AFTER DELETE ON """ + tablename + @""" WHEN old.""geometry"" NOT NULL BEGIN DELETE FROM ""rtree_" + tablename + @"_geometry"" WHERE id = OLD.""fid""; END");
+                    queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_insert"" AFTER INSERT ON """ + tablename + @""" WHEN (new.""geometry"" NOT NULL AND NOT ST_IsEmpty(NEW.""geometry"")) BEGIN INSERT OR REPLACE INTO ""rtree_" + tablename + @"_geometry"" VALUES (NEW.""fid"",ST_MinX(NEW.""geometry""), ST_MaxX(NEW.""geometry""),ST_MinY(NEW.""geometry""), ST_MaxY(NEW.""geometry"")); END");
+                    queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_update1"" AFTER UPDATE OF ""geometry"" ON """ + tablename + @""" WHEN OLD.""fid"" = NEW.""fid"" AND (NEW.""geometry"" NOTNULL AND NOT ST_IsEmpty(NEW.""geometry"")) BEGIN INSERT OR REPLACE INTO ""rtree_" + tablename + @"_geometry"" VALUES (NEW.""fid"",ST_MinX(NEW.""geometry""), ST_MaxX(NEW.""geometry""),ST_MinY(NEW.""geometry""), ST_MaxY(NEW.""geometry"")); END");
+                    queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_update2"" AFTER UPDATE OF ""geometry"" ON """ + tablename + @""" WHEN OLD.""fid"" = NEW.""fid"" AND (NEW.""geometry"" ISNULL OR ST_IsEmpty(NEW.""geometry"")) BEGIN DELETE FROM ""rtree_" + tablename + @"_geometry"" WHERE id = OLD.""fid""; END");
+                    queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_update3"" AFTER UPDATE ON """ + tablename + @""" WHEN OLD.""fid"" != NEW.""fid"" AND (NEW.""geometry"" NOTNULL AND NOT ST_IsEmpty(NEW.""geometry"")) BEGIN DELETE FROM ""rtree_" + tablename + @"_geometry"" WHERE id = OLD.""fid""; INSERT OR REPLACE INTO ""rtree_" + tablename + @"_geometry"" VALUES (NEW.""fid"",ST_MinX(NEW.""geometry""), ST_MaxX(NEW.""geometry""),ST_MinY(NEW.""geometry""), ST_MaxY(NEW.""geometry"")); END");
+                    queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_update4"" AFTER UPDATE ON """ + tablename + @""" WHEN OLD.""fid"" != NEW.""fid"" AND (NEW.""geometry"" ISNULL OR ST_IsEmpty(NEW.""geometry"")) BEGIN DELETE FROM ""rtree_" + tablename + @"_geometry"" WHERE id IN (OLD.""fid"", NEW.""fid""); END");
+                    queries2.Add(@"CREATE TRIGGER ""trigger_delete_feature_count_" + tablename + @""" AFTER DELETE ON """ + tablename + @""" BEGIN UPDATE gpkg_ogr_contents SET feature_count = feature_count - 1 WHERE lower(table_name) = lower('" + tablename + @"'); END");
+                    queries2.Add(@"CREATE TRIGGER ""trigger_insert_feature_count_" + tablename + @""" AFTER INSERT ON """ + tablename + @""" BEGIN UPDATE gpkg_ogr_contents SET feature_count = feature_count + 1 WHERE lower(table_name) = lower('" + tablename + @"'); END");
+
+                    foreach (string q in queries2)
+                    {
+                        SQLiteCommand comm = new SQLiteCommand(q, connection);
+                        Console.WriteLine(q);
+                        Console.WriteLine(comm.ExecuteScalar());
+                    }
+
+                    connection.Close();
                 }
-
-                List<string> queries2 = new List<string>();
-
-                queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_matrix_height_insert' BEFORE INSERT ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'insert on table ''gpkg_tile_matrix'' violates constraint: matrix_height cannot be less than 1') WHERE (NEW.matrix_height < 1); END");
-                queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_matrix_height_update' BEFORE UPDATE OF matrix_height ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'update on table ''gpkg_tile_matrix'' violates constraint: matrix_height cannot be less than 1') WHERE (NEW.matrix_height < 1); END");
-                queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_matrix_width_insert' BEFORE INSERT ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'insert on table ''gpkg_tile_matrix'' violates constraint: matrix_width cannot be less than 1') WHERE (NEW.matrix_width < 1); END");
-                queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_matrix_width_update' BEFORE UPDATE OF matrix_width ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'update on table ''gpkg_tile_matrix'' violates constraint: matrix_width cannot be less than 1') WHERE (NEW.matrix_width < 1); END");
-                queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_pixel_x_size_insert' BEFORE INSERT ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'insert on table ''gpkg_tile_matrix'' violates constraint: pixel_x_size must be greater than 0') WHERE NOT (NEW.pixel_x_size > 0); END");
-                queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_pixel_x_size_update' BEFORE UPDATE OF pixel_x_size ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'update on table ''gpkg_tile_matrix'' violates constraint: pixel_x_size must be greater than 0') WHERE NOT (NEW.pixel_x_size > 0); END");
-                queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_pixel_y_size_insert' BEFORE INSERT ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'insert on table ''gpkg_tile_matrix'' violates constraint: pixel_y_size must be greater than 0') WHERE NOT (NEW.pixel_y_size > 0); END");
-                queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_pixel_y_size_update' BEFORE UPDATE OF pixel_y_size ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'update on table ''gpkg_tile_matrix'' violates constraint: pixel_y_size must be greater than 0') WHERE NOT (NEW.pixel_y_size > 0); END");
-                queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_zoom_level_insert' BEFORE INSERT ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'insert on table ''gpkg_tile_matrix'' violates constraint: zoom_level cannot be less than 0') WHERE (NEW.zoom_level < 0); END");
-                queries2.Add(@"CREATE TRIGGER 'gpkg_tile_matrix_zoom_level_update' BEFORE UPDATE of zoom_level ON 'gpkg_tile_matrix' FOR EACH ROW BEGIN SELECT RAISE(ABORT, 'update on table ''gpkg_tile_matrix'' violates constraint: zoom_level cannot be less than 0') WHERE (NEW.zoom_level < 0); END");
-                queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_delete"" AFTER DELETE ON """ + tablename + @""" WHEN old.""geometry"" NOT NULL BEGIN DELETE FROM ""rtree_" + tablename + @"_geometry"" WHERE id = OLD.""fid""; END");
-                queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_insert"" AFTER INSERT ON """ + tablename + @""" WHEN (new.""geometry"" NOT NULL AND NOT ST_IsEmpty(NEW.""geometry"")) BEGIN INSERT OR REPLACE INTO ""rtree_" + tablename + @"_geometry"" VALUES (NEW.""fid"",ST_MinX(NEW.""geometry""), ST_MaxX(NEW.""geometry""),ST_MinY(NEW.""geometry""), ST_MaxY(NEW.""geometry"")); END");
-                queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_update1"" AFTER UPDATE OF ""geometry"" ON """ + tablename + @""" WHEN OLD.""fid"" = NEW.""fid"" AND (NEW.""geometry"" NOTNULL AND NOT ST_IsEmpty(NEW.""geometry"")) BEGIN INSERT OR REPLACE INTO ""rtree_" + tablename + @"_geometry"" VALUES (NEW.""fid"",ST_MinX(NEW.""geometry""), ST_MaxX(NEW.""geometry""),ST_MinY(NEW.""geometry""), ST_MaxY(NEW.""geometry"")); END");
-                queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_update2"" AFTER UPDATE OF ""geometry"" ON """ + tablename + @""" WHEN OLD.""fid"" = NEW.""fid"" AND (NEW.""geometry"" ISNULL OR ST_IsEmpty(NEW.""geometry"")) BEGIN DELETE FROM ""rtree_" + tablename + @"_geometry"" WHERE id = OLD.""fid""; END");
-                queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_update3"" AFTER UPDATE ON """ + tablename + @""" WHEN OLD.""fid"" != NEW.""fid"" AND (NEW.""geometry"" NOTNULL AND NOT ST_IsEmpty(NEW.""geometry"")) BEGIN DELETE FROM ""rtree_" + tablename + @"_geometry"" WHERE id = OLD.""fid""; INSERT OR REPLACE INTO ""rtree_" + tablename + @"_geometry"" VALUES (NEW.""fid"",ST_MinX(NEW.""geometry""), ST_MaxX(NEW.""geometry""),ST_MinY(NEW.""geometry""), ST_MaxY(NEW.""geometry"")); END");
-                queries2.Add(@"CREATE TRIGGER ""rtree_" + tablename + @"_geometry_update4"" AFTER UPDATE ON """ + tablename + @""" WHEN OLD.""fid"" != NEW.""fid"" AND (NEW.""geometry"" ISNULL OR ST_IsEmpty(NEW.""geometry"")) BEGIN DELETE FROM ""rtree_" + tablename + @"_geometry"" WHERE id IN (OLD.""fid"", NEW.""fid""); END");
-                queries2.Add(@"CREATE TRIGGER ""trigger_delete_feature_count_" + tablename + @""" AFTER DELETE ON """ + tablename + @""" BEGIN UPDATE gpkg_ogr_contents SET feature_count = feature_count - 1 WHERE lower(table_name) = lower('" + tablename + @"'); END");
-                queries2.Add(@"CREATE TRIGGER ""trigger_insert_feature_count_" + tablename + @""" AFTER INSERT ON """ + tablename + @""" BEGIN UPDATE gpkg_ogr_contents SET feature_count = feature_count + 1 WHERE lower(table_name) = lower('" + tablename + @"'); END");
-
-                foreach (string q in queries2)
-                {
-                    SQLiteCommand comm = new SQLiteCommand(q, connection);
-                    Console.WriteLine(q);
-                    Console.WriteLine(comm.ExecuteScalar());
-                }
-
-                connection.Close();
             }
+            catch
+            {
+                mf.TimedMessageBox(2000, gStr.gsError, gStr.gsErrorReadingFile);
+            }
+            
 
         }
 
         private void Export_IsoXml(string kmlPath, string isoXmlDirPath, string farm, string farmer)
         {
-            string[] coordinates = this.ReadExistingKML(kmlPath);
-            for (int i = 0; i < coordinates.Length; i++)
+            try
             {
-                coordinates[i] = coordinates[i].Replace(",0", "");
-                coordinates[i] = coordinates[i].Replace(',', ' ');
-                coordinates[i] = coordinates[i] + ",";
+                string[] coordinates = this.ReadExistingKML(kmlPath);
+                for (int i = 0; i < coordinates.Length; i++)
+                {
+                    coordinates[i] = coordinates[i].Replace(",0", "");
+                    coordinates[i] = coordinates[i].Replace(',', ' ');
+                    coordinates[i] = coordinates[i] + ",";
+                }
+                coordinates[coordinates.Length - 1] = coordinates[coordinates.Length - 1].Replace(",", "");
+                coordinates[coordinates.Length - 2] = coordinates[coordinates.Length - 2].Replace(",", "");
+
+                coordinates = coordinates.Take(coordinates.Count() - 1).ToArray();
+
+                IsoXml.IsoXml isoxml = new IsoXml.IsoXml(farmer, farm);
+                FieldBoundary boundary = new FieldBoundary();
+
+                PFD pfd = new PFD();
+                int pfdCnt = 1;
+                pfd.Name = Path.GetFileName(Path.GetDirectoryName(kmlPath));
+
+                isoxml.PFDList.Add(pfd);
+
+                pfd.Depth = 1;
+                pfd.Id = pfdCnt;
+                pfdCnt++;
+                pfd.PLN = new PLN();
+                pfd.PLN.Depth = 1;
+                LSG lsg = new LSG();
+                lsg.Depth = 1;
+                lsg.LSGType = LSG.Type.Boundary;
+                pfd.PLN.LSG = lsg;
+                foreach (string coordinate in coordinates)
+                {
+                    string[] coordAr = coordinate.Replace(",", "").Split(' ');
+                    lsg.Points.Add(new PNT(decimal.Parse(coordAr[0]), decimal.Parse(coordAr[1]), PNT.PntType.Boundary) { Depth = 4 });
+                }
+
+                Directory.CreateDirectory(isoXmlDirPath);
+                string isoXmlDirPath2 = isoXmlDirPath + "\\TASKDATA";
+                Directory.CreateDirectory(isoXmlDirPath2);
+                string isoXmlPath = isoXmlDirPath2 + "\\TASKDATA.xml";
+
+                File.WriteAllText(isoXmlPath, isoxml.ToString());
+                string zipPath = isoXmlDirPath + ".zip";
+
+                if (!File.Exists(zipPath))
+                {
+                    ZipFile.CreateFromDirectory(isoXmlDirPath, zipPath);
+                    Directory.Delete(isoXmlDirPath, true);
+                }
+                else
+                {
+                    Directory.Delete(isoXmlDirPath, true);
+
+                }
             }
-            coordinates[coordinates.Length - 1] = coordinates[coordinates.Length - 1].Replace(",", "");
-            coordinates[coordinates.Length - 2] = coordinates[coordinates.Length - 2].Replace(",", "");
-
-            coordinates = coordinates.Take(coordinates.Count() - 1).ToArray();
-
-            IsoXml.IsoXml isoxml = new IsoXml.IsoXml(farmer, farm);
-            FieldBoundary boundary = new FieldBoundary();
-
-            PFD pfd = new PFD();
-            int pfdCnt = 1;
-            pfd.Name = Path.GetFileName(Path.GetDirectoryName(kmlPath)); 
-
-            isoxml.PFDList.Add(pfd);
-
-            pfd.Depth = 1;
-            pfd.Id = pfdCnt;
-            pfdCnt++;
-            pfd.PLN = new PLN();
-            pfd.PLN.Depth = 1;
-            LSG lsg = new LSG();
-            lsg.Depth = 1;
-            lsg.LSGType = LSG.Type.Boundary;
-            pfd.PLN.LSG = lsg;
-            foreach(string coordinate in coordinates)
+            catch
             {
-                string[] coordAr = coordinate.Replace(",", "").Split(' ');
-                lsg.Points.Add(new PNT(decimal.Parse(coordAr[0]), decimal.Parse(coordAr[1]), PNT.PntType.Boundary) { Depth = 4 });
+                mf.TimedMessageBox(2000, gStr.gsError, gStr.gsErrorReadingFile);
             }
-
-            Directory.CreateDirectory(isoXmlDirPath);
-            string isoXmlDirPath2 = isoXmlDirPath + "\\TASKDATA";
-            Directory.CreateDirectory(isoXmlDirPath2);
-            string isoXmlPath = isoXmlDirPath2 + "\\TASKDATA.xml";
-
-            File.WriteAllText(isoXmlPath, isoxml.ToString());
-            string zipPath = isoXmlDirPath + ".zip";
-
-            if (!File.Exists(zipPath))
-            {
-                ZipFile.CreateFromDirectory(isoXmlDirPath, zipPath);
-                Directory.Delete(isoXmlDirPath, true);
-            }
-            else
-            {
-                Directory.Delete(isoXmlDirPath, true);
-                
-            }
+ 
 
         }
 
         private void Export_GeoJson(string kmlPath, string geojsonPath)
         {
-            var feature = new JObject();
-            feature["type"] = "Feature";
-            feature["geometry"] = new JObject();
-            feature["geometry"]["type"] = "Polygon";
-            feature["geometry"]["coordinates"] = new JArray();
-
-            var crs = new JObject();
-            var featureCollection = new JObject();
-            crs["type"] = "name";
-            var properties = new JObject();
-            properties["name"] = "urn:ogc:def:crs:OGC:1.3:CRS84";
-            crs["properties"] = properties;
-            featureCollection["crs"] = crs;
-
-            var coordinatesArray = new JArray();
-            string[] coordinates = this.ReadExistingKML(kmlPath);
-
-            foreach (var coordinate in coordinates)
+            try
             {
-                if (coordinate != string.Empty)
+                var feature = new JObject();
+                feature["type"] = "Feature";
+                feature["geometry"] = new JObject();
+                feature["geometry"]["type"] = "Polygon";
+                feature["geometry"]["coordinates"] = new JArray();
+
+                var crs = new JObject();
+                var featureCollection = new JObject();
+                crs["type"] = "name";
+                var properties = new JObject();
+                properties["name"] = "urn:ogc:def:crs:OGC:1.3:CRS84";
+                crs["properties"] = properties;
+                featureCollection["crs"] = crs;
+
+                var coordinatesArray = new JArray();
+                string[] coordinates = this.ReadExistingKML(kmlPath);
+
+                foreach (var coordinate in coordinates)
                 {
-                    string temp = coordinate.Substring(0, coordinate.Length - 2); ;
-                    var coords = temp.Split(',');
-                    var longitude = double.Parse(coords[0], CultureInfo.InvariantCulture);
-                    var latitude = double.Parse(coords[1], CultureInfo.InvariantCulture);
-                    coordinatesArray.Add(new JArray(longitude, latitude));
+                    if (coordinate != string.Empty)
+                    {
+                        string temp = coordinate.Substring(0, coordinate.Length - 2); ;
+                        var coords = temp.Split(',');
+                        var longitude = double.Parse(coords[0], CultureInfo.InvariantCulture);
+                        var latitude = double.Parse(coords[1], CultureInfo.InvariantCulture);
+                        coordinatesArray.Add(new JArray(longitude, latitude));
+                    }
                 }
-            }
             // Add the array of coordinates to the Polygon feature
             ((JArray)feature["geometry"]["coordinates"]).Add(coordinatesArray);
 
-            // Add properties if needed
-            feature["properties"] = new JObject();
+                // Add properties if needed
+                feature["properties"] = new JObject();
 
-            // Create a FeatureCollection object to hold the Polygon feature
-            featureCollection["type"] = "FeatureCollection";
-            featureCollection["features"] = new JArray(feature);
+                // Create a FeatureCollection object to hold the Polygon feature
+                featureCollection["type"] = "FeatureCollection";
+                featureCollection["features"] = new JArray(feature);
 
-            // Save GeoJSON to a file
-            File.WriteAllText(geojsonPath, JsonConvert.SerializeObject(featureCollection, Formatting.Indented));
+                // Save GeoJSON to a file
+                File.WriteAllText(geojsonPath, JsonConvert.SerializeObject(featureCollection, Formatting.Indented));
+            }
+            catch
+            {
+                mf.TimedMessageBox(2000, gStr.gsError, gStr.gsErrorReadingFile);
+            }
+            
         }
 
         private void cbChooseFiletype_TextChanged(object sender, EventArgs e)

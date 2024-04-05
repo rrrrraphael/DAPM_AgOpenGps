@@ -46,6 +46,10 @@ namespace AgOpenGPS
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.cbChooseFiletype = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.lbFarmer = new System.Windows.Forms.Label();
+            this.lbFarm = new System.Windows.Forms.Label();
+            this.txtFarmer = new System.Windows.Forms.TextBox();
+            this.txtFarm = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lvLines
@@ -65,7 +69,7 @@ namespace AgOpenGPS
             this.lvLines.Location = new System.Drawing.Point(5, 12);
             this.lvLines.MultiSelect = false;
             this.lvLines.Name = "lvLines";
-            this.lvLines.Size = new System.Drawing.Size(967, 459);
+            this.lvLines.Size = new System.Drawing.Size(996, 459);
             this.lvLines.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvLines.TabIndex = 86;
             this.lvLines.UseCompatibleStateImageBehavior = false;
@@ -96,7 +100,7 @@ namespace AgOpenGPS
             this.btnByDistance.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnByDistance.Image = global::AgOpenGPS.Properties.Resources.Sort;
             this.btnByDistance.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnByDistance.Location = new System.Drawing.Point(163, 507);
+            this.btnByDistance.Location = new System.Drawing.Point(163, 558);
             this.btnByDistance.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnByDistance.Name = "btnByDistance";
             this.btnByDistance.Size = new System.Drawing.Size(147, 63);
@@ -113,7 +117,7 @@ namespace AgOpenGPS
             this.btnExportLv.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportLv.Image = global::AgOpenGPS.Properties.Resources.FileOpen;
             this.btnExportLv.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportLv.Location = new System.Drawing.Point(697, 507);
+            this.btnExportLv.Location = new System.Drawing.Point(697, 558);
             this.btnExportLv.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnExportLv.Name = "btnExportLv";
             this.btnExportLv.Size = new System.Drawing.Size(261, 63);
@@ -129,7 +133,7 @@ namespace AgOpenGPS
             this.btnDeleteAB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.btnDeleteAB.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnDeleteAB.Image = global::AgOpenGPS.Properties.Resources.Cancel64;
-            this.btnDeleteAB.Location = new System.Drawing.Point(367, 507);
+            this.btnDeleteAB.Location = new System.Drawing.Point(367, 558);
             this.btnDeleteAB.Name = "btnDeleteAB";
             this.btnDeleteAB.Size = new System.Drawing.Size(71, 63);
             this.btnDeleteAB.TabIndex = 91;
@@ -141,7 +145,7 @@ namespace AgOpenGPS
             this.btnDeleteField.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.btnDeleteField.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnDeleteField.Image = global::AgOpenGPS.Properties.Resources.skull;
-            this.btnDeleteField.Location = new System.Drawing.Point(46, 507);
+            this.btnDeleteField.Location = new System.Drawing.Point(46, 558);
             this.btnDeleteField.Name = "btnDeleteField";
             this.btnDeleteField.Size = new System.Drawing.Size(71, 63);
             this.btnDeleteField.TabIndex = 94;
@@ -152,7 +156,7 @@ namespace AgOpenGPS
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(43, 488);
+            this.label1.Location = new System.Drawing.Point(43, 539);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 16);
             this.label1.TabIndex = 95;
@@ -162,7 +166,7 @@ namespace AgOpenGPS
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(380, 488);
+            this.label2.Location = new System.Drawing.Point(380, 539);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 16);
             this.label2.TabIndex = 96;
@@ -178,28 +182,80 @@ namespace AgOpenGPS
             "KML",
             "Shapefile",
             "Geopackage",
-            "GeoJSON"});
-            this.cbChooseFiletype.Location = new System.Drawing.Point(482, 521);
+            "GeoJSON",
+            "ISOXML"});
+            this.cbChooseFiletype.Location = new System.Drawing.Point(482, 572);
             this.cbChooseFiletype.Name = "cbChooseFiletype";
             this.cbChooseFiletype.Size = new System.Drawing.Size(172, 37);
             this.cbChooseFiletype.TabIndex = 97;
+            this.cbChooseFiletype.TextChanged += new System.EventHandler(this.cbChooseFiletype_TextChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(517, 502);
+            this.label3.Location = new System.Drawing.Point(517, 553);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(97, 16);
             this.label3.TabIndex = 98;
             this.label3.Text = "Choose Filetype";
             // 
+            // lbFarmer
+            // 
+            this.lbFarmer.AutoSize = true;
+            this.lbFarmer.Font = new System.Drawing.Font("Tahoma", 16F);
+            this.lbFarmer.Location = new System.Drawing.Point(362, 505);
+            this.lbFarmer.Name = "lbFarmer";
+            this.lbFarmer.Size = new System.Drawing.Size(89, 27);
+            this.lbFarmer.TabIndex = 99;
+            this.lbFarmer.Text = "Farmer:";
+            this.lbFarmer.Visible = false;
+            // 
+            // lbFarm
+            // 
+            this.lbFarm.AutoSize = true;
+            this.lbFarm.Font = new System.Drawing.Font("Tahoma", 16F);
+            this.lbFarm.Location = new System.Drawing.Point(692, 501);
+            this.lbFarm.Name = "lbFarm";
+            this.lbFarm.Size = new System.Drawing.Size(69, 27);
+            this.lbFarm.TabIndex = 100;
+            this.lbFarm.Text = "Farm:";
+            this.lbFarm.Visible = false;
+            // 
+            // txtFarmer
+            // 
+            this.txtFarmer.Font = new System.Drawing.Font("Tahoma", 16F);
+            this.txtFarmer.Location = new System.Drawing.Point(482, 502);
+            this.txtFarmer.Name = "txtFarmer";
+            this.txtFarmer.Size = new System.Drawing.Size(172, 33);
+            this.txtFarmer.TabIndex = 101;
+            this.txtFarmer.Text = "AgOpenFarmer";
+            this.txtFarmer.Visible = false;
+            this.txtFarmer.Enter += new System.EventHandler(this.txtFarmer_Enter);
+            this.txtFarmer.Leave += new System.EventHandler(this.txtFarmer_Leave);
+            // 
+            // txtFarm
+            // 
+            this.txtFarm.Font = new System.Drawing.Font("Tahoma", 16F);
+            this.txtFarm.Location = new System.Drawing.Point(776, 499);
+            this.txtFarm.Name = "txtFarm";
+            this.txtFarm.Size = new System.Drawing.Size(182, 33);
+            this.txtFarm.TabIndex = 102;
+            this.txtFarm.Text = "AgOpenFarm";
+            this.txtFarm.Visible = false;
+            this.txtFarm.Enter += new System.EventHandler(this.txtFarm_Enter);
+            this.txtFarm.Leave += new System.EventHandler(this.txtFarm_Leave);
+            // 
             // FormFilePickerForExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(972, 578);
+            this.ClientSize = new System.Drawing.Size(1001, 634);
             this.ControlBox = false;
+            this.Controls.Add(this.txtFarm);
+            this.Controls.Add(this.txtFarmer);
+            this.Controls.Add(this.lbFarm);
+            this.Controls.Add(this.lbFarmer);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.cbChooseFiletype);
             this.Controls.Add(this.label2);
@@ -237,5 +293,9 @@ namespace AgOpenGPS
         private FolderBrowserDialog folderBrowserDialog1;
         private ComboBox cbChooseFiletype;
         private Label label3;
+        private Label lbFarmer;
+        private Label lbFarm;
+        private TextBox txtFarmer;
+        private TextBox txtFarm;
     }
 }

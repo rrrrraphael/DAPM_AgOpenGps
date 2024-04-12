@@ -306,8 +306,8 @@
   <data name="gsFromExisting" xml:space="preserve">
     <value>zFrom Existing</value>
   </data>
-  <data name="gsFromKml" xml:space="preserve">
-    <value>zFrom KML</value>
+  <data name="gsFromOther" xml:space="preserve">
+    <value>zFrom other</value>
   </data>
   <data name="gsGuidanceStopped" xml:space="preserve">
     <value>zGuidance Stopped</value>

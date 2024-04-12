@@ -32,7 +32,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnFromKML = new System.Windows.Forms.Button();
+            this.btnFromOther = new System.Windows.Forms.Button();
             this.btnFromISOXML = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnJobOpen = new System.Windows.Forms.Button();
@@ -59,15 +59,13 @@
             this.tableLayoutPanel1.Controls.Add(this.label4, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.label3, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnFromKML, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnFromOther, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnFromISOXML, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnJobOpen, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnJobClose, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnInField, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnJobResume, 2, 3);
             this.tableLayoutPanel1.Controls.Add(this.btnFromExisting, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.btnJobNew, 0, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
@@ -77,16 +75,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(605, 424);
             this.tableLayoutPanel1.TabIndex = 106;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(294, 318);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(17, 106);
-            this.label4.TabIndex = 111;
             // 
             // label3
             // 
@@ -108,28 +96,28 @@
             this.label2.Size = new System.Drawing.Size(17, 106);
             this.label2.TabIndex = 109;
             // 
-            // btnFromKML
+            // btnFromOther
             // 
-            this.btnFromKML.BackColor = System.Drawing.Color.Transparent;
-            this.btnFromKML.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnFromKML.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnFromKML.FlatAppearance.BorderSize = 0;
-            this.btnFromKML.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFromKML.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnFromKML.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnFromKML.Image = global::AgOpenGPS.Properties.Resources.BoundaryLoadFromGE;
-            this.btnFromKML.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFromKML.Location = new System.Drawing.Point(5, 110);
-            this.btnFromKML.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.btnFromKML.Name = "btnFromKML";
-            this.btnFromKML.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnFromKML.Size = new System.Drawing.Size(281, 98);
-            this.btnFromKML.TabIndex = 91;
-            this.btnFromKML.Text = "From KML";
-            this.btnFromKML.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFromKML.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnFromKML.UseVisualStyleBackColor = false;
-            this.btnFromKML.Click += new System.EventHandler(this.btnFromKML_Click);
+            this.btnFromOther.BackColor = System.Drawing.Color.Transparent;
+            this.btnFromOther.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnFromOther.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnFromOther.FlatAppearance.BorderSize = 0;
+            this.btnFromOther.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFromOther.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFromOther.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnFromOther.Image = global::AgOpenGPS.Properties.Resources.FileImportField;
+            this.btnFromOther.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFromOther.Location = new System.Drawing.Point(5, 131);
+            this.btnFromOther.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.btnFromOther.Name = "btnFromOther";
+            this.btnFromOther.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnFromOther.Size = new System.Drawing.Size(288, 120);
+            this.btnFromOther.TabIndex = 91;
+            this.btnFromOther.Text = "From other";
+            this.btnFromOther.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFromOther.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnFromOther.UseVisualStyleBackColor = false;
+            this.btnFromOther.Click += new System.EventHandler(this.btnFromKML_Click);
             // 
             // btnFromISOXML
             // 
@@ -373,7 +361,7 @@
         private System.Windows.Forms.Button btnFromExisting;
         private System.Windows.Forms.Button btnJobNew;
         private System.Windows.Forms.Button btnInField;
-        private System.Windows.Forms.Button btnFromKML;
+        private System.Windows.Forms.Button btnFromOther;
         private System.Windows.Forms.Button btnFromISOXML;
         private System.Windows.Forms.Button btnDeleteAB;
         private System.Windows.Forms.Label label1;

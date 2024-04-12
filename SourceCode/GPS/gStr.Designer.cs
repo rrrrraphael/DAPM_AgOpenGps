@@ -628,11 +628,11 @@ namespace AgOpenGPS {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to From KML.
+        ///   Looks up a localized string similar to from other.
         /// </summary>
-        public static string gsFromKml {
+        public static string gsFromOther {
             get {
-                return ResourceManager.GetString("gsFromKml", resourceCulture);
+                return ResourceManager.GetString("gsFromOther", resourceCulture);
             }
         }
         
@@ -1401,6 +1401,9 @@ namespace AgOpenGPS {
             }
         }
 
+
+
+
         /// <summary>
         ///   Looks up a localized string similar to Several fields in file.
         /// </summary>
@@ -1455,6 +1458,17 @@ namespace AgOpenGPS {
             get
             {
                 return ResourceManager.GetString("gsErrorReadingFile", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        public static string gsExport
+        {
+            get
+            {
+                return ResourceManager.GetString("gsExport", resourceCulture);
             }
         }
 

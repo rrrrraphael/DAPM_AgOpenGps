@@ -22,7 +22,7 @@ namespace AgOpenGPS
             btnJobNew.Text = gStr.gsNew;
             btnJobResume.Text = gStr.gsResume;
             btnInField.Text = gStr.gsDriveIn;
-            btnFromKML.Text = gStr.gsFromKml;
+            btnFromOther.Text = gStr.gsFromOther;
             btnFromExisting.Text = gStr.gsFromExisting;
             btnJobClose.Text = gStr.gsClose;
 

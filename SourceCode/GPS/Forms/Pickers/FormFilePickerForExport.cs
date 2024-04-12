@@ -14,9 +14,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ShpToIsoXml;
 using IsoXml;
-using NetTopologySuite.Operation;
 using System.IO.Compression;
-
 namespace AgOpenGPS
 {
     public partial class FormFilePickerForExport : Form

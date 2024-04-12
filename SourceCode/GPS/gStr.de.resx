@@ -303,8 +303,8 @@
   <data name="gsFromExisting" xml:space="preserve">
     <value>aus Bestehendem</value>
   </data>
-  <data name="gsFromKml" xml:space="preserve">
-    <value>aus KML</value>
+  <data name="gsFromOther" xml:space="preserve">
+    <value>aus Anderen</value>
   </data>
   <data name="gsHeadingChart" xml:space="preserve">
     <value>Fahrtrichtung (heading)</value>

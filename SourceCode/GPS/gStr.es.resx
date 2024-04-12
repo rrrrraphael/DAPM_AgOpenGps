@@ -303,8 +303,8 @@
   <data name="gsFromExisting" xml:space="preserve">
     <value>Desde existente</value>
   </data>
-  <data name="gsFromKml" xml:space="preserve">
-    <value>Desde KML</value>
+  <data name="gsFromOther" xml:space="preserve">
+    <value>de otro</value>
   </data>
   <data name="gsHeadingChart" xml:space="preserve">
     <value>Gráfico de rumbo</value>

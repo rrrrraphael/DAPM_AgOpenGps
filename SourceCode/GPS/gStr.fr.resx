@@ -303,8 +303,8 @@
   <data name="gsFromExisting" xml:space="preserve">
     <value>Depuis l'existant</value>
   </data>
-  <data name="gsFromKml" xml:space="preserve">
-    <value>Depuis KLM</value>
+  <data name="gsFromOther" xml:space="preserve">
+    <value>provenant d'autres</value>
   </data>
   <data name="gsHeadingChart" xml:space="preserve">
     <value>Grafique Cap</value>

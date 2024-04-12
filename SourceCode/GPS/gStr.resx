@@ -306,8 +306,8 @@
   <data name="gsFromExisting" xml:space="preserve">
     <value>From Existing</value>
   </data>
-  <data name="gsFromKml" xml:space="preserve">
-    <value>From KML</value>
+  <data name="gsFromOther" xml:space="preserve">
+    <value>from other</value>
   </data>
   <data name="gsGuidanceStopped" xml:space="preserve">
     <value>Guidance Stopped</value>

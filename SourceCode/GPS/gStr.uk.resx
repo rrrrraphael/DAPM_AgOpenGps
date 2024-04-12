@@ -303,8 +303,8 @@
   <data name="gsFromExisting" xml:space="preserve">
     <value>З існуючого</value>
   </data>
-  <data name="gsFromKml" xml:space="preserve">
-    <value>З KML</value>
+  <data name="gsFromOther" xml:space="preserve">
+    <value>від іншого</value>
   </data>
   <data name="gsHeadingChart" xml:space="preserve">
     <value>Діаграма курса</value>

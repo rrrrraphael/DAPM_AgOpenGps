@@ -309,8 +309,8 @@
   <data name="gsFromExisting" xml:space="preserve">
     <value>Meglévőből</value>
   </data>
-  <data name="gsFromKml" xml:space="preserve">
-    <value>KML Fájlból</value>
+  <data name="gsFromOther" xml:space="preserve">
+    <value>mástól</value>
   </data>
   <data name="gsHeadingChart" xml:space="preserve">
     <value>Irány grafikon</value>

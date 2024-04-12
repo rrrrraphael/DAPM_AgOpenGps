@@ -486,4 +486,22 @@
   <data name="gsWest" xml:space="preserve">
     <value>Zachód</value>
   </data>
+    <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Błąd odczytu z pliku</value>
+  </data>
+    <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Używane jest pierwsze pole</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>Wiele pól w pliku</value>
+  </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Eksport</value>
+  </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Wprowadź prawidłowy kod EPSG</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>Nieprawidłowy kod EPSG</value>
+  </data>
 </root>

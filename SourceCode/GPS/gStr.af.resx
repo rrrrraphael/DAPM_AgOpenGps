@@ -552,4 +552,22 @@
   <data name="gsXTEChart" xml:space="preserve">
     <value>zXTE Chart</value>
   </data>
+ <data name="gsTooManyFields" xml:space="preserve">
+    <value>Many field in file</value>
+  </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1st field is used</value>
+  </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Enter a valid EPSG-Code</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>EPSG-Code invalid</value>
+  </data>
+    <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>zError reading File</value>
+  </data>
 </root>

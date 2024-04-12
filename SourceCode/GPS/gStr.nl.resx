@@ -531,4 +531,22 @@
   <data name="gsXTEChart" xml:space="preserve">
     <value>XTE Grafiek</value>
   </data>
+    <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Fout bij lezen bestand</value>
+  </data>
+    <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1e veld wordt gebruikt</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>Meerdere velden in bestand</value>
+  </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Exporteren</value>
+  </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Voer een geldige EPSG-code in</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>EPSG-code ongeldig</value>
+  </data>
 </root>

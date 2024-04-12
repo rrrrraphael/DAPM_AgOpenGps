@@ -552,4 +552,22 @@
   <data name="v_SteerSettingsForm" xml:space="preserve">
     <value>https://www.youtube.com/watch?v=3SdvYgx8HHc</value>
   </data>
+    <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Error lectura el fichero de datos</value>
+  </data>
+    <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Se utiliza el primer campo</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>varios campos en el archivo</value>
+  </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Introduzca un código EPSG válido</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>Código EPSG inválida</value>
+  </data>
 </root>

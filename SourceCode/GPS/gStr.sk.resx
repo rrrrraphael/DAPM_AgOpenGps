@@ -537,4 +537,22 @@
   <data name="gsXTEChart" xml:space="preserve">
     <value>Graf odchýlky</value>
   </data>
+    <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Chyba pri čítaní zo súboru</value>
+  </data>
+    <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Používa sa 1. pole</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>niekoľko polí v súbore</value>
+  </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Zadajte platný kód EPSG</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>Neplatný kód EPSG</value>
+  </data>
 </root>

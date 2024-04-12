@@ -495,4 +495,22 @@
   <data name="gsWindowsStillOpen" xml:space="preserve">
     <value>Windows ancora aperto</value>
   </data>
+    <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Errore durante la lettura del file</value>
+  </data>
+    <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Viene utilizzato il 1° campo</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>Campi multipli nel file</value>
+  </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Esportare</value>
+  </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Inserisci un codice EPSG valido</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>Codice EPSG non valido</value>
+  </data>
 </root>

@@ -501,4 +501,22 @@
   <data name="v_SteerSettingsForm" xml:space="preserve">
     <value>https://www.youtube.com/watch?v=3SdvYgx8HHc</value>
   </data>
+    <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Dosyayı okumada hata</value>
+  </data>
+    <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1. alan kullanıldı</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>dosyadaki birkaç alan</value>
+  </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Ihracat</value>
+  </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Geçerli bir EPSG Kodu girin</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>EPSG Kodu geçersiz</value>
+  </data>
 </root>

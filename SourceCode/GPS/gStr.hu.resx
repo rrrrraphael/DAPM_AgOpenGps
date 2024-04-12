@@ -556,4 +556,22 @@
   <data name="v_SteerSettingsForm" xml:space="preserve">
     <value>https://www.youtube.com/watch?v=3SdvYgx8HHc</value>
   </data>
+    <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Hiba a fájl olvasása közben</value>
+  </data>
+    <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1. mezőt használjuk</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>Több mező a fájlban</value>
+  </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Adjon meg egy érvényes EPSG-kódot</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>Az EPSG-kód érvénytelen</value>
+  </data>
 </root>

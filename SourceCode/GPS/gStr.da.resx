@@ -495,4 +495,22 @@
   <data name="gsWindowsStillOpen" xml:space="preserve">
     <value>Windows stadig åben</value>
   </data>
+    <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Fejl ved indlæsning af fil</value>
+  </data>
+    <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1. felt bruges</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>flere felter i filen</value>
+  </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>eksport</value>
+  </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Indtast en gyldig EPSG-kode</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>EPSG-kode ugyldig</value>
+  </data>
 </root>

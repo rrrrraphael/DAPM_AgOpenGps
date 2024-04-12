@@ -68,6 +68,8 @@
             this.tableLayoutPanel1.Controls.Add(this.btnInField, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnFromExisting, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnExport, 4, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnJobResume, 4, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnJobNew, 4, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(14, 20);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
@@ -260,13 +262,17 @@
             this.btnExport.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnExport.Name = "btnExport";
             this.btnExport.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnExport.Size = new System.Drawing.Size(239, 133);
+            this.btnExport.Size = new System.Drawing.Size(237, 133);
             this.btnExport.TabIndex = 111;
             this.btnExport.Text = "Export";
             this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnExport.UseVisualStyleBackColor = false;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            this.btnExport.AllowDrop = true;
+            this.btnExport.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnExport.FlatAppearance.BorderSize = 0;
+
             // 
             // btnJobResume
             // 

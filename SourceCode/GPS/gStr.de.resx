@@ -537,4 +537,22 @@
   <data name="gsXTEChart" xml:space="preserve">
     <value>Abweichung von der Linie (XTE)</value>
   </data>
+  <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Fehler beim Datei einlesen</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>Mehrer Felder in Datei</value>
+  </data>
+  <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>1. Feld wird verwendet</value>
+  </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Geben Sie einen gültigen EPSG-Code ein</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>EPSG-Code ungültig</value>
+  </data>
 </root>

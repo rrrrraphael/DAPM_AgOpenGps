@@ -552,4 +552,22 @@
   <data name="v_SteerSettingsForm" xml:space="preserve">
     <value>https://www.youtube.com/watch?v=3SdvYgx8HHc</value>
   </data>
+    <data name="gsErrorReadingFile" xml:space="preserve">
+    <value>Помилка читання з файлу</value>
+  </data>
+    <data name="gsFirstOneIsUsed" xml:space="preserve">
+    <value>Використовується 1-е поле</value>
+  </data>
+  <data name="gsTooManyFields" xml:space="preserve">
+    <value>декілька полів у файлі</value>
+  </data>
+  <data name="gsExport" xml:space="preserve">
+    <value>експорт</value>
+  </data>
+  <data name="gsEnterValidEPSG" xml:space="preserve">
+    <value>Введіть дійсний EPSG-код</value>
+  </data>
+  <data name="gsInvalidEPSG" xml:space="preserve">
+    <value>Недійсний код EPSG</value>
+  </data>
 </root>

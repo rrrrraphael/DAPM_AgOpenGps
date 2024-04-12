@@ -529,6 +529,15 @@ namespace AgOpenGPS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter a valid EPSG-Code.
+        /// </summary>
+        public static string gsEnterValidEPSG {
+            get {
+                return ResourceManager.GetString("gsEnterValidEPSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string gsError {
@@ -538,11 +547,29 @@ namespace AgOpenGPS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error reading File.
+        /// </summary>
+        public static string gsErrorReadingFile {
+            get {
+                return ResourceManager.GetString("gsErrorReadingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error reading KML.
         /// </summary>
         public static string gsErrorreadingKML {
             get {
                 return ResourceManager.GetString("gsErrorreadingKML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        public static string gsExport {
+            get {
+                return ResourceManager.GetString("gsExport", resourceCulture);
             }
         }
         
@@ -588,6 +615,15 @@ namespace AgOpenGPS {
         public static string gsFileError {
             get {
                 return ResourceManager.GetString("gsFileError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1st field is used.
+        /// </summary>
+        public static string gsFirstOneIsUsed {
+            get {
+                return ResourceManager.GetString("gsFirstOneIsUsed", resourceCulture);
             }
         }
         
@@ -705,6 +741,15 @@ namespace AgOpenGPS {
         public static string gsInner {
             get {
                 return ResourceManager.GetString("gsInner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPSG-Code Invalid.
+        /// </summary>
+        public static string gsInvalidEPSG {
+            get {
+                return ResourceManager.GetString("gsInvalidEPSG", resourceCulture);
             }
         }
         
@@ -1285,6 +1330,15 @@ namespace AgOpenGPS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Several fields in file.
+        /// </summary>
+        public static string gsTooManyFields {
+            get {
+                return ResourceManager.GetString("gsTooManyFields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Top Field View.
         /// </summary>
         public static string gsTopFieldView {
@@ -1400,77 +1454,5 @@ namespace AgOpenGPS {
                 return ResourceManager.GetString("v_SteerSettingsForm", resourceCulture);
             }
         }
-
-
-
-
-        /// <summary>
-        ///   Looks up a localized string similar to Several fields in file.
-        /// </summary>
-        public static string gsTooManyFields
-        {
-            get
-            {
-                return ResourceManager.GetString("gsTooManyFields", resourceCulture);
-            }
-        }
-
-
-        /// <summary>
-        ///   Looks up a localized string similar to 1st field is used.
-        /// </summary>
-        public static string gsFirstOneIsUsed
-        {
-            get
-            {
-                return ResourceManager.GetString("gsFirstOneIsUsed", resourceCulture);
-            }
-        }
-
-
-        /// <summary>
-        ///   Looks up a localized string similar to EPSG-Code Invalid.
-        /// </summary>
-        public static string gsInvalidEPSG
-        {
-            get
-            {
-                return ResourceManager.GetString("gsInvalidEPSG", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Enter a valid EPSG-Code.
-        /// </summary>
-        public static string gsEnterValidEPSG
-        {
-            get
-            {
-                return ResourceManager.GetString("gsEnterValidEPSG", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Error reading File.
-        /// </summary>
-        public static string gsErrorReadingFile
-        {
-            get
-            {
-                return ResourceManager.GetString("gsErrorReadingFile", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Export.
-        /// </summary>
-        public static string gsExport
-        {
-            get
-            {
-                return ResourceManager.GetString("gsExport", resourceCulture);
-            }
-        }
-
     }
 }

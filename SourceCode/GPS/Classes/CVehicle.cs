@@ -27,7 +27,7 @@ namespace AgOpenGPS
 
         public double stanleyDistanceErrorGain, stanleyHeadingErrorGain;
         public double minLookAheadDistance = 2.0;
-        public double maxSteerAngle;
+        public double maxSteerAngle, maxSteerSpeed, minSteerSpeed;
         public double maxAngularVelocity;
         public double hydLiftLookAheadTime, trackWidth;
 
@@ -45,6 +45,7 @@ namespace AgOpenGPS
         public double modeXTE, modeActualXTE = 0, modeActualHeadingError = 0;
         public int modeTime = 0;
 
+        public double functionSpeedLimit;
 
         public CVehicle(FormGPS _f)
         {
@@ -93,10 +94,14 @@ namespace AgOpenGPS
             //how long before hold is activated
             modeTime = Properties.Settings.Default.setAS_ModeTime;
 
+            functionSpeedLimit = Properties.Settings.Default.setAS_functionSpeedLimit;
+            maxSteerSpeed = Properties.Settings.Default.setAS_maxSteerSpeed;
+            minSteerSpeed = Properties.Settings.Default.setAS_minSteerSpeed;
         }
 
         public int modeTimeCounter = 0;
-        public double  goalDistance = 0;
+        public double goalDistance = 0;
+
         public double UpdateGoalPointDistance()
         {
             double xTE = Math.Abs(modeActualXTE);
@@ -130,7 +135,6 @@ namespace AgOpenGPS
 
         public void DrawVehicle()
         {
-
             //draw vehicle
             GL.Rotate(glm.toDegrees(-mf.fixHeading), 0.0, 0.0, 1.0);
             //mf.font.DrawText3D(0, 0, "&TGF");
@@ -179,11 +183,11 @@ namespace AgOpenGPS
 
             //draw the vehicle Body
 
-            if (!mf.isFirstHeadingSet)
+            if (!mf.isFirstHeadingSet && mf.headingFromSource != "Dual")
             {
                 GL.Enable(EnableCap.Texture2D);
-                GL.Color4(1.25f, 1.25f, 1.275f, 0.75);
-                GL.BindTexture(TextureTarget.Texture2D, mf.texture[14]);        // Select Our Texture
+                GL.Color4(1,1,1, 0.75);
+                GL.BindTexture(TextureTarget.Texture2D, mf.texture[(int)FormGPS.textures.QuestionMark]);        // Select Our Texture
                 GL.Begin(PrimitiveType.TriangleStrip);              // Build Quad From A Triangle Strip
                 GL.TexCoord2(1, 0); GL.Vertex2(5, 5); // Top Right
                 GL.TexCoord2(0, 0); GL.Vertex2(1, 5); // Top Left
@@ -202,21 +206,21 @@ namespace AgOpenGPS
                     //vehicle body
                     GL.Enable(EnableCap.Texture2D);
                     GL.Color4(mf.vehicleColor.R, mf.vehicleColor.G, mf.vehicleColor.B, mf.vehicleOpacityByte);
-                    GL.BindTexture(TextureTarget.Texture2D, mf.texture[13]);        // Select Our Texture
+                    GL.BindTexture(TextureTarget.Texture2D, mf.texture[(int)FormGPS.textures.Tractor]);        // Select Our Texture
 
                     double leftAckermam, rightAckerman;
 
                     if (mf.timerSim.Enabled)
                     {
-                        if (mf.sim.steerAngle < 0)
+                        if (mf.sim.steerangleAve < 0)
                         {
-                            leftAckermam = 1.25 * -mf.sim.steerAngle;
-                            rightAckerman = -mf.sim.steerAngle;
+                            leftAckermam = 1.25 * -mf.sim.steerangleAve;
+                            rightAckerman = -mf.sim.steerangleAve;
                         }
                         else
                         {
-                            leftAckermam = -mf.sim.steerAngle;
-                            rightAckerman = 1.25 * -mf.sim.steerAngle;
+                            leftAckermam = -mf.sim.steerangleAve;
+                            rightAckerman = 1.25 * -mf.sim.steerangleAve;
                         }
                     }
                     else
@@ -246,7 +250,7 @@ namespace AgOpenGPS
                     GL.Translate(trackWidth * 0.5, wheelbase, 0);
                     GL.Rotate(rightAckerman, 0, 0, 1);
 
-                    GL.BindTexture(TextureTarget.Texture2D, mf.texture[15]);        // Select Our Texture
+                    GL.BindTexture(TextureTarget.Texture2D, mf.texture[(int)FormGPS.textures.FrontWheels]);        // Select Our Texture
                     GL.Color4(mf.vehicleColor.R, mf.vehicleColor.G, mf.vehicleColor.B, mf.vehicleOpacityByte);
 
                     GL.Begin(PrimitiveType.TriangleStrip);              // Build Quad From A Triangle Strip
@@ -275,7 +279,6 @@ namespace AgOpenGPS
                     //disable, straight color
                     GL.Disable(EnableCap.Texture2D);
                     //GL.Disable(EnableCap.Blend);
-
                 }
                 else if (vehicleType == 1) //Harvestor
                 {
@@ -317,7 +320,7 @@ namespace AgOpenGPS
                     GL.Translate(trackWidth * 0.5, -wheelbase, 0);
                     GL.Rotate(rightAckerman, 0, 0, 1);
 
-                    GL.BindTexture(TextureTarget.Texture2D, mf.texture[15]);        // Select Our Texture
+                    GL.BindTexture(TextureTarget.Texture2D, mf.texture[(int)FormGPS.textures.FrontWheels]);        // Select Our Texture
 
                     GL.Begin(PrimitiveType.TriangleStrip);              // Build Quad From A Triangle Strip
                     GL.TexCoord2(1, 0); GL.Vertex2(trackWidth * 0.25, wheelbase * 0.5); // Top Right
@@ -369,7 +372,7 @@ namespace AgOpenGPS
                     GL.Enable(EnableCap.Texture2D);
                     GL.Color4(mf.vehicleColor.R, mf.vehicleColor.G, mf.vehicleColor.B, mf.vehicleOpacityByte);
 
-                    GL.BindTexture(TextureTarget.Texture2D, mf.texture[17]);        // Select Our Texture
+                    GL.BindTexture(TextureTarget.Texture2D, mf.texture[(int)FormGPS.textures.FourWDRear]);        // Select Our Texture
 
                     GL.PushMatrix();
                     GL.Translate(0, -wheelbase * 0.5, 0);
@@ -384,8 +387,7 @@ namespace AgOpenGPS
 
                     GL.PopMatrix();
 
-
-                    GL.BindTexture(TextureTarget.Texture2D, mf.texture[16]);        // Select Our Texture
+                    GL.BindTexture(TextureTarget.Texture2D, mf.texture[(int)FormGPS.textures.FourWDFront]);        // Select Our Texture
 
                     GL.PushMatrix();
                     GL.Translate(0, wheelbase * 0.5, 0);
@@ -400,7 +402,6 @@ namespace AgOpenGPS
 
                     GL.PopMatrix();
                     GL.Disable(EnableCap.Texture2D);
-
                 }
             }
             else
@@ -425,16 +426,20 @@ namespace AgOpenGPS
                     GL.Vertex3(0, wheelbase, 0);
                 }
                 GL.End();
-
             }
 
             if (mf.camera.camSetDistance > -75 && mf.isFirstHeadingSet)
             {
-                //GL.Color3(1.25f, 1.20f, 0.0f);
                 //draw the bright antenna dot
-                GL.PointSize(8.0f);
+                GL.PointSize(16);
                 GL.Begin(PrimitiveType.Points);
-                GL.Color3(0.20f, 1.25f, 1.25f);
+                GL.Color3(0, 0, 0);
+                GL.Vertex3(0, antennaPivot, 0.1);
+                GL.End();
+
+                GL.PointSize(10);
+                GL.Begin(PrimitiveType.Points);
+                GL.Color3(0.20, 0.98, 0.98);
                 GL.Vertex3(0, antennaPivot, 0.1);
                 GL.End();
             }
@@ -472,38 +477,49 @@ namespace AgOpenGPS
             }
 
             //Svenn Arrow
-            //if (mf.camera.camSetDistance > -350)
-            //{
-            //    GL.LineWidth(1);
-            //    GL.Color3(1.2, 1.25, 0.10);
-            //    GL.Begin(PrimitiveType.LineStrip);
-            //    {
-            //        GL.Vertex3(0.4, wheelbase + 5, 0.0);
-            //        GL.Vertex3(0, wheelbase + 6, 0.0);
-            //        GL.Vertex3(-0.4, wheelbase + 5, 0.0);
-            //    }
-            //    GL.End();
-            //}
-
-            if (mf.curve.isBtnCurveOn && !mf.ct.isContourBtnOn)
+            if (mf.isSvennArrowOn && mf.camera.camSetDistance > -1000)
             {
-                GL.Color4(1.269, 1.25, 1.2510, 0.87);
-
-                if (mf.curve.howManyPathsAway == 0)
-                    mf.font.DrawTextVehicle(0, wheelbase + 1, "0", 1);
-                else if (mf.curve.howManyPathsAway > 0) mf.font.DrawTextVehicle(0, wheelbase + 1, mf.curve.howManyPathsAway.ToString() + "R", 1);
-                else mf.font.DrawTextVehicle(0, wheelbase + 1, mf.curve.howManyPathsAway.ToString() + "L", 1);
+                //double offs = mf.curve.distanceFromCurrentLinePivot * 0.3;
+                double svennDist = mf.camera.camSetDistance * -0.07;
+                double svennWidth = svennDist * 0.22;
+                GL.LineWidth(mf.ABLine.lineWidth);
+                GL.Color3(1.2, 1.25, 0.10);
+                GL.Begin(PrimitiveType.LineStrip);
+                {
+                    GL.Vertex3(svennWidth, wheelbase + svennDist, 0.0);
+                    GL.Vertex3(0, wheelbase + svennWidth + 0.5 + svennDist, 0.0);
+                    GL.Vertex3(-svennWidth, wheelbase + svennDist, 0.0);
+                }
+                GL.End();
             }
-            else if (mf.ABLine.isBtnABLineOn && !mf.ct.isContourBtnOn)
-            {
-                GL.Color4(1.26, 1.25, 1.2510, 0.87);
 
-                if (mf.ABLine.howManyPathsAway == 0)
-                    mf.font.DrawTextVehicle(0, wheelbase + 1, "0", 1);
-                else if (mf.ABLine.howManyPathsAway > 0)
-                    mf.font.DrawTextVehicle(0, wheelbase + 1, mf.ABLine.howManyPathsAway.ToString() + "R", 1);
+            if (mf.trk.idx > -1 && !mf.ct.isContourBtnOn)
+            {
+                string offs = "";
+                if (mf.trk.gArr[mf.trk.idx].nudgeDistance !=0)
+                    offs = ((int)(mf.trk.gArr[mf.trk.idx].nudgeDistance*mf.m2InchOrCm)).ToString() + mf.unitsInCmNS;
+                string dire;
+
+                if (mf.trk.gArr[mf.trk.idx].mode == (int)TrackMode.AB )
+                {
+                    if (mf.ABLine.isHeadingSameWay) dire = "{";
+                    else dire = "}";
+                    GL.Color4(1.26, 1.25, 1.2510, 0.87);
+
+                    if (mf.ABLine.howManyPathsAway > 0)
+                        mf.font.DrawTextVehicle(2, wheelbase + 1,dire + mf.ABLine.howManyPathsAway.ToString() + "R " + offs, 1);
+                    else
+                        mf.font.DrawTextVehicle(2, wheelbase + 1, dire + (-mf.ABLine.howManyPathsAway).ToString() + "L " + offs, 1);
+                }
                 else
-                    mf.font.DrawTextVehicle(0, wheelbase + 1, mf.ABLine.howManyPathsAway.ToString() + "L", 1);
+                {
+                    if (mf.curve.isHeadingSameWay) dire = "{";
+                    else dire = "}";
+
+                    GL.Color4(1.269, 1.25, 1.2510, 0.87);
+                    if (mf.curve.howManyPathsAway > 0) mf.font.DrawTextVehicle(2, wheelbase + 1, dire + mf.curve.howManyPathsAway.ToString() + "R " + offs, 1);
+                    else mf.font.DrawTextVehicle(2, wheelbase + 1, dire + (-mf.curve.howManyPathsAway).ToString() + "L " + offs, 1);
+                }
             }
             GL.LineWidth(1);
 

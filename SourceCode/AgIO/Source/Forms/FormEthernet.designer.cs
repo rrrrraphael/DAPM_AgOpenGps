@@ -32,8 +32,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.cboxIsSendNMEAToUDP = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cboxPlugin = new System.Windows.Forms.CheckBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cboxIsUDPOn = new System.Windows.Forms.CheckBox();
             this.nudThirdIP = new System.Windows.Forms.NumericUpDown();
             this.nudSecndIP = new System.Windows.Forms.NumericUpDown();
@@ -42,9 +40,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.nudFourthIP = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnHelp = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudThirdIP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSecndIP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudFirstIP)).BeginInit();
@@ -100,41 +96,12 @@
             // 
             this.groupBox3.Controls.Add(this.cboxIsSendNMEAToUDP);
             this.groupBox3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(22, 136);
+            this.groupBox3.Location = new System.Drawing.Point(158, 140);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(171, 80);
             this.groupBox3.TabIndex = 94;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "NMEA to Network";
-            // 
-            // cboxPlugin
-            // 
-            this.cboxPlugin.Appearance = System.Windows.Forms.Appearance.Button;
-            this.cboxPlugin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cboxPlugin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cboxPlugin.Checked = true;
-            this.cboxPlugin.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cboxPlugin.FlatAppearance.CheckedBackColor = System.Drawing.Color.PaleGreen;
-            this.cboxPlugin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboxPlugin.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboxPlugin.Location = new System.Drawing.Point(33, 30);
-            this.cboxPlugin.Name = "cboxPlugin";
-            this.cboxPlugin.Size = new System.Drawing.Size(126, 35);
-            this.cboxPlugin.TabIndex = 92;
-            this.cboxPlugin.Text = "Rate App";
-            this.cboxPlugin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.cboxPlugin.UseVisualStyleBackColor = true;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.cboxPlugin);
-            this.groupBox5.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(216, 136);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(171, 80);
-            this.groupBox5.TabIndex = 95;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Application Plugin";
             // 
             // cboxIsUDPOn
             // 
@@ -275,22 +242,6 @@
             this.label1.Text = ".";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnHelp
-            // 
-            this.btnHelp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnHelp.FlatAppearance.BorderSize = 0;
-            this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHelp.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHelp.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnHelp.Image = global::AgIO.Properties.Resources.Help;
-            this.btnHelp.Location = new System.Drawing.Point(693, 4);
-            this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(76, 65);
-            this.btnHelp.TabIndex = 532;
-            this.btnHelp.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnHelp.UseVisualStyleBackColor = true;
-            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
-            // 
             // FormEthernet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -298,7 +249,6 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(772, 232);
             this.ControlBox = false;
-            this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.nudFourthIP);
             this.Controls.Add(this.nudThirdIP);
             this.Controls.Add(this.nudSecndIP);
@@ -307,7 +257,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.cboxIsUDPOn);
-            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnSerialCancel);
             this.Controls.Add(this.label1);
@@ -322,7 +271,6 @@
             this.Text = "Ethernet Configuration";
             this.Load += new System.EventHandler(this.FormUDp_Load);
             this.groupBox3.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudThirdIP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSecndIP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudFirstIP)).EndInit();
@@ -337,8 +285,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.CheckBox cboxIsSendNMEAToUDP;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.CheckBox cboxPlugin;
-        private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox cboxIsUDPOn;
         private System.Windows.Forms.NumericUpDown nudThirdIP;
         private System.Windows.Forms.NumericUpDown nudSecndIP;
@@ -347,6 +293,5 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown nudFourthIP;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnHelp;
     }
 }

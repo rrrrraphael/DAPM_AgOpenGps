@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -69,7 +70,7 @@ namespace AgOpenGPS
 
         private void nudHydLiftSecs_Click(object sender, EventArgs e)
         {
-            if (mf.KeypadToNUD((NumericUpDown)sender, this))
+            if (mf.KeypadToNUD((NudlessNumericUpDown)sender, this))
             {
                 pboxSendMachine.Visible = true;
             }
@@ -77,7 +78,7 @@ namespace AgOpenGPS
 
         private void nudRaiseTime_Click(object sender, EventArgs e)
         {
-            if (mf.KeypadToNUD((NumericUpDown)sender, this))
+            if (mf.KeypadToNUD((NudlessNumericUpDown)sender, this))
             {
                 pboxSendMachine.Visible = true;
             }
@@ -85,7 +86,7 @@ namespace AgOpenGPS
 
         private void nudLowerTime_Click(object sender, EventArgs e)
         {
-            if (mf.KeypadToNUD((NumericUpDown)sender, this))
+            if (mf.KeypadToNUD((NudlessNumericUpDown)sender, this))
             {
                 pboxSendMachine.Visible = true;
             }
@@ -93,7 +94,7 @@ namespace AgOpenGPS
 
         private void nudUser1_Click(object sender, EventArgs e)
         {
-            if (mf.KeypadToNUD((NumericUpDown)sender, this))
+            if (mf.KeypadToNUD((NudlessNumericUpDown)sender, this))
             {
                 pboxSendMachine.Visible = true;
             }
@@ -101,7 +102,7 @@ namespace AgOpenGPS
 
         private void nudUser2_Click(object sender, EventArgs e)
         {
-            if (mf.KeypadToNUD((NumericUpDown)sender, this))
+            if (mf.KeypadToNUD((NudlessNumericUpDown)sender, this))
             {
                 pboxSendMachine.Visible = true;
             }
@@ -109,7 +110,7 @@ namespace AgOpenGPS
 
         private void nudUser3_Click(object sender, EventArgs e)
         {
-            if (mf.KeypadToNUD((NumericUpDown)sender, this))
+            if (mf.KeypadToNUD((NudlessNumericUpDown)sender, this))
             {
                 pboxSendMachine.Visible = true;
             }
@@ -117,7 +118,7 @@ namespace AgOpenGPS
 
         private void nudUser4_Click(object sender, EventArgs e)
         {
-            if (mf.KeypadToNUD((NumericUpDown)sender, this))
+            if (mf.KeypadToNUD((NudlessNumericUpDown)sender, this))
             {
                 pboxSendMachine.Visible = true;
             }
@@ -171,7 +172,7 @@ namespace AgOpenGPS
             mf.p_238.pgn[mf.p_238.set0] = (byte)sett;
             mf.p_238.pgn[mf.p_238.raiseTime] = (byte)nudRaiseTime.Value;
             mf.p_238.pgn[mf.p_238.lowerTime] = (byte)nudLowerTime.Value;
-            
+
             mf.p_238.pgn[mf.p_238.user1] = (byte)nudUser1.Value;
             mf.p_238.pgn[mf.p_238.user2] = (byte)nudUser2.Value;
             mf.p_238.pgn[mf.p_238.user3] = (byte)nudUser3.Value;
@@ -218,7 +219,7 @@ namespace AgOpenGPS
             cboxPin7.Items.Clear(); cboxPin7.Items.AddRange(wordsList);
             cboxPin8.Items.Clear(); cboxPin8.Items.AddRange(wordsList);
             cboxPin9.Items.Clear(); cboxPin9.Items.AddRange(wordsList);
-            
+
             cboxPin10.Items.Clear(); cboxPin10.Items.AddRange(wordsList);
             cboxPin11.Items.Clear(); cboxPin11.Items.AddRange(wordsList);
             cboxPin12.Items.Clear(); cboxPin12.Items.AddRange(wordsList);
@@ -491,6 +492,7 @@ namespace AgOpenGPS
         #endregion
 
         #region Uturn controls
+
         private void UpdateUturnText()
         {
             if (mf.isMetric)
@@ -505,7 +507,7 @@ namespace AgOpenGPS
 
         private void nudYouTurnRadius_Click(object sender, EventArgs e)
         {
-            if (mf.KeypadToNUD((NumericUpDown)sender, this))
+            if (mf.KeypadToNUD((NudlessNumericUpDown)sender, this))
             {
                 mf.yt.youTurnRadius = (double)nudYouTurnRadius.Value * mf.ftOrMtoM;
             }
@@ -513,23 +515,10 @@ namespace AgOpenGPS
 
         private void nudTurnDistanceFromBoundary_Click(object sender, EventArgs e)
         {
-            if (mf.KeypadToNUD((NumericUpDown)sender, this))
+            if (mf.KeypadToNUD((NudlessNumericUpDown)sender, this))
             {
                 mf.yt.uturnDistanceFromBoundary = (double)nudTurnDistanceFromBoundary.Value * mf.ftOrMtoM;
             }
-        }
-
-        private void btnTriggerDistanceDn_Click(object sender, EventArgs e)
-        {
-            mf.yt.uturnDistanceFromBoundary--;
-            if (mf.yt.uturnDistanceFromBoundary < 0.1) mf.yt.uturnDistanceFromBoundary = 0.1;
-            UpdateUturnText();
-        }
-
-        private void btnTriggerDistanceUp_Click(object sender, EventArgs e)
-        {
-            if (mf.yt.uturnDistanceFromBoundary++ > 50) mf.yt.uturnDistanceFromBoundary = 50;
-            UpdateUturnText();
         }
 
         private void btnDistanceDn_Click(object sender, EventArgs e)
@@ -565,25 +554,21 @@ namespace AgOpenGPS
             lblTramWidthUnits.Text = mf.unitsInCm;
 
             nudTramWidth.Value = (int)(Math.Abs(Properties.Settings.Default.setTram_tramWidth) * mf.m2InchOrCm);
-
-            cboxTramOnBackBuffer.Checked = Properties.Settings.Default.setTram_isTramOnBackBuffer;
+            chkBoxOverrideTramControlPos.Checked = Properties.Settings.Default.setTool_isTramOuterInverted;
         }
 
         private void tabTram_Leave(object sender, EventArgs e)
         {
+            Properties.Settings.Default.setTool_isTramOuterInverted = chkBoxOverrideTramControlPos.Checked;
 
-            if (cboxTramOnBackBuffer.Checked) Properties.Settings.Default.setTram_isTramOnBackBuffer = true;
-            else Properties.Settings.Default.setTram_isTramOnBackBuffer = false;
-            mf.isTramOnBackBuffer = Properties.Settings.Default.setTram_isTramOnBackBuffer;
-
-            mf.tram.isOuter = ((int)(mf.tram.tramWidth / mf.tool.width + 0.5)) % 2 == 0 ? true : false;
+            mf.tram.IsTramOuterOrInner();
 
             Properties.Settings.Default.Save();
-            
+
         }
         private void nudTramWidth_Click(object sender, EventArgs e)
         {
-            if (mf.KeypadToNUD((NumericUpDown)sender, this))
+            if (mf.KeypadToNUD((NudlessNumericUpDown)sender, this))
             {
                 mf.tram.tramWidth = (double)nudTramWidth.Value * mf.inchOrCm2m;
                 Properties.Settings.Default.setTram_tramWidth = mf.tram.tramWidth;

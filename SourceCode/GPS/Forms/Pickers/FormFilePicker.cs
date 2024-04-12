@@ -23,6 +23,7 @@ namespace AgOpenGPS
             btnByDistance.Text = gStr.gsSort;
             btnOpenExistingLv.Text = gStr.gsUseSelected;
         }
+
         private void FormFilePicker_Load(object sender, EventArgs e)
         {
             order = 0;
@@ -71,13 +72,12 @@ namespace AgOpenGPS
                                 latStart = (double.Parse(offs[0], CultureInfo.InvariantCulture));
                                 lonStart = (double.Parse(offs[1], CultureInfo.InvariantCulture));
 
-
                                 distance = Math.Pow((latStart - mf.pn.latitude), 2) + Math.Pow((lonStart - mf.pn.longitude), 2);
                                 distance = Math.Sqrt(distance);
                                 distance *= 100;
 
                                 fileList.Add(fieldDirectory);
-                                fileList.Add(Math.Round(distance, 3).ToString().PadLeft(10));
+                                fileList.Add(Math.Round(distance, 2).ToString("N2").PadLeft(10));
                             }
                             else
                             {
@@ -95,7 +95,6 @@ namespace AgOpenGPS
 
                             fileList.Add(fieldDirectory);
                             fileList.Add("Error");
-
                         }
                     }
                 }
@@ -177,9 +176,8 @@ namespace AgOpenGPS
                         }
                     }
                     if (area == 0) fileList.Add("No Bndry");
-                    else fileList.Add(Math.Round(area, 1).ToString().PadLeft(10));
+                    else fileList.Add(Math.Round(area, 1).ToString("N1").PadLeft(10));
                 }
-
                 else
                 {
                     fileList.Add("Error");
@@ -208,13 +206,13 @@ namespace AgOpenGPS
 
             if (lvLines.Items.Count > 0)
             {
-                this.chName.Text = "Field Name";
+                this.chName.Text = gStr.gsField;
                 this.chName.Width = 680;
 
-                this.chDistance.Text = "Distance";
+                this.chDistance.Text = gStr.gsDistance;
                 this.chDistance.Width = 140;
 
-                this.chArea.Text = "Area";
+                this.chArea.Text = gStr.gsArea;
                 this.chArea.Width = 140;
             }
             else
@@ -232,7 +230,6 @@ namespace AgOpenGPS
             lvLines.Items.Clear();
             order += 1;
             if (order == 3) order = 0;
-
 
             for (int i = 0; i < fileList.Count; i += 3)
             {
@@ -259,36 +256,35 @@ namespace AgOpenGPS
             {
                 if (order == 0)
                 {
-                    this.chName.Text = "Field Name";
+                    this.chName.Text = gStr.gsField;
                     this.chName.Width = 680;
 
-                    this.chDistance.Text = "Distance";
+                    this.chDistance.Text = gStr.gsDistance;
                     this.chDistance.Width = 140;
 
-                    this.chArea.Text = "Area";
+                    this.chArea.Text = gStr.gsArea;
                     this.chArea.Width = 140;
                 }
                 else if (order == 1)
                 {
-                    this.chName.Text = "Distance";
+                    this.chName.Text = gStr.gsDistance;
                     this.chName.Width = 140;
 
-                    this.chDistance.Text = "Field Name";
+                    this.chDistance.Text = gStr.gsField;
                     this.chDistance.Width = 680;
 
-                    this.chArea.Text = "Area";
+                    this.chArea.Text = gStr.gsArea;
                     this.chArea.Width = 140;
                 }
-
                 else
                 {
-                    this.chName.Text = "Area";
+                    this.chName.Text = gStr.gsArea;
                     this.chName.Width = 140;
 
-                    this.chDistance.Text = "Field Name";
+                    this.chDistance.Text = gStr.gsField;
                     this.chDistance.Width = 680;
 
-                    this.chArea.Text = "Distance";
+                    this.chArea.Text = gStr.gsDistance;
                     this.chArea.Width = 140;
                 }
             }
@@ -305,13 +301,12 @@ namespace AgOpenGPS
                 {
                     MessageBox.Show("This Field is Damaged, Please Delete \r\n ALREADY TOLD YOU THAT :)", gStr.gsFileError,
                                         MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
                 else
                 {
-                    if (order == 0) mf.filePickerFileAndDirectory = 
+                    if (order == 0) mf.filePickerFileAndDirectory =
                             (mf.fieldsDirectory + lvLines.SelectedItems[0].SubItems[0].Text + "\\Field.txt");
-                    else mf.filePickerFileAndDirectory = 
+                    else mf.filePickerFileAndDirectory =
                             (mf.fieldsDirectory + lvLines.SelectedItems[0].SubItems[1].Text + "\\Field.txt");
                     Close();
                 }
@@ -383,13 +378,12 @@ namespace AgOpenGPS
                                 latStart = (double.Parse(offs[0], CultureInfo.InvariantCulture));
                                 lonStart = (double.Parse(offs[1], CultureInfo.InvariantCulture));
 
-
                                 distance = Math.Pow((latStart - mf.pn.latitude), 2) + Math.Pow((lonStart - mf.pn.longitude), 2);
                                 distance = Math.Sqrt(distance);
                                 distance *= 100;
 
                                 fileList.Add(fieldDirectory);
-                                fileList.Add(Math.Round(distance, 3).ToString().PadLeft(10));
+                                fileList.Add(Math.Round(distance, 2).ToString("N2").PadLeft(10));
                             }
                             else
                             {
@@ -407,7 +401,6 @@ namespace AgOpenGPS
 
                             fileList.Add(fieldDirectory);
                             fileList.Add("Error");
-
                         }
                     }
 
@@ -487,9 +480,8 @@ namespace AgOpenGPS
                             }
                         }
                         if (area == 0) fileList.Add("No Bndry");
-                        else fileList.Add(Math.Round(area, 1).ToString().PadLeft(10));
+                        else fileList.Add(Math.Round(area, 1).ToString("N1").PadLeft(10));
                     }
-
                     else
                     {
                         fileList.Add("Error");
@@ -513,13 +505,13 @@ namespace AgOpenGPS
 
             if (lvLines.Items.Count > 0)
             {
-                this.chName.Text = "Field Name";
+                this.chName.Text = gStr.gsField;
                 this.chName.Width = 680;
 
-                this.chDistance.Text = "Distance";
+                this.chDistance.Text = gStr.gsDistance;
                 this.chDistance.Width = 140;
 
-                this.chArea.Text = "Area";
+                this.chArea.Text = gStr.gsArea;
                 this.chArea.Width = 140;
             }
             else

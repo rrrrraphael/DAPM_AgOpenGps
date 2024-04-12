@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace AgOpenGPS
 {
-
     public class CTram
     {
         private readonly FormGPS mf;
@@ -14,22 +13,27 @@ namespace AgOpenGPS
 
         //the triangle strip of the outer tram highlight
         public List<vec2> tramBndOuterArr = new List<vec2>();
+
         public List<vec2> tramBndInnerArr = new List<vec2>();
 
         //tram settings
         //public double wheelTrack;
         public double tramWidth;
+
         public double halfWheelTrack;
         public int passes;
         public bool isOuter;
 
+        public bool isLeftManualOn, isRightManualOn;
+
         //tramlines
         public List<vec2> tramArr = new List<vec2>();
+
         public List<List<vec2>> tramList = new List<List<vec2>>();
 
-
         // 0 off, 1 All, 2, Lines, 3 Outer
-        public int displayMode;
+        public int displayMode, generateMode = 0;
+
         internal int controlByte;
 
         public CTram(FormGPS _f)
@@ -42,10 +46,16 @@ namespace AgOpenGPS
 
             halfWheelTrack = Properties.Settings.Default.setVehicle_trackWidth * 0.5;
 
-            isOuter = ((int)(tramWidth / mf.tool.width + 0.5)) % 2 == 0;
+            IsTramOuterOrInner();
 
             passes = Properties.Settings.Default.setTram_passes;
             displayMode = 0;
+        }
+
+        public void IsTramOuterOrInner()
+        {
+            isOuter = ((int)(tramWidth / mf.tool.width + 0.5)) % 2 == 0;
+            if (Properties.Settings.Default.setTool_isTramOuterInverted) isOuter = !isOuter;
         }
 
         public void DrawTram()
@@ -139,7 +149,7 @@ namespace AgOpenGPS
                     {
                         double dist = ((pt3.easting - tramBndInnerArr[tramBndInnerArr.Count - 1].easting) * (pt3.easting - tramBndInnerArr[tramBndInnerArr.Count - 1].easting))
                             + ((pt3.northing - tramBndInnerArr[tramBndInnerArr.Count - 1].northing) * (pt3.northing - tramBndInnerArr[tramBndInnerArr.Count - 1].northing));
-                        if (dist > 1)
+                        if (dist > 2)
                             tramBndInnerArr.Add(pt3);
                     }
                     else tramBndInnerArr.Add(pt3);
@@ -187,7 +197,7 @@ namespace AgOpenGPS
                     {
                         double dist = ((pt3.easting - tramBndOuterArr[tramBndOuterArr.Count - 1].easting) * (pt3.easting - tramBndOuterArr[tramBndOuterArr.Count - 1].easting))
                             + ((pt3.northing - tramBndOuterArr[tramBndOuterArr.Count - 1].northing) * (pt3.northing - tramBndOuterArr[tramBndOuterArr.Count - 1].northing));
-                        if (dist > 1)
+                        if (dist > 2)
                             tramBndOuterArr.Add(pt3);
                     }
                     else tramBndOuterArr.Add(pt3);

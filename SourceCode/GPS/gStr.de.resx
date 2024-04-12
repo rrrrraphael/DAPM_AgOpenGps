@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="gsABCurve" xml:space="preserve">
-    <value>AB Kurve</value>
+    <value>A-B Kurve</value>
   </data>
   <data name="gsABline" xml:space="preserve">
-    <value>AB Linie</value>
+    <value>A-B Linie</value>
   </data>
   <data name="gsAbout" xml:space="preserve">
     <value>Über...</value>
@@ -156,20 +156,32 @@
   <data name="gsBoundaryLineFilesAreCorrupt" xml:space="preserve">
     <value>Außengrenze Datei fehlerhaft</value>
   </data>
+  <data name="gsBoundaryMenu" xml:space="preserve">
+    <value>Kontur an der Außengrenze</value>
+  </data>
   <data name="gsButFieldIsLoaded" xml:space="preserve">
     <value>aber Feld wurde geladen</value>
   </data>
   <data name="gsCentimeters" xml:space="preserve">
     <value>Zentimeter</value>
   </data>
+  <data name="gsCharts" xml:space="preserve">
+    <value>Diagramme</value>
+  </data>
   <data name="gsChooseADifferentField" xml:space="preserve">
-    <value>Ein anderes Feld wählen</value>
+    <value>Wählen Sie ein anderes Feld</value>
   </data>
   <data name="gsChooseADifferentName" xml:space="preserve">
-    <value>Einen anderen Namen wählen</value>
+    <value>Wählen Sie einen anderen Namen</value>
   </data>
   <data name="gsChooseBuildDifferentone" xml:space="preserve">
-    <value>Wähle oder erstellen sie ein anderes</value>
+    <value>Wähle oder erstellen sie ein Anderes</value>
+  </data>
+  <data name="gsClose" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="gsCloseAllWindowsFirst" xml:space="preserve">
+    <value>Schließen Sie zunächst alle Fenster</value>
   </data>
   <data name="gsCloseFieldFirst" xml:space="preserve">
     <value>Feld vorher schließen</value>
@@ -196,19 +208,16 @@
     <value>Neues Feld erstellen</value>
   </data>
   <data name="gsCurrent" xml:space="preserve">
-    <value>Strom (A)</value>
-  </data>
-  <data name="gsCurrentSensorValueLabel" xml:space="preserve">
-    <value>Strom (A)</value>
+    <value>Strom</value>
   </data>
   <data name="gsCurveLineFileIsCorrupt" xml:space="preserve">
     <value>A-B Kurven Datei fehlerhaft</value>
   </data>
   <data name="gsCurveNotOn" xml:space="preserve">
-    <value>A-B Kurve nicht aktive</value>
+    <value>A-B Kurve nicht aktiv</value>
   </data>
   <data name="gsDeleteAllContoursAndSections" xml:space="preserve">
-    <value>Alle Konturen und Teilbreiten löschen</value>
+    <value>Alle Konturen und bearbeitete Fläche löschen</value>
   </data>
   <data name="gsDeleteAppliedArea" xml:space="preserve">
     <value>Bearbeitete Fläche löschen</value>
@@ -225,6 +234,12 @@
   <data name="gsDirectoryExists" xml:space="preserve">
     <value>Verzeichnis existiert</value>
   </data>
+  <data name="gsDistance" xml:space="preserve">
+    <value>Entfernung</value>
+  </data>
+  <data name="gsDriveIn" xml:space="preserve">
+    <value>Feld an aktueller Position</value>
+  </data>
   <data name="gsDriveThru" xml:space="preserve">
     <value>Durchfahren</value>
   </data>
@@ -235,10 +250,13 @@
     <value>Ost</value>
   </data>
   <data name="gsEditABCurve" xml:space="preserve">
-    <value>AB Kurve bearbeiten</value>
+    <value>A-B Kurve bearbeiten</value>
   </data>
   <data name="gsEditABLine" xml:space="preserve">
-    <value>AB Linie bearbeiten</value>
+    <value>A-B Linie bearbeiten</value>
+  </data>
+  <data name="gsEditFieldName" xml:space="preserve">
+    <value>Feldname ändern</value>
   </data>
   <data name="gsEncoderCounts" xml:space="preserve">
     <value>Anzahl</value>
@@ -255,8 +273,11 @@
   <data name="gsError" xml:space="preserve">
     <value>FEHLER</value>
   </data>
-  <data name="gsErrorReadingFile" xml:space="preserve">
-    <value>Fehler beim Datei einlesen</value>
+  <data name="gsErrorreadingKML" xml:space="preserve">
+    <value>Fehler beim KML einlesen</value>
+  </data>
+  <data name="gsField" xml:space="preserve">
+    <value>Feld</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>Feld Datei ist fehlerhaft</value>
@@ -268,7 +289,10 @@
     <value>Feld nicht geöffnet</value>
   </data>
   <data name="gsFileError" xml:space="preserve">
-    <value>Dateien</value>
+    <value>Dateien fehlerhaft</value>
+  </data>
+  <data name="gsFlagByLatLon" xml:space="preserve">
+    <value>Flagge von Lat Lon</value>
   </data>
   <data name="gsFlagFileIsCorrupt" xml:space="preserve">
     <value>Flaggen Datei fehlerhaft</value>
@@ -276,11 +300,26 @@
   <data name="gsForNow" xml:space="preserve">
     <value>Für jetzt</value>
   </data>
+  <data name="gsFromExisting" xml:space="preserve">
+    <value>aus Bestehendem</value>
+  </data>
+  <data name="gsFromKml" xml:space="preserve">
+    <value>aus KML</value>
+  </data>
+  <data name="gsHeadingChart" xml:space="preserve">
+    <value>Fahrtrichtung (heading)</value>
+  </data>
   <data name="gsHeadland" xml:space="preserve">
-    <value>Vorgewende erstellen</value>
+    <value>Vorgewende</value>
   </data>
   <data name="gsHeadlandForm" xml:space="preserve">
     <value>Vorgewende erstellen und bearbeiten</value>
+  </data>
+  <data name="gsHelp" xml:space="preserve">
+    <value>Hilfe</value>
+  </data>
+  <data name="gsIfWrongDirectionTapVehicle" xml:space="preserve">
+    <value>Falsche Richtung? Fahrzeug antippen</value>
   </data>
   <data name="gsInches" xml:space="preserve">
     <value>Zoll</value>
@@ -322,7 +361,7 @@
     <value>Flaggen Datei fehlt</value>
   </data>
   <data name="gsMissingSectionFile" xml:space="preserve">
-    <value>Teilbreiten Datei fehlt</value>
+    <value>Datei der bearbeiteten Fläche fehlt</value>
   </data>
   <data name="gsN_East" xml:space="preserve">
     <value>Nordost</value>
@@ -344,6 +383,9 @@
   </data>
   <data name="gsNoGuidanceLines" xml:space="preserve">
     <value>Keine Führungslinien</value>
+  </data>
+  <data name="gsNoSettingsWithIMU" xml:space="preserve">
+    <value>keine Einstellung mit IMU nötig</value>
   </data>
   <data name="gsNone" xml:space="preserve">
     <value>keine</value>
@@ -382,19 +424,19 @@
     <value>Pause</value>
   </data>
   <data name="gsPleaseEnterABLine" xml:space="preserve">
-    <value>Bitte A-b Linie eingeben</value>
+    <value>Bitte A-B Linie eingeben</value>
   </data>
   <data name="gsPressureSensorValueLabel" xml:space="preserve">
     <value>Druck (bar)</value>
   </data>
   <data name="gsProblemMakingPath" xml:space="preserve">
-    <value>Problem beim erstellen des Pfades</value>
+    <value>Problem beim Erstellen des Pfades</value>
   </data>
   <data name="gsProgramWillExitPleaseRestart" xml:space="preserve">
     <value>Programm wird beendet – bitte neu starten</value>
   </data>
   <data name="gsReallyResetEverything" xml:space="preserve">
-    <value>Wirklich alles zurücksetzten?</value>
+    <value>Wirklich alles zurücksetzten</value>
   </data>
   <data name="gsRecord" xml:space="preserve">
     <value>Aufzeichnung</value>
@@ -421,7 +463,7 @@
     <value>Speichern und zurück</value>
   </data>
   <data name="gsSaveAs" xml:space="preserve">
-    <value>Speichern als</value>
+    <value>Speichern unter</value>
   </data>
   <data name="gsSentToMachineModule" xml:space="preserve">
     <value>Zum Maschinen Modul senden</value>
@@ -435,8 +477,11 @@
   <data name="gsSimulatorOn" xml:space="preserve">
     <value>Simulator Ein</value>
   </data>
+  <data name="gsSlowDownBelow" xml:space="preserve">
+    <value>Langsamer fahren als</value>
+  </data>
   <data name="gsSmoothABCurve" xml:space="preserve">
-    <value>AB-Kurve glätten</value>
+    <value>A-B-Kurve glätten</value>
   </data>
   <data name="gsSort" xml:space="preserve">
     <value>Sortieren</value>
@@ -448,16 +493,22 @@
     <value>Abstand (cm)</value>
   </data>
   <data name="gsStartDeleteABoundary" xml:space="preserve">
-    <value>Schlaggrenze starten oder löschen</value>
+    <value>Schlaggrenze erstellen oder löschen</value>
   </data>
   <data name="gsStartNewField" xml:space="preserve">
     <value>Neues Feld starten</value>
   </data>
+  <data name="gsSteerWizard" xml:space="preserve">
+    <value>Assistent Lenkeinstellungen</value>
+  </data>
   <data name="gsStopRecordPauseBoundary" xml:space="preserve">
-    <value>Aufnahme stoppen - Grenze pausieren</value>
+    <value>Grenze aufzeichnen, pausieren, stoppen</value>
   </data>
   <data name="gsToFile" xml:space="preserve">
-    <value>Speichern</value>
+    <value>in Datei</value>
+  </data>
+  <data name="gsTooFast" xml:space="preserve">
+    <value>Zu schnell</value>
   </data>
   <data name="gsTopFieldView" xml:space="preserve">
     <value>Feld Übersicht</value>
@@ -480,22 +531,10 @@
   <data name="gsWest" xml:space="preserve">
     <value>Westen</value>
   </data>
-  <data name="h_btn2D" xml:space="preserve">
-    <value>2Dgee</value>
+  <data name="gsWindowsStillOpen" xml:space="preserve">
+    <value>Windows ist immer noch geöffnet</value>
   </data>
-  <data name="gsTooManyFields" xml:space="preserve">
-    <value>Mehrer Felder in Datei</value>
-  </data>
-  <data name="gsFirstOneIsUsed" xml:space="preserve">
-    <value>1. Feld wird verwendet</value>
-  </data>
-  <data name="gsExport" xml:space="preserve">
-    <value>Export</value>
-  </data>
-  <data name="gsEnterValidEPSG" xml:space="preserve">
-    <value>Geben Sie einen gültigen EPSG-Code ein</value>
-  </data>
-  <data name="gsInvalidEPSG" xml:space="preserve">
-    <value>EPSG-Code ungültig</value>
+  <data name="gsXTEChart" xml:space="preserve">
+    <value>Abweichung von der Linie (XTE)</value>
   </data>
 </root>

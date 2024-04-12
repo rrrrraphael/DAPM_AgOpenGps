@@ -156,11 +156,17 @@
   <data name="gsBoundaryLineFilesAreCorrupt" xml:space="preserve">
     <value>Файл Линий Границ Поврежден</value>
   </data>
+  <data name="gsBoundaryMenu" xml:space="preserve">
+    <value>Контур границ</value>
+  </data>
   <data name="gsButFieldIsLoaded" xml:space="preserve">
     <value>Поле Загружено</value>
   </data>
   <data name="gsCentimeters" xml:space="preserve">
     <value>См</value>
+  </data>
+  <data name="gsCharts" xml:space="preserve">
+    <value>Рулевая</value>
   </data>
   <data name="gsChooseADifferentField" xml:space="preserve">
     <value>Выберите другое поле</value>
@@ -170,6 +176,9 @@
   </data>
   <data name="gsChooseBuildDifferentone" xml:space="preserve">
     <value>Выберите или создайне другой</value>
+  </data>
+  <data name="gsClose" xml:space="preserve">
+    <value>закрываться</value>
   </data>
   <data name="gsCloseFieldFirst" xml:space="preserve">
     <value>Сначала Закройте Поле</value>
@@ -196,10 +205,7 @@
     <value>Создать Новое Поле</value>
   </data>
   <data name="gsCurrent" xml:space="preserve">
-    <value>Текущая (А)</value>
-  </data>
-  <data name="gsCurrentSensorValueLabel" xml:space="preserve">
-    <value>Текущая (А)</value>
+    <value>Текущая</value>
   </data>
   <data name="gsCurveLineFileIsCorrupt" xml:space="preserve">
     <value>Файл Кривой Линии Поврежден</value>
@@ -225,6 +231,12 @@
   <data name="gsDirectoryExists" xml:space="preserve">
     <value>Каталог уже существует</value>
   </data>
+  <data name="gsDistance" xml:space="preserve">
+    <value> Расстояние</value>
+  </data>
+  <data name="gsDriveIn" xml:space="preserve">
+    <value> Въехать</value>
+  </data>
   <data name="gsDriveThru" xml:space="preserve">
     <value>Вести Через</value>
   </data>
@@ -239,6 +251,9 @@
   </data>
   <data name="gsEditABLine" xml:space="preserve">
     <value>Редактировать прямую AB</value>
+  </data>
+  <data name="gsEditFieldName" xml:space="preserve">
+    <value> Изменить имя поля</value>
   </data>
   <data name="gsEncoderCounts" xml:space="preserve">
     <value>Рассчитывает</value>
@@ -255,8 +270,11 @@
   <data name="gsError" xml:space="preserve">
     <value>Ошибка</value>
   </data>
-  <data name="gsErrorReadingFile" xml:space="preserve">
-    <value>Ошибка чтения из файла</value>
+  <data name="gsErrorreadingKML" xml:space="preserve">
+    <value>Ошибка чтения KML</value>
+  </data>
+  <data name="gsField" xml:space="preserve">
+    <value> Поле</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>Файл поля поврежден</value>
@@ -270,17 +288,35 @@
   <data name="gsFileError" xml:space="preserve">
     <value>Ошибка файла</value>
   </data>
+  <data name="gsFlagByLatLon" xml:space="preserve">
+    <value>Флаг Лат Лона</value>
+  </data>
   <data name="gsFlagFileIsCorrupt" xml:space="preserve">
     <value>Флаг Файл Поврежден</value>
   </data>
   <data name="gsForNow" xml:space="preserve">
     <value>На сегодня</value>
   </data>
+  <data name="gsFromExisting" xml:space="preserve">
+    <value> Из существующих</value>
+  </data>
+  <data name="gsFromKml" xml:space="preserve">
+    <value> Из КМЛ</value>
+  </data>
+  <data name="gsHeadingChart" xml:space="preserve">
+    <value> Диаграмма курса</value>
+  </data>
   <data name="gsHeadland" xml:space="preserve">
     <value>Выступ</value>
   </data>
   <data name="gsHeadlandForm" xml:space="preserve">
     <value>Создание и редактирование выступ</value>
+  </data>
+  <data name="gsHelp" xml:space="preserve">
+    <value> Помощь</value>
+  </data>
+  <data name="gsIfWrongDirectionTapVehicle" xml:space="preserve">
+    <value> Если направление неправильное, коснитесь транспорт</value>
   </data>
   <data name="gsInches" xml:space="preserve">
     <value>Дюймы</value>
@@ -292,7 +328,7 @@
     <value>км/ч</value>
   </data>
   <data name="gsLanguage" xml:space="preserve">
-    <value>Язык </value>
+    <value>Язык</value>
   </data>
   <data name="gsMPH" xml:space="preserve">
     <value>миль/час</value>
@@ -345,6 +381,9 @@
   <data name="gsNoGuidanceLines" xml:space="preserve">
     <value>Нет Направляющих Линий</value>
   </data>
+  <data name="gsNoSettingsWithIMU" xml:space="preserve">
+    <value> Нет настроек с IMU</value>
+  </data>
   <data name="gsNone" xml:space="preserve">
     <value>Нет</value>
   </data>
@@ -376,7 +415,7 @@
     <value>Перейти #</value>
   </data>
   <data name="gsPasses" xml:space="preserve">
-    <value> Проходить</value>
+    <value>Проходить</value>
   </data>
   <data name="gsPause" xml:space="preserve">
     <value>Пауза</value>
@@ -401,6 +440,9 @@
   </data>
   <data name="gsRecordedPathFileIsCorrupt" xml:space="preserve">
     <value>Записанный Файл Пути Поврежден</value>
+  </data>
+  <data name="gsRecordedPathMenu" xml:space="preserve">
+    <value> Записанный путь</value>
   </data>
   <data name="gsResetAll" xml:space="preserve">
     <value>Сбросить Все</value>
@@ -435,6 +477,9 @@
   <data name="gsSimulatorOn" xml:space="preserve">
     <value>Симулятор Включен</value>
   </data>
+  <data name="gsSlowDownBelow" xml:space="preserve">
+    <value> Замедление внизу</value>
+  </data>
   <data name="gsSmoothABCurve" xml:space="preserve">
     <value>Сглаживание Кривой (АВ)</value>
   </data>
@@ -453,14 +498,17 @@
   <data name="gsStartNewField" xml:space="preserve">
     <value>Начать Новое Поле</value>
   </data>
-  <data name="gsSteerChart" xml:space="preserve">
-    <value>Рулевая</value>
+  <data name="gsSteerWizard" xml:space="preserve">
+    <value> Мастер управления</value>
   </data>
   <data name="gsStopRecordPauseBoundary" xml:space="preserve">
     <value>Граница остановки Записи Паузы</value>
   </data>
   <data name="gsToFile" xml:space="preserve">
     <value>В Файл</value>
+  </data>
+  <data name="gsTooFast" xml:space="preserve">
+    <value> Слишком быстро</value>
   </data>
   <data name="gsTopFieldView" xml:space="preserve">
     <value>Вид Сверху На Поле</value>
@@ -483,19 +531,19 @@
   <data name="gsWest" xml:space="preserve">
     <value>Запад</value>
   </data>
-  <data name="gsFirstOneIsUsed" xml:space="preserve">
-    <value>используется 1-е поле</value>
+  <data name="gsWizards" xml:space="preserve">
+    <value>Мастер Настройки</value>
   </data>
-  <data name="gsTooManyFields" xml:space="preserve">
-    <value>несколько полей в файле</value>
+  <data name="gsXTEChart" xml:space="preserve">
+    <value> График XTE</value>
   </data>
-  <data name="gsExport" xml:space="preserve">
-    <value>экспорт</value>
+  <data name="v_AboutIntro" xml:space="preserve">
+    <value> https://www.youtube.com/watch?v=iN2cZ8avHag</value>
   </data>
-  <data name="gsEnterValidEPSG" xml:space="preserve">
-    <value>Введите действительный код EPSG</value>
+  <data name="v_RecordedPathForm" xml:space="preserve">
+    <value> https://www.youtube.com/watch?v=fE3TPRIRSFg</value>
   </data>
-  <data name="gsInvalidEPSG" xml:space="preserve">
-    <value>EPSG-код недействителен</value>
+  <data name="v_SteerSettingsForm" xml:space="preserve">
+    <value> https://www.youtube.com/watch?v=3SdvYgx8HHc</value>
   </data>
 </root>

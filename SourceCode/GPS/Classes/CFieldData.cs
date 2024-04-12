@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Policy;
+using System.Text;
 
 namespace AgOpenGPS
 {
@@ -32,23 +34,9 @@ namespace AgOpenGPS
         public double userSquareMetersAlarm;
 
         //Area inside Boundary less inside boundary areas
-        public string AreaBoundaryLessInnersHectares
-        {
-            get
-            {
-                if (areaBoundaryOuterLessInner < 404048) return (areaBoundaryOuterLessInner * glm.m2ha).ToString("N2") + " ha";
-                else return (areaBoundaryOuterLessInner * glm.m2ha).ToString("N1") + " ha";
-            }
-        }
+        public string AreaBoundaryLessInnersHectares=>(areaBoundaryOuterLessInner * glm.m2ha).ToString("N2");
 
-        public string AreaBoundaryLessInnersAcres
-        {
-            get
-            {
-                if ((areaBoundaryOuterLessInner) < 404048) return (areaBoundaryOuterLessInner * glm.m2ac).ToString("N2") + " ac";
-                else return (areaBoundaryOuterLessInner * glm.m2ac).ToString("N1") + " ac";
-            }
-        }
+        public string AreaBoundaryLessInnersAcres => (areaBoundaryOuterLessInner * glm.m2ac).ToString("N2");
 
         //USer tally string
         public string WorkedUserHectares => (workedAreaTotalUser * glm.m2ha).ToString("N2");
@@ -57,35 +45,19 @@ namespace AgOpenGPS
         public string WorkedUserAcres => (workedAreaTotalUser * glm.m2ac).ToString("N2");
 
         //String of Area worked
-        public string WorkedAcres
-        {
-            get
-            {
-                if (workedAreaTotal < 404048) return (workedAreaTotal * 0.000247105).ToString("N2") + " ac";
-                else return (workedAreaTotal * 0.000247105).ToString("N1") + " ac";
-            }
-        }
+        public string WorkedAcres => (workedAreaTotal * 0.000247105).ToString("N2");
 
-        public string WorkedHectares
-        {
-            get
-            {
-                if (workedAreaTotal < 99000) return (workedAreaTotal * 0.0001).ToString("N2") + " ha";
-                else return (workedAreaTotal * 0.0001).ToString("N1") + " ha";
-            }
-        }
+        public string WorkedHectares => (workedAreaTotal * 0.0001).ToString("N2");
 
         //User Distance strings
-        public string DistanceUserMeters => Convert.ToString((ushort)distanceUser) + " m";
+        public string DistanceUserMeters => Convert.ToString(Math.Round(distanceUser, 3));
 
-        public string DistanceUserFeet => Convert.ToString((ushort)(distanceUser * glm.m2ft)) + " ft";
+        public string DistanceUserFeet => Convert.ToString(Math.Round((distanceUser * glm.m2ft), 1));
 
         //remaining area to be worked
-        public string WorkedAreaRemainHectares => ((areaBoundaryOuterLessInner - workedAreaTotal) * glm.m2ha).ToString("N2") + " ha";
+        public string WorkedAreaRemainHectares => ((areaBoundaryOuterLessInner - workedAreaTotal) * glm.m2ha).ToString("N2") ;
 
-        public string WorkedAreaRemainAcres => ((areaBoundaryOuterLessInner - workedAreaTotal) * glm.m2ac).ToString("N2") + " ac";
-
-        //overlap strings          
+        public string WorkedAreaRemainAcres => ((areaBoundaryOuterLessInner - workedAreaTotal) * glm.m2ac).ToString("N2");
 
         public string WorkedAreaRemainPercentage
         {
@@ -93,7 +65,7 @@ namespace AgOpenGPS
             {
                 if (areaBoundaryOuterLessInner > 10)
                 {
-                    barPercent = 100 - ((areaBoundaryOuterLessInner - workedAreaTotal) * 100 / areaBoundaryOuterLessInner);
+                    barPercent = ((areaBoundaryOuterLessInner - workedAreaTotal) * 100 / areaBoundaryOuterLessInner);
                     return barPercent.ToString("N1") + "%";
                 }
                 else
@@ -104,6 +76,15 @@ namespace AgOpenGPS
             }
         }
 
+        //overlap strings
+        public string ActualAreaWorkedHectares => (actualAreaCovered * glm.m2ha).ToString("N2");
+        public string ActualAreaWorkedAcres => (actualAreaCovered * glm.m2ac).ToString("N2");
+
+        public string ActualRemainHectares => ((areaBoundaryOuterLessInner - actualAreaCovered) * glm.m2ha).ToString("N2");
+        public string ActualRemainAcres => ((areaBoundaryOuterLessInner - actualAreaCovered) * glm.m2ac).ToString("N2");
+
+        public string ActualOverlapPercent => overlapPercent.ToString("N1") + "% ";
+
         public string TimeTillFinished
         {
             get
@@ -112,14 +93,14 @@ namespace AgOpenGPS
                 {
                     TimeSpan timeSpan = TimeSpan.FromHours(((areaBoundaryOuterLessInner - workedAreaTotal) * glm.m2ha
                         / (mf.tool.width * mf.avgSpeed * 0.1)));
-                    return timeSpan.Hours.ToString("00") + ":" + timeSpan.Minutes.ToString("00");
+                    return timeSpan.Hours.ToString("00:") + timeSpan.Minutes.ToString("00") + '"';
                 }
                 else return "\u221E Hrs";
             }
         }
 
-        public string WorkRateHectares => (mf.tool.width * mf.avgSpeed * 0.1).ToString("N1");
-        public string WorkRateAcres => (mf.tool.width * mf.avgSpeed * 0.2471).ToString("N1");
+        public string WorkRateHectares => (mf.tool.width * mf.avgSpeed * 0.1).ToString("N1") + " ha/hr";
+        public string WorkRateAcres => (mf.tool.width * mf.avgSpeed * 0.2471).ToString("N1") + " ac/hr";
 
         //constructor
         public CFieldData(FormGPS _f)
@@ -149,6 +130,32 @@ namespace AgOpenGPS
             }
             //if (mf.isMetric) mf.btnManualOffOn.Text = AreaBoundaryLessInnersHectares;
             //else mf.btnManualOffOn.Text = AreaBoundaryLessInnersAcres;
+        }
+
+        public String GetDescription()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("Field: {0}", mf.displayFieldName);
+            sb.AppendLine();
+            sb.AppendFormat("Total Hectares: {0}", AreaBoundaryLessInnersHectares);
+            sb.AppendLine();
+            sb.AppendFormat("Worked Hectares: {0}", WorkedHectares);
+            sb.AppendLine();
+            sb.AppendFormat("Missing Hectares: {0}", WorkedAreaRemainHectares);
+            sb.AppendLine();
+            sb.AppendFormat("Total Acres: {0}", AreaBoundaryLessInnersAcres);
+            sb.AppendLine();
+            sb.AppendFormat("Worked Acres: {0}", WorkedAcres);
+            sb.AppendLine();
+            sb.AppendFormat("Missing Acres: {0}", WorkedAreaRemainAcres);
+            sb.AppendLine();
+            sb.AppendFormat("Tool Width: {0}", mf.tool.width);
+            sb.AppendLine();
+            sb.AppendFormat("Sections: {0}", mf.tool.numOfSections);
+            sb.AppendLine();
+            sb.AppendFormat("Section Overlap: {0}", mf.tool.overlap);
+            sb.AppendLine();
+            return sb.ToString();
         }
     }
 }

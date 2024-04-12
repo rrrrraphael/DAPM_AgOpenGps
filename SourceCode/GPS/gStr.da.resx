@@ -162,6 +162,9 @@
   <data name="gsCentimeters" xml:space="preserve">
     <value>cm</value>
   </data>
+  <data name="gsCharts" xml:space="preserve">
+    <value>Grafik</value>
+  </data>
   <data name="gsChooseADifferentField" xml:space="preserve">
     <value>Vælg Anden Mark</value>
   </data>
@@ -170,6 +173,12 @@
   </data>
   <data name="gsChooseBuildDifferentone" xml:space="preserve">
     <value>Vælg Eller Opret En Anden</value>
+  </data>
+  <data name="gsClose" xml:space="preserve">
+    <value>Lukke</value>
+  </data>
+  <data name="gsCloseAllWindowsFirst" xml:space="preserve">
+    <value>Luk alle vinduer først</value>
   </data>
   <data name="gsCloseFieldFirst" xml:space="preserve">
     <value>Luk Mark Først</value>
@@ -196,10 +205,7 @@
     <value>Opret Ny Mark</value>
   </data>
   <data name="gsCurrent" xml:space="preserve">
-    <value>Strøm (A)</value>
-  </data>
-  <data name="gsCurrentSensorValueLabel" xml:space="preserve">
-    <value>Sensor strøm (A)</value>
+    <value>Strøm</value>
   </data>
   <data name="gsCurveLineFileIsCorrupt" xml:space="preserve">
     <value>Fejl i Kurve Fil</value>
@@ -255,8 +261,8 @@
   <data name="gsError" xml:space="preserve">
     <value>FEJL</value>
   </data>
-  <data name="gsErrorReadingFile" xml:space="preserve">
-    <value>Fejl ved indlæsning af fil</value>
+  <data name="gsErrorreadingKML" xml:space="preserve">
+    <value>Fejl Indlæsning KML</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>Fejl I Mark Fil</value>
@@ -270,6 +276,9 @@
   <data name="gsFileError" xml:space="preserve">
     <value>Fejl I  Fil</value>
   </data>
+  <data name="gsFlagByLatLon" xml:space="preserve">
+    <value>Flag af Lat Lon</value>
+  </data>
   <data name="gsFlagFileIsCorrupt" xml:space="preserve">
     <value>Fejl I Afmærkningsfil</value>
   </data>
@@ -281,6 +290,9 @@
   </data>
   <data name="gsHeadlandForm" xml:space="preserve">
     <value>Opret og Ændre Forager</value>
+  </data>
+  <data name="gsIfWrongDirectionTapVehicle" xml:space="preserve">
+    <value>Forkert retning? Tryk på Køretøj</value>
   </data>
   <data name="gsInches" xml:space="preserve">
     <value>Tommer</value>
@@ -453,9 +465,6 @@
   <data name="gsStartNewField" xml:space="preserve">
     <value>Start Ny Mark</value>
   </data>
-  <data name="gsSteerChart" xml:space="preserve">
-    <value>Grafik</value>
-  </data>
   <data name="gsStopRecordPauseBoundary" xml:space="preserve">
     <value>Stop Record Pause Af Kant</value>
   </data>
@@ -483,19 +492,7 @@
   <data name="gsWest" xml:space="preserve">
     <value>Vest</value>
   </data>
-  <data name="gsFirstOneIsUsed" xml:space="preserve">
-    <value>1. felt bruges</value>
-  </data>
-  <data name="gsTooManyFields" xml:space="preserve">
-    <value>flere felter i filen</value>
-  </data>
-  <data name="gsExport" xml:space="preserve">
-    <value>eksport</value>
-  </data>
-  <data name="gsEnterValidEPSG" xml:space="preserve">
-    <value>Indtast en gyldig EPSG-kode</value>
-  </data>
-  <data name="gsInvalidEPSG" xml:space="preserve">
-    <value>EPSG-kode ugyldig</value>
+  <data name="gsWindowsStillOpen" xml:space="preserve">
+    <value>Windows stadig åben</value>
   </data>
 </root>

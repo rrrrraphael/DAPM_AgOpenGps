@@ -144,6 +144,9 @@
   <data name="gsAutoSteerConfiguration" xml:space="preserve">
     <value>Autostuur Configuratie</value>
   </data>
+  <data name="gsAutoSteerPort" xml:space="preserve">
+    <value>Autosteer Configuratie</value>
+  </data>
   <data name="gsBasedOnField" xml:space="preserve">
     <value>Gebaseerd op veld:</value>
   </data>
@@ -153,8 +156,17 @@
   <data name="gsBoundaryLineFilesAreCorrupt" xml:space="preserve">
     <value>Perceelgrens lijn is corrupt</value>
   </data>
+  <data name="gsBoundaryMenu" xml:space="preserve">
+    <value>Perceelgrens Menu</value>
+  </data>
   <data name="gsButFieldIsLoaded" xml:space="preserve">
     <value>maar veld is geladen</value>
+  </data>
+  <data name="gsCentimeters" xml:space="preserve">
+    <value>Centimeter</value>
+  </data>
+  <data name="gsCharts" xml:space="preserve">
+    <value>Grafiek</value>
   </data>
   <data name="gsChooseADifferentField" xml:space="preserve">
     <value>Kies een ander perceel</value>
@@ -164,6 +176,12 @@
   </data>
   <data name="gsChooseBuildDifferentone" xml:space="preserve">
     <value>Kies of maak een ander</value>
+  </data>
+  <data name="gsClose" xml:space="preserve">
+    <value>Sluiten</value>
+  </data>
+  <data name="gsCloseAllWindowsFirst" xml:space="preserve">
+    <value>Sluit eerst alle vensters</value>
   </data>
   <data name="gsCloseFieldFirst" xml:space="preserve">
     <value>Sluit eerst perceel</value>
@@ -190,10 +208,7 @@
     <value>Maak nieuw perceel</value>
   </data>
   <data name="gsCurrent" xml:space="preserve">
-    <value>Huidig (A)</value>
-  </data>
-  <data name="gsCurrentSensorValueLabel" xml:space="preserve">
-    <value>Huidig (A)</value>
+    <value>Huidig</value>
   </data>
   <data name="gsCurveLineFileIsCorrupt" xml:space="preserve">
     <value>AB Curve lijn corrupt</value>
@@ -219,6 +234,12 @@
   <data name="gsDirectoryExists" xml:space="preserve">
     <value>Map bestaat</value>
   </data>
+  <data name="gsDistance" xml:space="preserve">
+    <value>Afstand</value>
+  </data>
+  <data name="gsDriveIn" xml:space="preserve">
+    <value>Rij in perceel</value>
+  </data>
   <data name="gsDriveThru" xml:space="preserve">
     <value>Erdoor rijden</value>
   </data>
@@ -233,6 +254,9 @@
   </data>
   <data name="gsEditABLine" xml:space="preserve">
     <value>Aanpassen AB-lijn</value>
+  </data>
+  <data name="gsEditFieldName" xml:space="preserve">
+    <value>Bewerk perceel naam</value>
   </data>
   <data name="gsEncoderCounts" xml:space="preserve">
     <value>Stappen</value>
@@ -249,8 +273,11 @@
   <data name="gsError" xml:space="preserve">
     <value>Fout</value>
   </data>
-  <data name="gsErrorReadingFile" xml:space="preserve">
-    <value>Fout bij lezen bestand</value>
+  <data name="gsErrorreadingKML" xml:space="preserve">
+    <value>Fout bij lezen KML</value>
+  </data>
+  <data name="gsField" xml:space="preserve">
+    <value>Perceel</value>
   </data>
   <data name="gsFieldFileIsCorrupt" xml:space="preserve">
     <value>Perceel bestand is corrupt</value>
@@ -264,17 +291,32 @@
   <data name="gsFileError" xml:space="preserve">
     <value>Bestandfout</value>
   </data>
+  <data name="gsFlagByLatLon" xml:space="preserve">
+    <value>Vlag van Lat Lon</value>
+  </data>
   <data name="gsFlagFileIsCorrupt" xml:space="preserve">
     <value>POI bestand corrupt</value>
   </data>
   <data name="gsForNow" xml:space="preserve">
     <value>Tijdelijk</value>
   </data>
+  <data name="gsFromExisting" xml:space="preserve">
+    <value>Vanuit bestaand</value>
+  </data>
+  <data name="gsFromKml" xml:space="preserve">
+    <value>Vanuit KML</value>
+  </data>
+  <data name="gsHeadingChart" xml:space="preserve">
+    <value>Richting grafiek</value>
+  </data>
   <data name="gsHeadland" xml:space="preserve">
     <value>Kopakker</value>
   </data>
   <data name="gsHeadlandForm" xml:space="preserve">
     <value>Maak / Wijzig Kopakker</value>
+  </data>
+  <data name="gsIfWrongDirectionTapVehicle" xml:space="preserve">
+    <value>Verkeerde richting? Druk op Voertuig</value>
   </data>
   <data name="gsInches" xml:space="preserve">
     <value>inch</value>
@@ -339,6 +381,9 @@
   <data name="gsNoGuidanceLines" xml:space="preserve">
     <value>Geen geleidingslijnen</value>
   </data>
+  <data name="gsNoSettingsWithIMU" xml:space="preserve">
+    <value>Geen instellingen met IMU</value>
+  </data>
   <data name="gsNone" xml:space="preserve">
     <value>NA</value>
   </data>
@@ -356,6 +401,9 @@
   </data>
   <data name="gsOffsetFix" xml:space="preserve">
     <value>FIX verschuiving</value>
+  </data>
+  <data name="gsOpen" xml:space="preserve">
+    <value>Openen</value>
   </data>
   <data name="gsOuter" xml:space="preserve">
     <value>Buitenste</value>
@@ -393,6 +441,9 @@
   <data name="gsRecordedPathFileIsCorrupt" xml:space="preserve">
     <value>Opgenomen-pad bestand corrupt</value>
   </data>
+  <data name="gsRecordedPathMenu" xml:space="preserve">
+    <value>Opgenomen pad Menu</value>
+  </data>
   <data name="gsResetAll" xml:space="preserve">
     <value>Zet alles terug</value>
   </data>
@@ -426,6 +477,9 @@
   <data name="gsSimulatorOn" xml:space="preserve">
     <value>Simulator Aan</value>
   </data>
+  <data name="gsSlowDownBelow" xml:space="preserve">
+    <value>Vertraag hieronder</value>
+  </data>
   <data name="gsSmoothABCurve" xml:space="preserve">
     <value>AB-curve Glad strijken</value>
   </data>
@@ -444,14 +498,17 @@
   <data name="gsStartNewField" xml:space="preserve">
     <value>Start nieuw perceel</value>
   </data>
-  <data name="gsSteerChart" xml:space="preserve">
-    <value>Grafiek</value>
+  <data name="gsSteerWizard" xml:space="preserve">
+    <value>Stuur-wizard</value>
   </data>
   <data name="gsStopRecordPauseBoundary" xml:space="preserve">
     <value>Stop opnemen Pauzeer perceelgrens</value>
   </data>
   <data name="gsToFile" xml:space="preserve">
     <value>Naar bestand</value>
+  </data>
+  <data name="gsTooFast" xml:space="preserve">
+    <value>Te snel</value>
   </data>
   <data name="gsTopFieldView" xml:space="preserve">
     <value>Bovenaanzicht Perceel</value>
@@ -468,19 +525,10 @@
   <data name="gsUseSelected" xml:space="preserve">
     <value>gebruik geselecteerde</value>
   </data>
-  <data name="gsFirstOneIsUsed" xml:space="preserve">
-    <value>1e veld wordt gebruikt</value>
+  <data name="gsWindowsStillOpen" xml:space="preserve">
+    <value>Ramen nog open</value>
   </data>
-  <data name="gsTooManyFields" xml:space="preserve">
-    <value>Meerdere velden in bestand</value>
-  </data>
-  <data name="gsExport" xml:space="preserve">
-    <value>Exporteren</value>
-  </data>
-  <data name="gsEnterValidEPSG" xml:space="preserve">
-    <value>Voer een geldige EPSG-code in</value>
-  </data>
-  <data name="gsInvalidEPSG" xml:space="preserve">
-    <value>EPSG-code ongeldig</value>
+  <data name="gsXTEChart" xml:space="preserve">
+    <value>XTE Grafiek</value>
   </data>
 </root>

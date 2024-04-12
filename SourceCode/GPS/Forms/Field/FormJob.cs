@@ -251,5 +251,13 @@ namespace AgOpenGPS
             DialogResult = DialogResult.Abort;
             Close();
         }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            //if (mf.isJobStarted) mf.FileSaveEverythingBeforeClosingField();
+            //back to FormGPS
+            DialogResult = DialogResult.Ignore;
+            Close();
+        }
     }
 }

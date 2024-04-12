@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnFromOther = new System.Windows.Forms.Button();
@@ -38,8 +37,9 @@
             this.btnJobOpen = new System.Windows.Forms.Button();
             this.btnJobClose = new System.Windows.Forms.Button();
             this.btnInField = new System.Windows.Forms.Button();
-            this.btnJobResume = new System.Windows.Forms.Button();
             this.btnFromExisting = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.btnJobResume = new System.Windows.Forms.Button();
             this.btnJobNew = new System.Windows.Forms.Button();
             this.lblResumeField = new System.Windows.Forms.Label();
             this.btnDeleteAB = new System.Windows.Forms.Button();
@@ -52,11 +52,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.label4, 1, 3);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.Controls.Add(this.label3, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnFromOther, 0, 1);
@@ -66,14 +67,15 @@
             this.tableLayoutPanel1.Controls.Add(this.btnJobClose, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnInField, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnFromExisting, 0, 2);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 7);
+            this.tableLayoutPanel1.Controls.Add(this.btnExport, 4, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(14, 20);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(605, 424);
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(789, 424);
             this.tableLayoutPanel1.TabIndex = 106;
             // 
             // label3
@@ -81,9 +83,9 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(294, 212);
+            this.label3.Location = new System.Drawing.Point(250, 282);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(17, 106);
+            this.label3.Size = new System.Drawing.Size(17, 142);
             this.label3.TabIndex = 110;
             // 
             // label2
@@ -91,9 +93,9 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(294, 106);
+            this.label2.Location = new System.Drawing.Point(250, 141);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(17, 106);
+            this.label2.Size = new System.Drawing.Size(17, 141);
             this.label2.TabIndex = 109;
             // 
             // btnFromOther
@@ -107,11 +109,11 @@
             this.btnFromOther.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnFromOther.Image = global::AgOpenGPS.Properties.Resources.FileImportField;
             this.btnFromOther.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFromOther.Location = new System.Drawing.Point(5, 131);
+            this.btnFromOther.Location = new System.Drawing.Point(5, 145);
             this.btnFromOther.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnFromOther.Name = "btnFromOther";
             this.btnFromOther.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnFromOther.Size = new System.Drawing.Size(288, 120);
+            this.btnFromOther.Size = new System.Drawing.Size(237, 133);
             this.btnFromOther.TabIndex = 91;
             this.btnFromOther.Text = "From other";
             this.btnFromOther.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -134,7 +136,7 @@
             this.btnFromISOXML.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnFromISOXML.Name = "btnFromISOXML";
             this.btnFromISOXML.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnFromISOXML.Size = new System.Drawing.Size(281, 98);
+            this.btnFromISOXML.Size = new System.Drawing.Size(237, 133);
             this.btnFromISOXML.TabIndex = 107;
             this.btnFromISOXML.Text = "ISO-XML";
             this.btnFromISOXML.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -147,9 +149,9 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(294, 0);
+            this.label1.Location = new System.Drawing.Point(250, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(17, 106);
+            this.label1.Size = new System.Drawing.Size(17, 141);
             this.label1.TabIndex = 108;
             // 
             // btnJobOpen
@@ -163,11 +165,11 @@
             this.btnJobOpen.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnJobOpen.Image = global::AgOpenGPS.Properties.Resources.FileOpen;
             this.btnJobOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnJobOpen.Location = new System.Drawing.Point(319, 216);
+            this.btnJobOpen.Location = new System.Drawing.Point(275, 286);
             this.btnJobOpen.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnJobOpen.Name = "btnJobOpen";
             this.btnJobOpen.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnJobOpen.Size = new System.Drawing.Size(281, 98);
+            this.btnJobOpen.Size = new System.Drawing.Size(237, 134);
             this.btnJobOpen.TabIndex = 3;
             this.btnJobOpen.Text = "Open";
             this.btnJobOpen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -187,11 +189,11 @@
             this.btnJobClose.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnJobClose.Image = global::AgOpenGPS.Properties.Resources.FileClose;
             this.btnJobClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnJobClose.Location = new System.Drawing.Point(319, 4);
+            this.btnJobClose.Location = new System.Drawing.Point(275, 4);
             this.btnJobClose.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnJobClose.Name = "btnJobClose";
             this.btnJobClose.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnJobClose.Size = new System.Drawing.Size(281, 98);
+            this.btnJobClose.Size = new System.Drawing.Size(237, 133);
             this.btnJobClose.TabIndex = 105;
             this.btnJobClose.Text = "Close";
             this.btnJobClose.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -210,17 +212,61 @@
             this.btnInField.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnInField.Image = global::AgOpenGPS.Properties.Resources.AutoManualIsAuto;
             this.btnInField.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnInField.Location = new System.Drawing.Point(319, 110);
+            this.btnInField.Location = new System.Drawing.Point(275, 145);
             this.btnInField.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnInField.Name = "btnInField";
             this.btnInField.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnInField.Size = new System.Drawing.Size(281, 98);
+            this.btnInField.Size = new System.Drawing.Size(237, 133);
             this.btnInField.TabIndex = 89;
             this.btnInField.Text = "Drive In";
             this.btnInField.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnInField.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnInField.UseVisualStyleBackColor = false;
             this.btnInField.Click += new System.EventHandler(this.btnInField_Click);
+            // 
+            // btnFromExisting
+            // 
+            this.btnFromExisting.BackColor = System.Drawing.Color.Transparent;
+            this.btnFromExisting.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnFromExisting.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnFromExisting.FlatAppearance.BorderSize = 0;
+            this.btnFromExisting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFromExisting.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFromExisting.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnFromExisting.Image = global::AgOpenGPS.Properties.Resources.FileExisting;
+            this.btnFromExisting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFromExisting.Location = new System.Drawing.Point(5, 286);
+            this.btnFromExisting.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.btnFromExisting.Name = "btnFromExisting";
+            this.btnFromExisting.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnFromExisting.Size = new System.Drawing.Size(237, 134);
+            this.btnFromExisting.TabIndex = 104;
+            this.btnFromExisting.Text = "Existing";
+            this.btnFromExisting.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFromExisting.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnFromExisting.UseVisualStyleBackColor = false;
+            this.btnFromExisting.Click += new System.EventHandler(this.btnFromExisting_Click);
+            // 
+            // btnExport
+            // 
+            this.btnExport.BackColor = System.Drawing.Color.Transparent;
+            this.btnExport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExport.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnExport.Image = global::AgOpenGPS.Properties.Resources.FileExplorerWindows;
+            this.btnExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExport.Location = new System.Drawing.Point(545, 4);
+            this.btnExport.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnExport.Size = new System.Drawing.Size(239, 133);
+            this.btnExport.TabIndex = 111;
+            this.btnExport.Text = "Export";
+            this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnExport.UseVisualStyleBackColor = false;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnJobResume
             // 
@@ -244,29 +290,6 @@
             this.btnJobResume.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnJobResume.UseVisualStyleBackColor = false;
             this.btnJobResume.Click += new System.EventHandler(this.btnJobResume_Click);
-            // 
-            // btnFromExisting
-            // 
-            this.btnFromExisting.BackColor = System.Drawing.Color.Transparent;
-            this.btnFromExisting.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnFromExisting.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnFromExisting.FlatAppearance.BorderSize = 0;
-            this.btnFromExisting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFromExisting.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnFromExisting.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnFromExisting.Image = global::AgOpenGPS.Properties.Resources.FileExisting;
-            this.btnFromExisting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFromExisting.Location = new System.Drawing.Point(5, 216);
-            this.btnFromExisting.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.btnFromExisting.Name = "btnFromExisting";
-            this.btnFromExisting.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnFromExisting.Size = new System.Drawing.Size(281, 98);
-            this.btnFromExisting.TabIndex = 104;
-            this.btnFromExisting.Text = "Existing";
-            this.btnFromExisting.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFromExisting.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnFromExisting.UseVisualStyleBackColor = false;
-            this.btnFromExisting.Click += new System.EventHandler(this.btnFromExisting_Click);
             // 
             // btnJobNew
             // 
@@ -300,7 +323,7 @@
             this.lblResumeField.ForeColor = System.Drawing.Color.Black;
             this.lblResumeField.Location = new System.Drawing.Point(9, 463);
             this.lblResumeField.Name = "lblResumeField";
-            this.lblResumeField.Size = new System.Drawing.Size(468, 28);
+            this.lblResumeField.Size = new System.Drawing.Size(656, 28);
             this.lblResumeField.TabIndex = 106;
             this.lblResumeField.Text = "Previous Field";
             this.lblResumeField.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -315,7 +338,7 @@
             this.btnDeleteAB.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.btnDeleteAB.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnDeleteAB.Image = global::AgOpenGPS.Properties.Resources.Cancel64;
-            this.btnDeleteAB.Location = new System.Drawing.Point(486, 450);
+            this.btnDeleteAB.Location = new System.Drawing.Point(674, 450);
             this.btnDeleteAB.Name = "btnDeleteAB";
             this.btnDeleteAB.Size = new System.Drawing.Size(129, 57);
             this.btnDeleteAB.TabIndex = 4;
@@ -327,7 +350,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(624, 514);
+            this.ClientSize = new System.Drawing.Size(812, 514);
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.btnDeleteAB);
@@ -355,7 +378,6 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button btnJobOpen;
-        private System.Windows.Forms.Button btnJobClose;
         private System.Windows.Forms.Button btnJobResume;
         private System.Windows.Forms.Label lblResumeField;
         private System.Windows.Forms.Button btnFromExisting;
@@ -365,8 +387,9 @@
         private System.Windows.Forms.Button btnFromISOXML;
         private System.Windows.Forms.Button btnDeleteAB;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnJobClose;
     }
 }
